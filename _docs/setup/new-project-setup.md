@@ -31,7 +31,7 @@
 8. `_docs/milestones/` (subdirectory within `_docs/`)
    - **Milestones**: Use one subfolder per milestone, named `01-setup`, `02-mvp`, etc. Each milestone is a high-level delivery gate (e.g., Setup, MVP, v1.0).
    - **phases/**: Inside each milestone subfolder, add a `phases/` folder containing number-prefixed markdown files (e.g. `01-auth.md`, `02-core-feature.md`) with general descriptions of what is done in each phase (scope, goals).
-   - **phase-plans/**: Inside each milestone subfolder, add a `phase-plans/` folder containing number-prefixed markdown files with the same names, with detailed execution plans for each phase (step-by-step tasks, deliverables, order).
+   - **phase-plans/**: Inside each milestone subfolder, add a `phase-plans/` folder containing number-prefixed markdown files with the same names, with detailed execution plans for each phase (step-by-step tasks, deliverables, order). Each phase plan must follow these conventions: (1) **First step**: Create and check out a new git branch named from the milestone and phase (e.g. branch `01-setup/01-scaffold` for milestone `01-setup`, phase `01-scaffold`). (2) **During the phase**: Include add, commit, and push at logical points (e.g. after a coherent set of tasks or deliverable). (3) **Final step**: After the user approves that the phase work is complete, add, commit, and push those changes (the user signals approval before this step).
 
 ## Below are recommended steps/prompts for creating these files from scratch, with only the project overview to guide you.
 
@@ -111,8 +111,11 @@ Rules to follow:
 - Each phase gets one document in `phases/` (general description) and one in `phase-plans/` (execution plan). Focus each phase on delivering a functional product, combining essential features into a cohesive whole (e.g., key components that work together).
 - List features with actionable steps (max 5 steps per feature; break down into smaller features if longer).
 - Keep phases iterative—each builds on the previous phase, enhancing a working product.
+- Each phase plan's **first step** must be: create and check out a git branch named after the milestone and phase (e.g. `01-setup/01-scaffold`).
+- Each phase plan must include **add, commit, and push** at logical points in the plan (e.g. after a natural grouping of tasks).
+- Each phase plan must end with a **completion step**: when the user approves the phase work as complete, add, commit, and push the final changes.
 
-Place milestone folders in `_docs/milestones/` with names like `01-setup`, `02-mvp`. Inside each milestone folder create `phases/` and `phase-plans/`. In each subfolder use number-prefixed filenames (e.g. `01-auth.md`, `02-core-feature.md`). Phases documents are general descriptions; phase-plans documents are detailed execution plans.
+Place milestone folders in `_docs/milestones/` with names like `01-setup`, `02-mvp`. Inside each milestone folder create `phases/` and `phase-plans/`. In each subfolder use number-prefixed filenames (e.g. `01-auth.md`, `02-core-feature.md`). Phases documents are general descriptions; phase-plans documents are detailed execution plans that follow the git workflow above (branch first, commit/push at logical points, final commit/push on user approval).
 
 Review @project-overview.md, @user-flow.md, @auth.md, @tech-stack.md, and @project-rules.md to gather relevant context about the project and its features.
 ```
