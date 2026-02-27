@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import { authRoutes } from './auth/routes.js';
+import { deckRoutes } from './decks/routes.js';
 
 const fastify = Fastify({ logger: true });
 
@@ -18,6 +19,7 @@ fastify.get('/health', async () => {
 async function start() {
   try {
     await fastify.register(authRoutes);
+    await fastify.register(deckRoutes);
     await fastify.listen({ port: PORT, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);
