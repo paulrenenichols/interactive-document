@@ -4,8 +4,7 @@
   "targetDefaults": {
     "build": {
       "outputs": ["{projectRoot}/dist", "{projectRoot}/.next"],
-      "cache": true,
-      "inputs": ["production", "^production"]
+      "cache": true
     },
     "serve": {
       "cache": false
