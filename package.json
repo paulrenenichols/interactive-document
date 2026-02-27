@@ -1,0 +1,30 @@
+{
+  "name": "interactive-document",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "nx run-many -t build",
+    "build:frontend": "nx build frontend",
+    "build:api": "nx build api",
+    "serve:frontend": "nx serve frontend",
+    "serve:api": "nx serve api",
+    "migrate": "node scripts/run-migrations.mjs",
+    "start": "docker compose up -d",
+    "stop": "docker compose down"
+  },
+  "dependencies": {
+    "fastify": "^5.1.0",
+    "pg": "^8.13.0",
+    "next": "14.2.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "nx": "22.5.3",
+    "typescript": "^5.6.0"
+  }
+}

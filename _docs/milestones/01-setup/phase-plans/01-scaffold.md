@@ -31,7 +31,7 @@ Step-by-step execution plan for the scaffold phase. Follow the git workflow: bra
 
 - Add Fastify application under `apps/api`. Use Nx generator or create manually; ensure it is an Nx project.
 - Add a root or health route (e.g. `GET /` or `GET /health`) returning JSON. Read `DATABASE_URL` from env (optional: test DB connection on health).
-- Verify `nx build api` and running the API (e.g. `node dist/main.js` or npm script) work.
+- Verify `nx build api` and running the API (e.g. `node dist/main.js` or pnpm script) work.
 - **Checkpoint:** Add, commit, and push with message e.g. "feat(setup): add Fastify API app with health route".
 
 ---
@@ -51,12 +51,20 @@ Step-by-step execution plan for the scaffold phase. Follow the git workflow: bra
 
 - Add migrations folder (e.g. `apps/api/migrations` or `libs/db/migrations`). Use number-prefixed SQL files (e.g. `001_initial.sql`).
 - In initial migration, create tables (or equivalent): `users` (id, email or username, password_hash, created_at, etc.), `decks` (id, owner_id, visibility, share_token, etc.), `slides` (id, deck_id, order), `blocks` (id, slide_id, type, layout, content/config as JSONB or columns), `data_sources` (id, name, deck or owner context, etc.), and a table or structure for data rows (e.g. `data_rows` with data_source_id and row data as JSONB). Add foreign keys and indexes as needed for the data model in the project overview.
-- Document how to run migrations (e.g. script `node scripts/run-migrations.js` or manual `psql`). Optionally run migrations on API startup in dev.
+- Document how to run migrations (e.g. `pnpm run migrate` or manual `psql`). Optionally run migrations on API startup in dev.
 - **Checkpoint:** Add, commit, and push with message e.g. "feat(setup): add Postgres schema and initial migration".
 
 ---
 
-## 7. Final step (on user approval)
+## 8. READMEs (on phase completion)
+
+- Add or update `README.md` at the project root (overview, how to run, links to apps).
+- Add or update `README.md` in each app and library that exists at phase completion (e.g. `apps/frontend`, `apps/api`, and any `libs/*`). Each should describe the package's purpose and how to run or use it.
+- **Checkpoint:** Add, commit, and push (e.g. "docs: add/update READMEs for project and packages").
+
+---
+
+## 9. Final step (on user approval)
 
 - When the user confirms the scaffold phase is complete: add any remaining changes, commit, and push with message e.g. "chore(01-setup): complete scaffold phase".
 - Optionally open a PR from `01-setup/01-scaffold` to `main` for review before merging.
