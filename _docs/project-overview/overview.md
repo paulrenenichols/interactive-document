@@ -4,7 +4,7 @@
 
 A browser-based application for creating and viewing PowerPoint-like presentations with **interactive charts** driven by CSV (or Excel-exported) data. Users can lay out text and charts on slides, bind each chart to a specific data set, and present with live chart interactions (e.g. hover tooltips that show underlying source data). Access is controlled by **roles and permissions**: edit and view are separate; view can be **public** (anyone with the link) or **restricted** to specific people.
 
-**Stack**: Next.js frontend, Node (Fastify) backend with JWT auth, PostgreSQL via **raw SQL only** (no ORM). Backend serves all data to the frontend; frontend uses **TanStack Query** for server state. The system runs via **Docker Compose** (frontend, API, and database containers).
+**Stack**: **Nx monorepo** with Next.js frontend app and Node (Fastify) API app, JWT auth, PostgreSQL via **raw SQL only** (no ORM). Backend serves all data to the frontend; frontend uses **TanStack Query** for server state. Optional shared libs (e.g. types, chart config). The system runs via **Docker Compose** (frontend, API, and database containers).
 
 ---
 
@@ -32,7 +32,7 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
   - **View visibility**: **Public** — anyone with the view link can open; **Restricted** — only certain users or roles (e.g. allow-list or share token). Backend checks permission before returning deck/slides; 401/403 when not allowed.
 
 - **Tech choices**  
-  Next.js (App Router), Fastify, JWT, PostgreSQL, raw SQL (`pg`), TanStack Query, Recharts. No ORM. Docker Compose for frontend, API, and Postgres.
+  Nx (monorepo), Next.js (App Router), Fastify, JWT, PostgreSQL, raw SQL (`pg`), TanStack Query, Recharts. No ORM. Docker Compose for frontend, API, and Postgres.
 
 ### Out of scope (MVP)
 
@@ -43,6 +43,9 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
 ---
 
 ## Architecture
+
+- **Monorepo (Nx)**  
+  Single repo with an Nx workspace at the root. **Workspace layout**: `apps/frontend` (Next.js), `apps/api` (Fastify); optional `libs/` for shared code (e.g. types, validation, chart config). **Nx’s role**: shared tooling, build caching, and affected commands for CI and local dev; dependency graph for app–lib boundaries. **Docker / runtime**: Docker Compose still runs the same services (frontend, api, db); image build targets the Nx app projects.
 
 - **Frontend (Next.js)**  
   All data comes from the Fastify API. TanStack Query handles GET (decks, slides, data sources, rows) and mutations (create/update/delete). Auth: login, store JWT, send `Authorization` header with API requests.
@@ -82,7 +85,7 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
 
 ## Implementation order (high level)
 
-1. **Scaffold** — Next.js frontend, Fastify backend, Docker Compose (frontend, api, db). Postgres schema in raw SQL (users, decks, slides, blocks, data_sources, rows).
+1. **Scaffold** — Create Nx workspace at repo root; add Next.js app (e.g. `apps/frontend`) and Fastify app (e.g. `apps/api`). Docker Compose (frontend, api, db). Postgres schema in raw SQL (users, decks, slides, blocks, data_sources, rows).
 2. **Auth and permissions** — Fastify register/login, JWT; deck-level visibility and viewer allow-list (or share tokens); `canViewDeck` / `canEditDeck`. Frontend: login UI, token storage, API client with Authorization header.
 3. **Data layer** — Fastify: CSV upload (Papa Parse + raw SQL), list sources, get rows; decks/slides CRUD. Frontend: TanStack Query (useQuery/useMutation).
 4. **Chart pipeline** — One chart type (e.g. bar) with Recharts; custom Tooltip for underlying data row on hover. Data from TanStack Query.
