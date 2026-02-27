@@ -7,10 +7,12 @@
     "build:frontend": "nx build frontend",
     "build:api": "nx build api",
     "serve:frontend": "nx serve frontend",
-    "serve:api": "nx serve api"
+    "serve:api": "nx serve api",
+    "migrate": "node scripts/run-migrations.mjs"
   },
   "dependencies": {
     "fastify": "^5.1.0",
+    "pg": "^8.13.0",
     "next": "14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
