@@ -33,6 +33,14 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ---
 
-## 5. Final step (on user approval)
+## 6. READMEs (on phase completion)
+
+- Add or update `README.md` at the project root (overview, how to run, links to apps).
+- Add or update `README.md` in each app and library that exists at phase completion (e.g. `apps/frontend`, `apps/api`, and any `libs/*`). Each should describe the package's purpose and how to run or use it.
+- **Checkpoint:** Add, commit, and push (e.g. "docs: add/update READMEs for project and packages").
+
+---
+
+## 7. Final step (on user approval)
 
 - When the user confirms the phase is complete: add any remaining changes, commit, and push (e.g. "chore(02-mvp): complete viewer phase").

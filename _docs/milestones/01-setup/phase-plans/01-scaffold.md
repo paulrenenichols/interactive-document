@@ -56,7 +56,15 @@ Step-by-step execution plan for the scaffold phase. Follow the git workflow: bra
 
 ---
 
-## 7. Final step (on user approval)
+## 8. READMEs (on phase completion)
+
+- Add or update `README.md` at the project root (overview, how to run, links to apps).
+- Add or update `README.md` in each app and library that exists at phase completion (e.g. `apps/frontend`, `apps/api`, and any `libs/*`). Each should describe the package's purpose and how to run or use it.
+- **Checkpoint:** Add, commit, and push (e.g. "docs: add/update READMEs for project and packages").
+
+---
+
+## 9. Final step (on user approval)
 
 - When the user confirms the scaffold phase is complete: add any remaining changes, commit, and push with message e.g. "chore(01-setup): complete scaffold phase".
 - Optionally open a PR from `01-setup/01-scaffold` to `main` for review before merging.
