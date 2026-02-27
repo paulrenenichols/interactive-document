@@ -1,6 +1,6 @@
 # Frontend (Next.js)
 
-Next.js application (App Router) for the Interactive Presentation app. All data is loaded from the Fastify API; this app handles the UI for edit and view modes.
+Next.js application (App Router) for the Interactive Presentation app. **Scaffold phase (01-setup):** runnable with Nx and Docker; landing page and env wiring only. All data is loaded from the Fastify API; this app handles the UI for edit and view modes.
 
 ## Setup
 

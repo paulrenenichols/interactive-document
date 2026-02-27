@@ -1,6 +1,6 @@
 # API (Fastify)
 
-Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks, slides, data sources, and permissions. Uses PostgreSQL with raw SQL only (no ORM).
+Fastify JSON API for the Interactive Presentation app. **Scaffold phase (01-setup):** health route, migrations, and DB schema only; no auth or feature routes yet. Handles auth (JWT), decks, slides, data sources, and permissions. Uses PostgreSQL with raw SQL only (no ORM).
 
 ## Setup
 
