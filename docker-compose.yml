@@ -15,6 +15,18 @@ services:
       timeout: 5s
       retries: 5
 
+  migrations:
+    build:
+      context: .
+      dockerfile: dev/migrations/Dockerfile
+    environment:
+      DATABASE_URL: postgres://app:app@db:5432/interactive_document
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["node", "scripts/run-migrations.mjs"]
+    restart: "no"
+
   api:
     build:
       context: .
@@ -24,8 +36,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-dev-secret-at-least-32-characters-long}
       PORT: "3000"
     depends_on:
-      db:
-        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
     ports:
       - "3001:3000"
     healthcheck:
