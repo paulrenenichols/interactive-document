@@ -9,13 +9,13 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm exec nx build frontend
 
-# Run stage: Next.js standalone
+# Run stage: Next.js standalone (server.js is at apps/frontend/ in monorepo layout)
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 COPY --from=builder /app/apps/frontend/.next/standalone ./
-COPY --from=builder /app/apps/frontend/.next/static ./.next/static
-COPY --from=builder /app/apps/frontend/public ./public
+COPY --from=builder /app/apps/frontend/.next/static ./apps/frontend/.next/static
+COPY --from=builder /app/apps/frontend/public ./apps/frontend/public
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "apps/frontend/server.js"]
