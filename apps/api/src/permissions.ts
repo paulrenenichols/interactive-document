@@ -20,11 +20,13 @@ export async function canViewDeck(
 ): Promise<boolean> {
   const pool = getPool();
   const result = await pool.query<{
+    owner_id: string;
     visibility: string;
     share_token: string | null;
-  }>(`SELECT visibility, share_token FROM decks WHERE id = $1`, [deckId]);
+  }>(`SELECT owner_id, visibility, share_token FROM decks WHERE id = $1`, [deckId]);
   if (result.rows.length === 0) return false;
   const row = result.rows[0];
+  if (userId && row.owner_id === userId) return true;
   if (row.visibility === 'public') return true;
   if (shareToken && row.share_token && row.share_token === shareToken) return true;
   if (userId) {
