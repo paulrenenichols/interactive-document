@@ -18,4 +18,5 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/apps/api/migrations ./apps/api/migrations
 EXPOSE 3000
-CMD ["node", "dist/main.js"]
+# Run migrations then start the API (migrations are idempotent)
+CMD ["sh", "-c", "node scripts/run-migrations.mjs && exec node dist/main.js"]
