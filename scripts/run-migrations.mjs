@@ -2,7 +2,7 @@
 /**
  * Run SQL migrations in order.
  * Usage: DATABASE_URL=postgres://... node scripts/run-migrations.mjs
- * Or: npm run migrate (if script is added to package.json)
+ * Or: pnpm run migrate (from repo root)
  */
 import { readdir, readFile } from 'fs/promises';
 import { join, dirname } from 'path';

@@ -104,7 +104,7 @@ Core technologies, their roles, conventions, and limitations. Aligns with [proje
 ## Conventions summary
 
 - **Node version:** Set in `.nvmrc` or `package.json` engines; use LTS (e.g. 20.x).
-- **Package manager:** pnpm or npm; lockfile committed. Use workspace support for monorepo.
+- **Package manager:** pnpm; `pnpm-lock.yaml` committed. Use pnpm for installs and scripts; Docker and CI use pnpm (Corepack).
 - **Env:** Document all required env vars (frontend: `NEXT_PUBLIC_API_URL`; api: `DATABASE_URL`, `JWT_SECRET`; optional CORS, cookie domain). No secrets in repo.
 - **TypeScript:** Use across frontend and API; shared types in a lib if needed. Strict mode recommended.
 

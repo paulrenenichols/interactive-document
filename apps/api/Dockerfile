@@ -1,10 +1,11 @@
 # Build stage
 FROM node:22-alpine AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+RUN corepack enable pnpm
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
-RUN npx nx build api
+RUN pnpm exec nx build api
 
 # Run stage
 FROM node:22-alpine

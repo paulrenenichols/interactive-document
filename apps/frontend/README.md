@@ -4,18 +4,18 @@ Next.js application (App Router) for the Interactive Presentation app. **Scaffol
 
 ## Setup
 
-- From repo root: `npm install` (dependencies are at workspace root).
+- From repo root: `pnpm install` (dependencies are at workspace root).
 - Copy env: create `apps/frontend/.env.local` with:
   - `NEXT_PUBLIC_API_URL` — base URL of the API (e.g. `http://localhost:3000` for local dev, or `http://api:3000` when running in Docker).
 
 ## Commands
 
-- **Build:** `nx build frontend` (or `npm run build:frontend` from root).
-- **Dev server:** `nx serve frontend` (or `npm run serve:frontend` from root). Default port 3000; ensure it does not conflict with the API.
+- **Build:** `nx build frontend` (or `pnpm run build:frontend` from root).
+- **Dev server:** `nx serve frontend` (or `pnpm run serve:frontend` from root). Default port 3000; ensure it does not conflict with the API.
 
 ## Docker
 
-- From repo root: `docker compose build frontend` builds the image. `docker compose up` runs frontend with `NEXT_PUBLIC_API_URL` set via build arg (e.g. `http://localhost:3001` so the browser can call the API).
+- From repo root: `pnpm start` starts the full stack (frontend, api, db) in the background; `pnpm stop` stops it. Or `docker compose build frontend` then `docker compose up` to build and run. Frontend is at http://localhost:3000, API at http://localhost:3001.
 
 ## Structure
 
