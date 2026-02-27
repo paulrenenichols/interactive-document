@@ -1,22 +1,25 @@
 # Frontend (Next.js)
 
-Next.js application (App Router) for the Interactive Presentation app. **Scaffold phase (01-setup):** runnable with Nx and Docker; landing page and env wiring only. All data is loaded from the Fastify API; this app handles the UI for edit and view modes.
+Next.js application (App Router) for the Interactive Presentation app. Login and register, edit and view routes; all data from the Fastify API. JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
 
 ## Setup
 
-- From repo root: `pnpm install` (dependencies are at workspace root).
+- From repo root: `pnpm install`.
 - Copy env: create `apps/frontend/.env.local` with:
-  - `NEXT_PUBLIC_API_URL` — base URL of the API (e.g. `http://localhost:3000` for local dev, or `http://api:3000` when running in Docker).
+  - `NEXT_PUBLIC_API_URL` — base URL of the API (e.g. `http://localhost:3000` for local dev, or `http://localhost:3001` when API runs on a different port or in Docker).
 
 ## Commands
 
 - **Build:** `nx build frontend` (or `pnpm run build:frontend` from root).
-- **Dev server:** `nx serve frontend` (or `pnpm run serve:frontend` from root). Default port 3000; ensure it does not conflict with the API.
-
-## Docker
-
-- From repo root: `pnpm start` starts the full stack (frontend, api, db) in the background; `pnpm stop` stops it. Or `docker compose build frontend` then `docker compose up` to build and run. Frontend is at http://localhost:3000, API at http://localhost:3001.
+- **Dev server:** `nx serve frontend` (or `pnpm run serve:frontend` from root). Default port 3000.
 
 ## Structure
 
-- `app/` — App Router: `layout.tsx`, `page.tsx`, and future routes (e.g. `edit/[...deckId]`, `view/[deckId]`).
+- `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected), `view/[deckId]/`.
+- `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login).
+
+Edit routes require a token; missing token redirects to `/login?returnUrl=...`. On 403 from the API, the UI shows “No edit access” with links to view or home.
+
+## Docker
+
+- From repo root: `pnpm start` runs the full stack. Frontend at http://localhost:3000, API at http://localhost:3001.
