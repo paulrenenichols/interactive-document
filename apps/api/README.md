@@ -20,3 +20,7 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
 - `GET /health` — Health check; returns `{ ok: true, database: 'configured' | 'not configured' }` (does not connect to DB yet).
 
 Later phases add auth, decks, slides, and data_sources routes.
+
+## Docker
+
+- From repo root: `docker compose build api` builds the image. `docker compose up` runs the API with `DATABASE_URL` from Compose; depends on `db` service.

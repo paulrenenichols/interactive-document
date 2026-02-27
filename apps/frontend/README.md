@@ -13,6 +13,10 @@ Next.js application (App Router) for the Interactive Presentation app. All data 
 - **Build:** `nx build frontend` (or `npm run build:frontend` from root).
 - **Dev server:** `nx serve frontend` (or `npm run serve:frontend` from root). Default port 3000; ensure it does not conflict with the API.
 
+## Docker
+
+- From repo root: `docker compose build frontend` builds the image. `docker compose up` runs frontend with `NEXT_PUBLIC_API_URL` set via build arg (e.g. `http://localhost:3001` so the browser can call the API).
+
 ## Structure
 
 - `app/` — App Router: `layout.tsx`, `page.tsx`, and future routes (e.g. `edit/[...deckId]`, `view/[deckId]`).
