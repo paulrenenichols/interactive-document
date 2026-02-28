@@ -15,5 +15,7 @@ ENV NODE_ENV=production
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/api/dist ./dist
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/apps/api/migrations ./apps/api/migrations
 EXPOSE 3000
 CMD ["node", "dist/main.js"]
