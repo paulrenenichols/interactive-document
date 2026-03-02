@@ -15,10 +15,21 @@ Next.js application (App Router) for the Interactive Presentation app. Login and
 
 ## Structure
 
-- `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected), `view/[deckId]/`.
+- `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected), `view/[deckId]/`, `dev/chart` (chart test page).
+- `components/` — `BarChart.tsx` (Recharts bar chart with custom tooltip), `DataBarChart.tsx` (wires chart to API via TanStack Query).
 - `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login), `queries.ts` (TanStack Query hooks for decks, slides, blocks, data sources).
 
 Edit routes require a token; missing token redirects to `/login?returnUrl=...`. On 403 from the API, the UI shows “No edit access” with links to view or home.
+
+## Chart test page
+
+To test the chart pipeline (bar chart with custom tooltip, wired to API data):
+
+1. Log in and create a deck at `/edit`.
+2. Open a deck, upload a CSV via the data sources section.
+3. Visit `/dev/chart`.
+4. Select the uploaded data source, configure category (X axis) and value (Y axis) columns, and optionally a series column for grouped bars.
+5. The chart renders with live API data; hover over bars to see the tooltip with underlying row data.
 
 ## Docker
 
