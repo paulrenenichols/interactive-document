@@ -4,7 +4,11 @@ import { canEditDeck, canViewDeck } from '../permissions.js';
 import { jwtVerify, jwtOptional } from '../auth/jwtMiddleware.js';
 
 type ParamsWithDeckId = { deckId?: string };
+type ParamsWithSlideId = { deckId?: string; slideId?: string };
 type CreateDeckBody = { title?: string };
+type CreateSlideBody = { order?: number };
+type UpdateSlideBody = { order?: number };
+type ReorderSlidesBody = { slideIds: string[] };
 
 export async function deckRoutes(fastify: FastifyInstance) {
   // List my decks (edit permission) — requires JWT
@@ -104,6 +108,25 @@ export async function deckRoutes(fastify: FastifyInstance) {
     }
   );
 
+  // Delete deck — requires JWT + canEditDeck
+  fastify.delete<{ Params: ParamsWithDeckId }>(
+    '/decks/:deckId',
+    { preHandler: [jwtVerify] },
+    async (request, reply) => {
+      if (!request.userId) return reply.status(401).send({ error: 'missing or invalid token' });
+      const deckId = request.params.deckId;
+      if (!deckId) return reply.status(400).send({ error: 'deckId required' });
+      const allowed = await canEditDeck(deckId, request.userId);
+      if (!allowed) {
+        return reply.status(403).send({ error: 'no edit access' });
+      }
+      const pool = getPool();
+      const result = await pool.query(`DELETE FROM decks WHERE id = $1 RETURNING id`, [deckId]);
+      if (result.rows.length === 0) return reply.status(404).send({ error: 'deck not found' });
+      return reply.status(204).send();
+    }
+  );
+
   // Get deck slides (view) — canViewDeck
   fastify.get<{ Params: ParamsWithDeckId }>(
     '/decks/:deckId/slides',
@@ -125,6 +148,138 @@ export async function deckRoutes(fastify: FastifyInstance) {
         [deckId]
       );
       return reply.send({ slides: result.rows });
+    }
+  );
+
+  // Create slide — requires JWT + canEditDeck
+  fastify.post<{ Params: ParamsWithDeckId; Body: CreateSlideBody }>(
+    '/decks/:deckId/slides',
+    { preHandler: [jwtVerify] },
+    async (request, reply) => {
+      if (!request.userId) return reply.status(401).send({ error: 'missing or invalid token' });
+      const deckId = request.params.deckId;
+      if (!deckId) return reply.status(400).send({ error: 'deckId required' });
+      const allowed = await canEditDeck(deckId, request.userId);
+      if (!allowed) {
+        return reply.status(403).send({ error: 'no edit access' });
+      }
+      const order = request.body?.order ?? 0;
+      const pool = getPool();
+      const result = await pool.query<{ id: string }>(
+        `INSERT INTO slides (deck_id, "order") VALUES ($1, $2) RETURNING id, deck_id, "order"`,
+        [deckId, order]
+      );
+      return reply.status(201).send(result.rows[0]);
+    }
+  );
+
+  // Reorder slides — requires JWT + canEditDeck
+  fastify.patch<{ Params: ParamsWithDeckId; Body: ReorderSlidesBody }>(
+    '/decks/:deckId/slides/reorder',
+    { preHandler: [jwtVerify] },
+    async (request, reply) => {
+      if (!request.userId) return reply.status(401).send({ error: 'missing or invalid token' });
+      const deckId = request.params.deckId;
+      if (!deckId) return reply.status(400).send({ error: 'deckId required' });
+      const allowed = await canEditDeck(deckId, request.userId);
+      if (!allowed) {
+        return reply.status(403).send({ error: 'no edit access' });
+      }
+      const slideIds = request.body?.slideIds;
+      if (!Array.isArray(slideIds) || slideIds.length === 0) {
+        return reply.status(400).send({ error: 'slideIds array required' });
+      }
+      const pool = getPool();
+      for (let i = 0; i < slideIds.length; i++) {
+        await pool.query(
+          `UPDATE slides SET "order" = $1 WHERE id = $2 AND deck_id = $3`,
+          [i, slideIds[i], deckId]
+        );
+      }
+      const result = await pool.query(
+        `SELECT id, deck_id, "order" FROM slides WHERE deck_id = $1 ORDER BY "order"`,
+        [deckId]
+      );
+      return reply.send({ slides: result.rows });
+    }
+  );
+
+  // Get one slide (view) — canViewDeck
+  fastify.get<{ Params: ParamsWithSlideId }>(
+    '/decks/:deckId/slides/:slideId',
+    { preHandler: [jwtOptional] },
+    async (request, reply) => {
+      const { deckId, slideId } = request.params;
+      if (!deckId || !slideId) return reply.status(400).send({ error: 'deckId and slideId required' });
+      const shareToken = (request.query as { token?: string }).token;
+      const allowed = await canViewDeck(deckId, request.userId ?? null, shareToken ?? null);
+      if (!allowed) {
+        if (request.userId) {
+          return reply.status(403).send({ error: 'no view access' });
+        }
+        return reply.status(401).send({ error: 'authentication or share token required' });
+      }
+      const pool = getPool();
+      const result = await pool.query(
+        `SELECT s.id, s.deck_id, s."order" FROM slides s WHERE s.id = $1 AND s.deck_id = $2`,
+        [slideId, deckId]
+      );
+      if (result.rows.length === 0) return reply.status(404).send({ error: 'slide not found' });
+      return reply.send(result.rows[0]);
+    }
+  );
+
+  // Update slide — requires JWT + canEditDeck
+  fastify.patch<{ Params: ParamsWithSlideId; Body: UpdateSlideBody }>(
+    '/decks/:deckId/slides/:slideId',
+    { preHandler: [jwtVerify] },
+    async (request, reply) => {
+      if (!request.userId) return reply.status(401).send({ error: 'missing or invalid token' });
+      const { deckId, slideId } = request.params;
+      if (!deckId || !slideId) return reply.status(400).send({ error: 'deckId and slideId required' });
+      const allowed = await canEditDeck(deckId, request.userId);
+      if (!allowed) {
+        return reply.status(403).send({ error: 'no edit access' });
+      }
+      const body = request.body as { order?: number } | undefined;
+      if (body?.order === undefined) {
+        const pool = getPool();
+        const result = await pool.query(
+          `SELECT id, deck_id, "order" FROM slides WHERE id = $1 AND deck_id = $2`,
+          [slideId, deckId]
+        );
+        if (result.rows.length === 0) return reply.status(404).send({ error: 'slide not found' });
+        return reply.send(result.rows[0]);
+      }
+      const pool = getPool();
+      const result = await pool.query(
+        `UPDATE slides SET "order" = $1 WHERE id = $2 AND deck_id = $3 RETURNING id, deck_id, "order"`,
+        [body.order, slideId, deckId]
+      );
+      if (result.rows.length === 0) return reply.status(404).send({ error: 'slide not found' });
+      return reply.send(result.rows[0]);
+    }
+  );
+
+  // Delete slide — requires JWT + canEditDeck
+  fastify.delete<{ Params: ParamsWithSlideId }>(
+    '/decks/:deckId/slides/:slideId',
+    { preHandler: [jwtVerify] },
+    async (request, reply) => {
+      if (!request.userId) return reply.status(401).send({ error: 'missing or invalid token' });
+      const { deckId, slideId } = request.params;
+      if (!deckId || !slideId) return reply.status(400).send({ error: 'deckId and slideId required' });
+      const allowed = await canEditDeck(deckId, request.userId);
+      if (!allowed) {
+        return reply.status(403).send({ error: 'no edit access' });
+      }
+      const pool = getPool();
+      const result = await pool.query(
+        `DELETE FROM slides WHERE id = $1 AND deck_id = $2 RETURNING id`,
+        [slideId, deckId]
+      );
+      if (result.rows.length === 0) return reply.status(404).send({ error: 'slide not found' });
+      return reply.status(204).send();
     }
   );
 }
