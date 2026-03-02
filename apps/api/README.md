@@ -1,6 +1,6 @@
 # API (Fastify)
 
-Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks, slides, and permissions. Uses PostgreSQL with raw SQL (no ORM).
+Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks/slides/blocks CRUD, data sources with CSV upload, and permissions. Uses PostgreSQL with raw SQL (no ORM).
 
 ## Setup
 
@@ -20,7 +20,7 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
 - Migrations are in `apps/api/migrations/` (number-prefixed `.sql` files).
 - **Run migrations:** from repo root, set `DATABASE_URL` then run:
   - `pnpm run migrate`
-  - Or: `psql $DATABASE_URL -f apps/api/migrations/001_initial.sql`.
+  - Or run each migration manually: `psql $DATABASE_URL -f apps/api/migrations/001_initial.sql`, etc.
 
 ## Routes
 
@@ -31,7 +31,25 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
   - `POST /decks` — Create a deck (JWT required).  
   - `GET /decks/:deckId` — Get deck (view permission: public, or restricted with allow-list/share token or owner). Optional `Authorization: Bearer` and optional query `?token=` for share token.  
   - `PATCH /decks/:deckId` — Update deck (JWT + edit permission = owner).  
-  - `GET /decks/:deckId/slides` — List slides (same view permission as deck).
+  - `DELETE /decks/:deckId` — Delete deck (JWT + edit permission).  
+  - `GET /decks/:deckId/slides` — List slides (same view permission as deck).  
+  - `POST /decks/:deckId/slides` — Create slide (JWT + edit permission).  
+  - `PATCH /decks/:deckId/slides/reorder` — Reorder slides (body: `{ slideIds }`).  
+  - `GET /decks/:deckId/slides/:slideId` — Get slide.  
+  - `PATCH /decks/:deckId/slides/:slideId` — Update slide.  
+  - `DELETE /decks/:deckId/slides/:slideId` — Delete slide.
+- **Blocks:**  
+  - `GET /decks/:deckId/slides/:slideId/blocks` — List blocks.  
+  - `POST /decks/:deckId/slides/:slideId/blocks` — Create block (body: `type`, `layout`, `content`, etc.).  
+  - `PATCH /decks/:deckId/slides/:slideId/blocks/reorder` — Reorder blocks (body: `{ blockIds }`).  
+  - `GET /decks/:deckId/slides/:slideId/blocks/:blockId` — Get block.  
+  - `PATCH /decks/:deckId/slides/:slideId/blocks/:blockId` — Update block.  
+  - `DELETE /decks/:deckId/slides/:slideId/blocks/:blockId` — Delete block.
+- **Data sources:**  
+  - `GET /data-sources` — List data sources (JWT required). Optional query `?deckId=`.  
+  - `POST /data-sources/upload` — Upload CSV (multipart). Optional query `?deckId=`, `?name=`.  
+  - `GET /data-sources/:dataSourceId` — Get data source.  
+  - `GET /data-sources/:dataSourceId/rows` — Get rows (optional `?limit=`, `?offset=`).
 
 Protected routes return 401 on missing/invalid JWT; 403 when authenticated but without permission.
 
