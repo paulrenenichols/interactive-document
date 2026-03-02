@@ -25,14 +25,23 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ---
 
+## 4. Minimal UI to test chart
+
+- Add a dev/test route (e.g. `/dev/chart` or `/test-chart`) that lets the user select a data source, configure column mapping (categoryKey, valueKey, optional seriesKey), and renders the bar chart with live API data.
+- Ensures the chart, tooltip, loading, and empty states can be exercised in the browser.
+- **Checkpoint:** Add, commit, and push (e.g. "feat(frontend): add dev chart test page").
+
+---
+
 ## 5. READMEs (on phase completion)
 
 - Add or update `README.md` at the project root (overview, how to run, links to apps).
 - Add or update `README.md` in each app and library that exists at phase completion (e.g. `apps/frontend`, `apps/api`, and any `libs/*`). Each should describe the package's purpose and how to run or use it.
+- In `apps/frontend` README, document how to access the chart test page (e.g. `/dev/chart`) for testing the chart pipeline.
 - **Checkpoint:** Add, commit, and push (e.g. "docs: add/update READMEs for project and packages").
 
 ---
 
-## 6. Final step (on user approval)
+## 7. Final step (on user approval)
 
 - When the user confirms the phase is complete: add any remaining changes, commit, and push (e.g. "chore(02-mvp): complete chart-pipeline phase").
