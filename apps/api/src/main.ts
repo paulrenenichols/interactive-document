@@ -4,6 +4,7 @@ import multipart from '@fastify/multipart';
 import { authRoutes } from './auth/routes.js';
 import { deckRoutes } from './decks/routes.js';
 import { dataSourceRoutes } from './data-sources/routes.js';
+import { blockRoutes } from './blocks/routes.js';
 
 const fastify = Fastify({ logger: true });
 
@@ -26,6 +27,7 @@ async function start() {
     await fastify.register(authRoutes);
     await fastify.register(deckRoutes);
     await fastify.register(dataSourceRoutes);
+    await fastify.register(blockRoutes);
     await fastify.listen({ port: PORT, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);
