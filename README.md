@@ -4,8 +4,8 @@ Create and view presentations with interactive charts. Monorepo: Next.js fronten
 
 ## Overview
 
-- **Frontend** (`apps/frontend`) — Next.js App Router. Login/register, edit and view routes; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
-- **API** (`apps/api`) — Fastify JSON API. Auth (register, login, JWT), decks and slides, permissions (`canEditDeck`, `canViewDeck`). PostgreSQL with raw SQL.
+- **Frontend** (`apps/frontend`) — Next.js App Router. Login/register, edit and view routes; TanStack Query for decks, slides, blocks, data sources; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
+- **API** (`apps/api`) — Fastify JSON API. Auth (register, login, JWT), decks/slides/blocks CRUD, data sources with CSV upload, permissions (`canEditDeck`, `canViewDeck`). PostgreSQL with raw SQL.
 
 ## How to run
 

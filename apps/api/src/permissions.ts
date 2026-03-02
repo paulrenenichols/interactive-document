@@ -38,3 +38,36 @@ export async function canViewDeck(
   }
   return false;
 }
+
+export async function canEditDataSource(
+  dataSourceId: string,
+  userId: string
+): Promise<boolean> {
+  const pool = getPool();
+  const result = await pool.query<{ owner_id: string; deck_id: string | null }>(
+    `SELECT owner_id, deck_id FROM data_sources WHERE id = $1`,
+    [dataSourceId]
+  );
+  if (result.rows.length === 0) return false;
+  const row = result.rows[0];
+  if (row.owner_id === userId) return true;
+  if (row.deck_id) return canEditDeck(row.deck_id, userId);
+  return false;
+}
+
+export async function canViewDataSource(
+  dataSourceId: string,
+  userId?: string | null,
+  shareToken?: string | null
+): Promise<boolean> {
+  const pool = getPool();
+  const result = await pool.query<{ owner_id: string; deck_id: string | null }>(
+    `SELECT owner_id, deck_id FROM data_sources WHERE id = $1`,
+    [dataSourceId]
+  );
+  if (result.rows.length === 0) return false;
+  const row = result.rows[0];
+  if (userId && row.owner_id === userId) return true;
+  if (row.deck_id) return canViewDeck(row.deck_id, userId, shareToken);
+  return false;
+}

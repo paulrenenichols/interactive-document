@@ -1,6 +1,6 @@
 # Frontend (Next.js)
 
-Next.js application (App Router) for the Interactive Presentation app. Login and register, edit and view routes; all data from the Fastify API. JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
+Next.js application (App Router) for the Interactive Presentation app. Login and register, edit and view routes; TanStack Query for decks, slides, blocks, and data sources; all data from the Fastify API. JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
 
 ## Setup
 
@@ -16,7 +16,7 @@ Next.js application (App Router) for the Interactive Presentation app. Login and
 ## Structure
 
 - `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected), `view/[deckId]/`.
-- `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login).
+- `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login), `queries.ts` (TanStack Query hooks for decks, slides, blocks, data sources).
 
 Edit routes require a token; missing token redirects to `/login?returnUrl=...`. On 403 from the API, the UI shows “No edit access” with links to view or home.
 
