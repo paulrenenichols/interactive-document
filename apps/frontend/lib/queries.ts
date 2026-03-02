@@ -5,7 +5,7 @@ import {
   type UseQueryOptions,
   type UseMutationOptions,
 } from '@tanstack/react-query';
-import { fetchWithAuth } from './api';
+import { fetchWithAuth, uploadWithAuth } from './api';
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetchWithAuth(path);
@@ -276,6 +276,41 @@ export function useDeleteBlock(
       apiDelete(`/decks/${deckId}/slides/${slideId}/blocks/${blockId}`),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.blocks(deckId, slideId) });
+    },
+    ...options,
+  });
+}
+
+export type UploadDataSourceResult = {
+  id: string;
+  name: string;
+  deck_id: string | null;
+  rowCount: number;
+};
+
+export function useUploadDataSource(
+  options?: UseMutationOptions<
+    UploadDataSourceResult,
+    Error,
+    { file: File; deckId?: string; name?: string }
+  >
+) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ file, deckId, name }) => {
+      const res = await uploadWithAuth('/data-sources/upload', file, {
+        deckId,
+        name: name || undefined,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error ?? `Upload failed: ${res.status}`);
+      }
+      return res.json() as Promise<UploadDataSourceResult>;
+    },
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: queryKeys.dataSources(variables.deckId) });
+      qc.invalidateQueries({ queryKey: queryKeys.dataSources() });
     },
     ...options,
   });

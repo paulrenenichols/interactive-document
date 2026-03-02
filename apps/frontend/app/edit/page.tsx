@@ -43,12 +43,22 @@ export default function EditPage() {
   return (
     <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
       <h1>Edit</h1>
-      <p>
+
+      <section style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #ddd', borderRadius: 8 }}>
+        <h2 style={{ marginTop: 0, marginBottom: '0.5rem' }}>New document</h2>
         <button
           type="button"
           onClick={() => createDeck.mutate()}
           disabled={createDeck.isPending}
-          style={{ padding: '8px 16px', marginBottom: '1rem' }}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: createDeck.isPending ? '#999' : '#0066cc',
+            color: 'white',
+            border: 'none',
+            borderRadius: 4,
+            fontSize: '1rem',
+            cursor: createDeck.isPending ? 'wait' : 'pointer',
+          }}
         >
           {createDeck.isPending ? 'Creating…' : 'Create deck'}
         </button>
@@ -57,8 +67,9 @@ export default function EditPage() {
             {createDeck.error?.message}
           </span>
         )}
-      </p>
-      <p>Your decks:</p>
+      </section>
+
+      <h2>Your decks</h2>
       <ul>
         {decks.length === 0 && <li>No decks yet.</li>}
         {decks.map((d) => (
