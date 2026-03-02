@@ -1,44 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { fetchWithAuth } from '@/lib/api';
-
-type Deck = { id: string; owner_id: string; visibility: string };
+import { useDecks, useCreateDeck, type Deck } from '@/lib/queries';
 
 export default function EditPage() {
-  const [decks, setDecks] = useState<Deck[]>([]);
-  const [forbidden, setForbidden] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { data, isLoading, isError, error } = useDecks();
+  const createDeck = useCreateDeck({
+    onSuccess: (data) => {
+      router.push(`/edit/${data.id}`);
+    },
+  });
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const res = await fetchWithAuth('/decks');
-      if (cancelled) return;
-      if (res.status === 403) {
-        setForbidden(true);
-        setLoading(false);
-        return;
-      }
-      if (!res.ok) {
-        setLoading(false);
-        return;
-      }
-      const data = await res.json();
-      setDecks(data.decks ?? []);
-      setLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const forbidden =
+    isError &&
+    error instanceof Error &&
+    (error.message.includes('no edit access') || error.message.includes('403'));
 
   if (forbidden) {
     return (
       <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
         <h1>No edit access</h1>
-        <p>You don’t have permission to edit this content.</p>
+        <p>You don&apos;t have permission to edit this content.</p>
         <p>
           <Link href="/">Go home</Link>
         </p>
@@ -46,7 +30,7 @@ export default function EditPage() {
     );
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
         <p>Loading…</p>
@@ -54,9 +38,26 @@ export default function EditPage() {
     );
   }
 
+  const decks: Deck[] = data?.decks ?? [];
+
   return (
     <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
       <h1>Edit</h1>
+      <p>
+        <button
+          type="button"
+          onClick={() => createDeck.mutate()}
+          disabled={createDeck.isPending}
+          style={{ padding: '8px 16px', marginBottom: '1rem' }}
+        >
+          {createDeck.isPending ? 'Creating…' : 'Create deck'}
+        </button>
+        {createDeck.isError && (
+          <span style={{ color: 'crimson', marginLeft: '0.5rem' }}>
+            {createDeck.error?.message}
+          </span>
+        )}
+      </p>
       <p>Your decks:</p>
       <ul>
         {decks.length === 0 && <li>No decks yet.</li>}
