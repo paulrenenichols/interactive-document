@@ -40,6 +40,12 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ---
 
-## 7. Final step (on user approval)
+## 7. Progress documentation
 
-- When the user confirms the phase is complete: add any remaining changes, commit, and push (e.g. "chore(03-post-mvp): complete polish phase").
+- Add or update `_docs/progress/03-post-mvp/01-polish.md` with a short summary of work done (deliverables and key changes). Optionally link to this phase plan.
+
+---
+
+## 8. Final step (on user approval)
+
+- When the user confirms the phase is complete: do a final pass on `_docs/progress/03-post-mvp/01-polish.md` (e.g. ensure it reflects the approved state; add an "approved" or "merged to main" note if desired). Add any remaining changes, commit, and push (e.g. "chore(03-post-mvp): complete polish phase"), including the progress doc.
