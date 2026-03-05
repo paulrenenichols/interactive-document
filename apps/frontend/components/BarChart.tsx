@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
+  Legend,
   type TooltipProps,
 } from 'recharts';
 
@@ -39,6 +40,8 @@ function BarChartTooltip({
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       style={{
         padding: '8px 12px',
         backgroundColor: 'var(--bg-secondary)',
@@ -147,6 +150,7 @@ export function BarChart({ data, config, width = '100%', height = 300 }: BarChar
       <RechartsBarChart
         data={chartData}
         margin={{ top: 16, right: 16, left: 0, bottom: 0 }}
+        aria-label="Bar chart"
       >
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-default)" />
         <XAxis
@@ -155,12 +159,14 @@ export function BarChart({ data, config, width = '100%', height = 300 }: BarChar
           tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
           tickLine={{ stroke: 'var(--border-default)' }}
           axisLine={{ stroke: 'var(--border-default)' }}
+          label={{ value: config.categoryKey, position: 'insideBottom', offset: -4, fill: 'var(--text-secondary)', fontSize: 11 }}
         />
         <YAxis
           stroke="var(--text-secondary)"
           tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
           tickLine={{ stroke: 'var(--border-default)' }}
           axisLine={{ stroke: 'var(--border-default)' }}
+          label={{ value: config.valueKey, angle: -90, position: 'insideLeft', fill: 'var(--text-secondary)', fontSize: 11 }}
         />
         <Tooltip
           content={
@@ -172,6 +178,14 @@ export function BarChart({ data, config, width = '100%', height = 300 }: BarChar
           }
           cursor={{ fill: 'rgba(0,0,0,0.04)' }}
         />
+        {hasSeries && (
+          <Legend
+            wrapperStyle={{ fontSize: '0.75rem' }}
+            formatter={(value) => value}
+            iconType="square"
+            iconSize={8}
+          />
+        )}
         {hasSeries ? (
           uniqueSeries.map((seriesVal, i) => (
             <Bar

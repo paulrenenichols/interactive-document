@@ -170,7 +170,7 @@ export function AreaChart({ data, config, width = '100%', height = 300 }: AreaCh
         {hasSeries && (
           <Legend
             wrapperStyle={{ fontSize: '0.75rem' }}
-            formatter={() => ''}
+            formatter={(value) => value}
             iconType="line"
             iconSize={8}
           />

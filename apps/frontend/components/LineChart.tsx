@@ -170,7 +170,7 @@ export function LineChart({ data, config, width = '100%', height = 300 }: LineCh
         {hasSeries && (
           <Legend
             wrapperStyle={{ fontSize: '0.75rem' }}
-            formatter={() => ''}
+            formatter={(value) => value}
             iconType="line"
             iconSize={8}
           />
