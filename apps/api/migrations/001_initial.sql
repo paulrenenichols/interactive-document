@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS decks (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_decks_owner ON decks(owner_id);
-CREATE INDEX idx_decks_share_token ON decks(share_token) WHERE share_token IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_decks_owner ON decks(owner_id);
+CREATE INDEX IF NOT EXISTS idx_decks_share_token ON decks(share_token) WHERE share_token IS NOT NULL;
 
 -- Viewer allow-list for restricted decks
 CREATE TABLE IF NOT EXISTS deck_viewers (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS deck_viewers (
   PRIMARY KEY (deck_id, user_id)
 );
 
-CREATE INDEX idx_deck_viewers_deck ON deck_viewers(deck_id);
+CREATE INDEX IF NOT EXISTS idx_deck_viewers_deck ON deck_viewers(deck_id);
 
 -- Data sources: uploaded CSV / named datasets (before blocks so blocks can reference)
 CREATE TABLE IF NOT EXISTS data_sources (
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS data_sources (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_data_sources_owner ON data_sources(owner_id);
-CREATE INDEX idx_data_sources_deck ON data_sources(deck_id) WHERE deck_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_data_sources_owner ON data_sources(owner_id);
+CREATE INDEX IF NOT EXISTS idx_data_sources_deck ON data_sources(deck_id) WHERE deck_id IS NOT NULL;
 
 -- Slides: ordered per deck
 CREATE TABLE IF NOT EXISTS slides (
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS slides (
   "order" INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE INDEX idx_slides_deck ON slides(deck_id);
+CREATE INDEX IF NOT EXISTS idx_slides_deck ON slides(deck_id);
 
 -- Blocks: text or chart; layout and content/config
 CREATE TABLE IF NOT EXISTS blocks (
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS blocks (
   column_mapping JSONB
 );
 
-CREATE INDEX idx_blocks_slide ON blocks(slide_id);
+CREATE INDEX IF NOT EXISTS idx_blocks_slide ON blocks(slide_id);
 
 -- Data rows: one row per parsed CSV row, payload as JSONB
 CREATE TABLE IF NOT EXISTS data_rows (
@@ -76,4 +76,4 @@ CREATE TABLE IF NOT EXISTS data_rows (
   UNIQUE (data_source_id, row_index)
 );
 
-CREATE INDEX idx_data_rows_source ON data_rows(data_source_id);
+CREATE INDEX IF NOT EXISTS idx_data_rows_source ON data_rows(data_source_id);
