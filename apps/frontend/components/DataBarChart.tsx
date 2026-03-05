@@ -8,6 +8,8 @@ export type DataBarChartProps = {
   config: ChartConfig;
   width?: number | string;
   height?: number | string;
+  /** When viewing with a share link, pass the token so chart data can be fetched. */
+  shareToken?: string | null;
 };
 
 function rowDataToRecords(rows: DataRow[]): Record<string, unknown>[] {
@@ -19,8 +21,14 @@ export function DataBarChart({
   config,
   width = '100%',
   height = 300,
+  shareToken,
 }: DataBarChartProps) {
-  const { data, isLoading, isError, error } = useDataSourceRows(dataSourceId);
+  const { data, isLoading, isError, error } = useDataSourceRows(
+    dataSourceId,
+    undefined,
+    undefined,
+    { shareToken }
+  );
 
   if (isLoading) {
     return (

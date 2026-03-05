@@ -30,6 +30,26 @@ export async function fetchWithAuth(
   return res;
 }
 
+/** Fetch JSON without redirecting on 401 (e.g. for viewer with share token). */
+export async function getJsonNoRedirect<T>(
+  path: string,
+  queryParams?: Record<string, string>
+): Promise<T> {
+  const url = new URL(apiUrl() + (path.startsWith('/') ? path : `/${path}`));
+  if (queryParams) {
+    Object.entries(queryParams).forEach(([k, v]) => url.searchParams.set(k, v));
+  }
+  const token = getToken();
+  const headers: HeadersInit = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const res = await fetch(url.toString(), { headers });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error ?? `Request failed: ${res.status}`);
+  }
+  return res.json();
+}
+
 /** Upload a file (e.g. CSV) to a path. Do not set Content-Type so the browser sets multipart boundary. */
 export async function uploadWithAuth(
   path: string,

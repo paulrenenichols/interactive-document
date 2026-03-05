@@ -4,7 +4,7 @@ Create and view presentations with interactive charts. Monorepo: Next.js fronten
 
 ## Overview
 
-- **Frontend** (`apps/frontend`) — Next.js App Router. Login/register, edit and view routes; TanStack Query for decks, slides, blocks, data sources; Recharts bar chart with custom tooltip; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401. Edit deck page: three-panel layout (slide list sidebar, canvas, properties panel); add/remove/reorder slides and blocks; text and chart blocks; chart blocks use data source and column mapping (category/value/series) persisted per block. Dev chart test page at `/dev/chart` for testing the chart pipeline with live data.
+- **Frontend** (`apps/frontend`) — Next.js App Router. Login/register, edit and view routes; TanStack Query for decks, slides, blocks, data sources; Recharts bar chart with custom tooltip; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401. Edit deck page: three-panel layout (slide list sidebar, canvas, properties panel); add/remove/reorder slides and blocks; text and chart blocks; chart blocks use data source and column mapping (category/value/series) persisted per block. Viewer at `view/[deckId]`: full-screen presentation (one slide at a time), next/previous and keyboard (arrows, Space, Escape); read-only slide and chart rendering with tooltips; optional share token in URL for restricted decks. Dev chart test page at `/dev/chart` for testing the chart pipeline with live data.
 - **API** (`apps/api`) — Fastify JSON API. Auth (register, login, JWT), decks/slides/blocks CRUD, data sources with CSV upload, permissions (`canEditDeck`, `canViewDeck`). PostgreSQL with raw SQL.
 
 ## How to run
