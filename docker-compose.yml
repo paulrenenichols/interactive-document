@@ -35,6 +35,8 @@ services:
       DATABASE_URL: postgres://app:app@db:5432/interactive_document
       JWT_SECRET: ${JWT_SECRET:-dev-secret-at-least-32-characters-long}
       PORT: "3000"
+      # Required when NODE_ENV=production (e.g. in Docker). Comma-separated allowed frontend origins.
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     depends_on:
       migrations:
         condition: service_completed_successfully
