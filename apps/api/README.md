@@ -9,6 +9,7 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
   - `DATABASE_URL` — PostgreSQL connection string (required for DB and auth).
   - `JWT_SECRET` — Secret for signing JWTs (required for auth).
   - `PORT` — Server port (default 3000).
+  - `CORS_ORIGINS` — (Production only.) Comma-separated list of allowed frontend origins. Leave unset for local dev.
 
 ## Commands
 
