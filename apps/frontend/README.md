@@ -1,6 +1,6 @@
 # Frontend (Next.js)
 
-Next.js application (App Router) for the Interactive Presentation app. Login and register, edit and view routes; TanStack Query for decks, slides, blocks, and data sources; all data from the Fastify API. JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401.
+Next.js application (App Router) for the Interactive Presentation app. Login and register, edit and view routes; TanStack Query for decks, slides, blocks, and data sources; all data from the Fastify API. JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401. Edit deck screen uses a three-panel Flexbox layout: slide list (add/remove/reorder slides), canvas (current slide’s blocks — text and chart, with add/delete/reorder and selection), and properties panel (text block content; chart block data source and column mapping).
 
 ## Setup
 
@@ -15,9 +15,9 @@ Next.js application (App Router) for the Interactive Presentation app. Login and
 
 ## Structure
 
-- `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected), `view/[deckId]/`, `dev/chart` (chart test page).
+- `app/` — App Router: `layout.tsx`, `page.tsx`, `login/page.tsx`, `register/page.tsx`, `edit/` (protected; `edit/[deckId]` is the slide editor with three panels), `view/[deckId]/`, `dev/chart` (chart test page).
 - `components/` — `BarChart.tsx` (Recharts bar chart with custom tooltip), `DataBarChart.tsx` (wires chart to API via TanStack Query).
-- `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login), `queries.ts` (TanStack Query hooks for decks, slides, blocks, data sources).
+- `lib/` — `auth.ts` (get/set/clear token), `api.ts` (apiUrl, fetchWithAuth with Bearer and 401 → redirect to login), `queries.ts` (TanStack Query hooks for decks, slides, blocks, data sources, including block reorder).
 
 Edit routes require a token; missing token redirects to `/login?returnUrl=...`. On 403 from the API, the UI shows “No edit access” with links to view or home.
 

@@ -281,6 +281,25 @@ export function useDeleteBlock(
   });
 }
 
+export function useReorderBlocks(
+  deckId: string,
+  slideId: string,
+  options?: UseMutationOptions<{ blocks: Block[] }, Error, { blockIds: string[] }>
+) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body) =>
+      apiPatch<{ blocks: Block[] }>(
+        `/decks/${deckId}/slides/${slideId}/blocks/reorder`,
+        body
+      ),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.blocks(deckId, slideId) });
+    },
+    ...options,
+  });
+}
+
 export type UploadDataSourceResult = {
   id: string;
   name: string;
