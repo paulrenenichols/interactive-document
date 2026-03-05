@@ -8,7 +8,31 @@ import { queryKeys, type Deck, type Slide, type Block } from '@/lib/queries';
 import { apiUrl } from '@/lib/api';
 import { getToken, getUserId } from '@/lib/auth';
 import { DataBarChart } from '@/components/DataBarChart';
+import { DataLineChart } from '@/components/DataLineChart';
+import { DataPieChart } from '@/components/DataPieChart';
+import { DataAreaChart } from '@/components/DataAreaChart';
 import type { ChartConfig } from '@/components/BarChart';
+
+function renderChartByType(
+  chartType: string | undefined,
+  dataSourceId: string | undefined,
+  config: ChartConfig,
+  height: number,
+  shareToken?: string | null
+) {
+  const type = (chartType === 'line' || chartType === 'pie' || chartType === 'area' ? chartType : 'bar') as 'bar' | 'line' | 'pie' | 'area';
+  const props = { dataSourceId, config, height, shareToken };
+  switch (type) {
+    case 'line':
+      return <DataLineChart {...props} />;
+    case 'pie':
+      return <DataPieChart {...props} />;
+    case 'area':
+      return <DataAreaChart {...props} />;
+    default:
+      return <DataBarChart {...props} />;
+  }
+}
 
 async function fetchDeck(deckId: string, shareToken?: string | null): Promise<Deck> {
   const path = `/decks/${deckId}${shareToken ? `?token=${encodeURIComponent(shareToken)}` : ''}`;
@@ -281,12 +305,13 @@ function ViewDeckContent() {
                       )}
                       {b.type === 'chart' &&
                         (chartReady ? (
-                          <DataBarChart
-                            dataSourceId={b.data_source_id}
-                            config={chartConfig!}
-                            height={280}
-                            shareToken={shareToken}
-                          />
+                          renderChartByType(
+                            b.chart_type,
+                            b.data_source_id,
+                            chartConfig!,
+                            280,
+                            shareToken
+                          )
                         ) : (
                           <div
                             style={{

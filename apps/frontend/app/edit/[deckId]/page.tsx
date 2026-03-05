@@ -21,7 +21,38 @@ import {
   type Block,
 } from '@/lib/queries';
 import { DataBarChart } from '@/components/DataBarChart';
+import { DataLineChart } from '@/components/DataLineChart';
+import { DataPieChart } from '@/components/DataPieChart';
+import { DataAreaChart } from '@/components/DataAreaChart';
 import type { ChartConfig } from '@/components/BarChart';
+
+const CHART_TYPES = [
+  { value: 'bar', label: 'Bar' },
+  { value: 'line', label: 'Line' },
+  { value: 'pie', label: 'Pie' },
+  { value: 'area', label: 'Area' },
+] as const;
+
+function renderChartByType(
+  chartType: string | undefined,
+  dataSourceId: string | undefined,
+  config: ChartConfig,
+  height: number,
+  shareToken?: string | null
+) {
+  const type = (chartType === 'line' || chartType === 'pie' || chartType === 'area' ? chartType : 'bar') as 'bar' | 'line' | 'pie' | 'area';
+  const props = { dataSourceId, config, height, shareToken };
+  switch (type) {
+    case 'line':
+      return <DataLineChart {...props} />;
+    case 'pie':
+      return <DataPieChart {...props} />;
+    case 'area':
+      return <DataAreaChart {...props} />;
+    default:
+      return <DataBarChart {...props} />;
+  }
+}
 
 export default function EditDeckPage() {
   const params = useParams();
@@ -379,11 +410,12 @@ export default function EditDeckPage() {
                           )}
                           {b.type === 'chart' && (
                             chartReady ? (
-                              <DataBarChart
-                                dataSourceId={b.data_source_id}
-                                config={chartConfig!}
-                                height={220}
-                              />
+                              renderChartByType(
+                                b.chart_type,
+                                b.data_source_id,
+                                chartConfig!,
+                                220
+                              )
                             ) : (
                               <div
                                 style={{
@@ -480,6 +512,29 @@ export default function EditDeckPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div>
+              <label htmlFor="chart-type" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
+                Chart type
+              </label>
+              <select
+                id="chart-type"
+                value={selectedBlock.chart_type ?? 'bar'}
+                onChange={(e) => {
+                  const v = e.target.value as 'bar' | 'line' | 'pie' | 'area';
+                  updateBlock.mutate({ blockId: selectedBlock.id, chart_type: v });
+                }}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '1px solid #ddd',
+                  borderRadius: 4,
+                }}
+              >
+                {CHART_TYPES.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
             <div>
               <label htmlFor="chart-data-source" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
                 Data source

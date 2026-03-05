@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  BarChart as RechartsBarChart,
-  Bar,
+  AreaChart as RechartsAreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,32 +11,23 @@ import {
   Legend,
   type TooltipProps,
 } from 'recharts';
+import type { ChartConfig } from './BarChart';
 
-export type ChartConfig = {
-  categoryKey: string;
-  valueKey: string;
-  seriesKey?: string;
-};
-
-type BarChartTooltipProps = TooltipProps<number, string> & {
-  dataKey?: string;
-  showRowData?: boolean;
+type AreaChartTooltipProps = TooltipProps<number, string> & {
   rowDataKeys?: string[];
 };
 
-function BarChartTooltip({
+function AreaChartTooltip({
   active,
   payload,
   label,
-  dataKey,
-  showRowData = true,
-  rowDataKeys,
-}: BarChartTooltipProps) {
+  rowDataKeys = [],
+}: AreaChartTooltipProps) {
   if (!active || !payload?.length) return null;
 
   const chartPayload = payload[0]?.payload as Record<string, unknown> | undefined;
   const rowData = (chartPayload?._row as Record<string, unknown>) ?? chartPayload;
-  const displayKeys = rowDataKeys ?? (rowData ? Object.keys(rowData).filter((k) => !k.startsWith('_')) : []);
+  const displayKeys = rowDataKeys.length > 0 ? rowDataKeys : (rowData ? Object.keys(rowData).filter((k) => !k.startsWith('_')) : []);
 
   return (
     <div
@@ -62,7 +53,7 @@ function BarChartTooltip({
           {p.name ?? p.dataKey}: {typeof p.value === 'number' ? p.value.toLocaleString() : String(p.value)}
         </div>
       ))}
-      {showRowData && rowData && displayKeys.length > 0 && (
+      {rowData && displayKeys.length > 0 && (
         <div
           style={{
             marginTop: 8,
@@ -85,13 +76,6 @@ function BarChartTooltip({
     </div>
   );
 }
-
-export type BarChartProps = {
-  data: Record<string, unknown>[];
-  config: ChartConfig;
-  width?: number | string;
-  height?: number | string;
-};
 
 const CHART_COLORS = [
   'var(--chart-series-1)',
@@ -125,32 +109,43 @@ function pivotBySeries(
   return Array.from(byCategory.values());
 }
 
-export function BarChart({ data, config, width = '100%', height = 300 }: BarChartProps) {
+export type AreaChartProps = {
+  data: Record<string, unknown>[];
+  config: ChartConfig;
+  width?: number | string;
+  height?: number | string;
+};
+
+export function AreaChart({ data, config, width = '100%', height = 300 }: AreaChartProps) {
   const { categoryKey, valueKey, seriesKey } = config;
 
   const hasSeries = !!seriesKey;
-  const chartData = hasSeries && seriesKey
-    ? pivotBySeries(data, categoryKey, valueKey, seriesKey)
-    : data.map((row) => {
-        const category = row[categoryKey];
-        const value = row[valueKey];
-        return {
-          ...row,
-          name: category != null ? String(category) : '',
-          value: typeof value === 'number' ? value : Number(value) || 0,
-        };
-      });
+  const chartData =
+    hasSeries && seriesKey
+      ? pivotBySeries(data, categoryKey, valueKey, seriesKey)
+      : data.map((row) => {
+          const category = row[categoryKey];
+          const value = row[valueKey];
+          return {
+            ...row,
+            name: category != null ? String(category) : '',
+            value: typeof value === 'number' ? value : Number(value) || 0,
+          };
+        });
 
-  const uniqueSeries = hasSeries && seriesKey
-    ? Array.from(new Set(data.map((r) => r[seriesKey]).filter(Boolean).map(String)))
-    : [valueKey];
+  const uniqueSeries =
+    hasSeries && seriesKey
+      ? Array.from(new Set(data.map((r) => r[seriesKey]).filter(Boolean).map(String)))
+      : [valueKey];
+
+  const rowDataKeys = data[0] ? Object.keys(data[0]) : [];
 
   return (
     <ResponsiveContainer width={width} height={height}>
-      <RechartsBarChart
+      <RechartsAreaChart
         data={chartData}
         margin={{ top: 16, right: 16, left: 0, bottom: 0 }}
-        aria-label="Bar chart"
+        aria-label="Area chart"
       >
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-default)" />
         <XAxis
@@ -169,42 +164,42 @@ export function BarChart({ data, config, width = '100%', height = 300 }: BarChar
           label={{ value: config.valueKey, angle: -90, position: 'insideLeft', fill: 'var(--text-secondary)', fontSize: 11 }}
         />
         <Tooltip
-          content={
-            <BarChartTooltip
-              dataKey={valueKey}
-              showRowData
-              rowDataKeys={data[0] ? Object.keys(data[0]) : []}
-            />
-          }
-          cursor={{ fill: 'rgba(0,0,0,0.04)' }}
+          content={<AreaChartTooltip rowDataKeys={rowDataKeys} />}
+          cursor={{ stroke: 'var(--border-default)' }}
         />
         {hasSeries && (
           <Legend
             wrapperStyle={{ fontSize: '0.75rem' }}
             formatter={(value) => value}
-            iconType="square"
+            iconType="line"
             iconSize={8}
           />
         )}
-        {hasSeries ? (
-          uniqueSeries.map((seriesVal, i) => (
-            <Bar
-              key={seriesVal}
-              dataKey={seriesVal}
-              name={seriesVal}
-              fill={CHART_COLORS[i % CHART_COLORS.length]}
-              radius={[4, 4, 0, 0]}
-            />
-          ))
-        ) : (
-          <Bar
-            dataKey="value"
-            name={valueKey}
-            fill={CHART_COLORS[0]}
-            radius={[4, 4, 0, 0]}
-          />
-        )}
-      </RechartsBarChart>
+        {hasSeries
+          ? uniqueSeries.map((seriesVal, i) => (
+              <Area
+                key={seriesVal}
+                type="monotone"
+                dataKey={seriesVal}
+                name={seriesVal}
+                stroke={CHART_COLORS[i % CHART_COLORS.length]}
+                fill={CHART_COLORS[i % CHART_COLORS.length]}
+                fillOpacity={0.5}
+                strokeWidth={2}
+              />
+            ))
+          : (
+              <Area
+                type="monotone"
+                dataKey="value"
+                name={valueKey}
+                stroke={CHART_COLORS[0]}
+                fill={CHART_COLORS[0]}
+                fillOpacity={0.5}
+                strokeWidth={2}
+              />
+            )}
+      </RechartsAreaChart>
     </ResponsiveContainer>
   );
 }

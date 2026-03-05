@@ -23,3 +23,9 @@ Scope and goals for post-MVP improvements: additional chart types, axis/labels, 
 
 - Email verification, refresh tokens, or new auth flows (see auth future work).
 - Real-time collaboration or binary Excel upload (per overview out-of-scope).
+
+---
+
+## Future work (deferred from this phase)
+
+- **Export:** PDF or static image export of deck/slides; "Export" action in editor or viewer. Deferred; implement in a later phase if desired.
