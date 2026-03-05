@@ -5,7 +5,7 @@ import {
   type UseQueryOptions,
   type UseMutationOptions,
 } from '@tanstack/react-query';
-import { fetchWithAuth, uploadWithAuth } from './api';
+import { fetchWithAuth, uploadWithAuth, getJsonNoRedirect } from './api';
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetchWithAuth(path);
@@ -361,26 +361,31 @@ export function useDataSource(
   });
 }
 
+export type DataSourceRowsOptions = Omit<
+  UseQueryOptions<{ rows: DataRow[]; total: number }>,
+  'queryKey' | 'queryFn'
+> & { shareToken?: string | null };
+
 export function useDataSourceRows(
   id: string | undefined,
   limit?: number,
   offset?: number,
-  options?: Omit<
-    UseQueryOptions<{ rows: DataRow[]; total: number }>,
-    'queryKey' | 'queryFn'
-  >
+  options?: DataSourceRowsOptions
 ) {
+  const { shareToken, ...queryOptions } = options ?? {};
   const params = new URLSearchParams();
   if (limit != null) params.set('limit', String(limit));
   if (offset != null) params.set('offset', String(offset));
+  if (shareToken) params.set('token', shareToken);
   const qs = params.toString();
+  const path = `/data-sources/${id}/rows${qs ? `?${qs}` : ''}`;
   return useQuery({
-    queryKey: queryKeys.dataSourceRows(id ?? '', limit, offset),
+    queryKey: [...queryKeys.dataSourceRows(id ?? '', limit, offset), shareToken ?? null],
     queryFn: () =>
-      apiGet<{ rows: DataRow[]; total: number }>(
-        `/data-sources/${id}/rows${qs ? `?${qs}` : ''}`
-      ),
+      shareToken != null
+        ? getJsonNoRedirect<{ rows: DataRow[]; total: number }>(path)
+        : apiGet<{ rows: DataRow[]; total: number }>(path),
     enabled: !!id,
-    ...options,
+    ...queryOptions,
   });
 }

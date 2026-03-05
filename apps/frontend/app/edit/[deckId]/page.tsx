@@ -207,6 +207,8 @@ export default function EditDeckPage() {
           {deckId && (
             <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: '#666' }}>
               <Link href={`/view/${deckId}`}>View</Link>
+              {' · '}
+              <Link href={`/view/${deckId}`}>Present</Link>
             </p>
           )}
         </div>
