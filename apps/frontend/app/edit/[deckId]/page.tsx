@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
@@ -13,7 +13,9 @@ import {
   useCreateBlock,
   useDeleteBlock,
   useReorderBlocks,
+  useUpdateBlock,
   useDataSources,
+  useDataSourceRows,
   useUploadDataSource,
   type Slide,
   type Block,
@@ -38,12 +40,23 @@ export default function EditDeckPage() {
   const createBlock = useCreateBlock(deckId ?? '', selectedSlideId ?? '');
   const deleteBlock = useDeleteBlock(deckId ?? '', selectedSlideId ?? '');
   const reorderBlocks = useReorderBlocks(deckId ?? '', selectedSlideId ?? '');
+  const updateBlock = useUpdateBlock(deckId ?? '', selectedSlideId ?? '');
   const { data: dataSourcesData } = useDataSources(deckId);
   const uploadCsv = useUploadDataSource();
 
   const slides: Slide[] = slidesData?.slides ?? [];
   const blocks: Block[] = blocksData?.blocks ?? [];
   const dataSources = dataSourcesData?.dataSources ?? [];
+  const selectedBlock = selectedBlockId ? blocks.find((b) => b.id === selectedBlockId) : null;
+
+  const dataSourceIdForColumns =
+    selectedBlock?.type === 'chart' ? selectedBlock.data_source_id : undefined;
+  const { data: rowsData } = useDataSourceRows(dataSourceIdForColumns);
+  const columnKeys = useMemo(() => {
+    const rows = rowsData?.rows ?? [];
+    const first = rows[0]?.row_data;
+    return first ? Object.keys(first) : [];
+  }, [rowsData?.rows]);
 
   // Auto-select first slide when slides load and none selected
   useEffect(() => {
@@ -423,7 +436,7 @@ export default function EditDeckPage() {
         </div>
       </section>
 
-      {/* Properties panel (step 4 will fill when block selected) */}
+      {/* Properties panel */}
       <aside
         style={{
           flex: '0 0 280px',
@@ -433,10 +446,159 @@ export default function EditDeckPage() {
         }}
       >
         <h2 style={{ margin: '0 0 8px', fontSize: '0.875rem', fontWeight: 600 }}>Properties</h2>
-        {selectedBlockId ? (
-          <p style={{ fontSize: '0.875rem', color: '#666' }}>Block selected. (Config in step 4.)</p>
-        ) : (
+        {!selectedBlock ? (
           <p style={{ fontSize: '0.875rem', color: '#666' }}>Select a block to edit.</p>
+        ) : selectedBlock.type === 'text' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <label htmlFor="block-content" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+              Content
+            </label>
+            <textarea
+              id="block-content"
+              defaultValue={selectedBlock.content ?? ''}
+              onBlur={(e) => {
+                const value = e.target.value;
+                if (value !== (selectedBlock.content ?? '')) {
+                  updateBlock.mutate({ blockId: selectedBlock.id, content: value });
+                }
+              }}
+              rows={6}
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid #ddd',
+                borderRadius: 4,
+                fontSize: '0.875rem',
+                resize: 'vertical',
+              }}
+            />
+            {updateBlock.isError && (
+              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+            )}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div>
+              <label htmlFor="chart-data-source" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
+                Data source
+              </label>
+              <select
+                id="chart-data-source"
+                value={selectedBlock.data_source_id ?? ''}
+                onChange={(e) => {
+                  const v = e.target.value || undefined;
+                  updateBlock.mutate({
+                    blockId: selectedBlock.id,
+                    data_source_id: v,
+                    column_mapping: v ? selectedBlock.column_mapping : undefined,
+                  });
+                }}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '1px solid #ddd',
+                  borderRadius: 4,
+                }}
+              >
+                <option value="">— Select —</option>
+                {dataSources.map((ds) => (
+                  <option key={ds.id} value={ds.id}>
+                    {ds.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {columnKeys.length > 0 && selectedBlock.data_source_id && (
+              <>
+                <div>
+                  <label htmlFor="chart-category" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
+                    Category (X axis)
+                  </label>
+                  <select
+                    id="chart-category"
+                    value={(selectedBlock.column_mapping?.categoryKey as string) ?? columnKeys[0]}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      updateBlock.mutate({
+                        blockId: selectedBlock.id,
+                        column_mapping: {
+                          ...selectedBlock.column_mapping,
+                          categoryKey: v,
+                          valueKey: (selectedBlock.column_mapping?.valueKey as string) ?? columnKeys[1] ?? columnKeys[0],
+                          ...((selectedBlock.column_mapping?.seriesKey as string) && {
+                            seriesKey: selectedBlock.column_mapping.seriesKey,
+                          }),
+                        },
+                      });
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                  >
+                    {columnKeys.map((k) => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="chart-value" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
+                    Value (Y axis)
+                  </label>
+                  <select
+                    id="chart-value"
+                    value={(selectedBlock.column_mapping?.valueKey as string) ?? columnKeys[1] ?? columnKeys[0]}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      updateBlock.mutate({
+                        blockId: selectedBlock.id,
+                        column_mapping: {
+                          ...selectedBlock.column_mapping,
+                          categoryKey: (selectedBlock.column_mapping?.categoryKey as string) ?? columnKeys[0],
+                          valueKey: v,
+                          ...((selectedBlock.column_mapping?.seriesKey as string) && {
+                            seriesKey: selectedBlock.column_mapping.seriesKey,
+                          }),
+                        },
+                      });
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                  >
+                    {columnKeys.map((k) => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="chart-series" style={{ display: 'block', marginBottom: 4, fontSize: '0.875rem' }}>
+                    Series (optional)
+                  </label>
+                  <select
+                    id="chart-series"
+                    value={(selectedBlock.column_mapping?.seriesKey as string) ?? ''}
+                    onChange={(e) => {
+                      const v = e.target.value || undefined;
+                      updateBlock.mutate({
+                        blockId: selectedBlock.id,
+                        column_mapping: {
+                          ...selectedBlock.column_mapping,
+                          categoryKey: (selectedBlock.column_mapping?.categoryKey as string) ?? columnKeys[0],
+                          valueKey: (selectedBlock.column_mapping?.valueKey as string) ?? columnKeys[1] ?? columnKeys[0],
+                          ...(v && { seriesKey: v }),
+                        },
+                      });
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                  >
+                    <option value="">— None —</option>
+                    {columnKeys.map((k) => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+            {updateBlock.isError && (
+              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+            )}
+          </div>
         )}
       </aside>
     </main>
