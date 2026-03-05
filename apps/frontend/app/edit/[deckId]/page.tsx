@@ -526,7 +526,7 @@ export default function EditDeckPage() {
                           categoryKey: v,
                           valueKey: (selectedBlock.column_mapping?.valueKey as string) ?? columnKeys[1] ?? columnKeys[0],
                           ...((selectedBlock.column_mapping?.seriesKey as string) && {
-                            seriesKey: selectedBlock.column_mapping.seriesKey,
+                            seriesKey: selectedBlock.column_mapping?.seriesKey,
                           }),
                         },
                       });
@@ -554,7 +554,7 @@ export default function EditDeckPage() {
                           categoryKey: (selectedBlock.column_mapping?.categoryKey as string) ?? columnKeys[0],
                           valueKey: v,
                           ...((selectedBlock.column_mapping?.seriesKey as string) && {
-                            seriesKey: selectedBlock.column_mapping.seriesKey,
+                            seriesKey: selectedBlock.column_mapping?.seriesKey,
                           }),
                         },
                       });
