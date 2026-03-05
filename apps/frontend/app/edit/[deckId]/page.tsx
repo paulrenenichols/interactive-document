@@ -11,11 +11,15 @@ import {
   useReorderSlides,
   useBlocks,
   useCreateBlock,
+  useDeleteBlock,
+  useReorderBlocks,
   useDataSources,
   useUploadDataSource,
   type Slide,
   type Block,
 } from '@/lib/queries';
+import { DataBarChart } from '@/components/DataBarChart';
+import type { ChartConfig } from '@/components/BarChart';
 
 export default function EditDeckPage() {
   const params = useParams();
@@ -32,6 +36,8 @@ export default function EditDeckPage() {
   const reorderSlides = useReorderSlides(deckId ?? '');
   const { data: blocksData } = useBlocks(deckId, selectedSlideId ?? undefined);
   const createBlock = useCreateBlock(deckId ?? '', selectedSlideId ?? '');
+  const deleteBlock = useDeleteBlock(deckId ?? '', selectedSlideId ?? '');
+  const reorderBlocks = useReorderBlocks(deckId ?? '', selectedSlideId ?? '');
   const { data: dataSourcesData } = useDataSources(deckId);
   const uploadCsv = useUploadDataSource();
 
@@ -126,6 +132,40 @@ export default function EditDeckPage() {
     [newOrder[idx], newOrder[newIdx]] = [newOrder[newIdx], newOrder[idx]];
     reorderSlides.mutate({ slideIds: newOrder.map((s) => s.id) });
   };
+
+  const handleDeleteBlock = (blockId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const idx = blocks.findIndex((b) => b.id === blockId);
+    const nextBlock = blocks[idx + 1] ?? blocks[idx - 1];
+    deleteBlock.mutate(blockId, {
+      onSuccess: () => {
+        setSelectedBlockId(selectedBlockId === blockId ? (nextBlock?.id ?? null) : selectedBlockId);
+      },
+    });
+  };
+
+  const handleMoveBlock = (blockId: string, direction: 'up' | 'down', e: React.MouseEvent) => {
+    e.stopPropagation();
+    const idx = blocks.findIndex((b) => b.id === blockId);
+    if (idx < 0) return;
+    const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= blocks.length) return;
+    const newOrder = [...blocks];
+    [newOrder[idx], newOrder[newIdx]] = [newOrder[newIdx], newOrder[idx]];
+    reorderBlocks.mutate({ blockIds: newOrder.map((b) => b.id) });
+  };
+
+  function blockColumnMappingToConfig(mapping: Record<string, unknown> | undefined): ChartConfig | null {
+    if (!mapping || typeof mapping.categoryKey !== 'string' || typeof mapping.valueKey !== 'string')
+      return null;
+    return {
+      categoryKey: mapping.categoryKey,
+      valueKey: mapping.valueKey,
+      ...(typeof mapping.seriesKey === 'string' && mapping.seriesKey
+        ? { seriesKey: mapping.seriesKey }
+        : {}),
+    };
+  }
 
   return (
     <main
@@ -300,22 +340,83 @@ export default function EditDeckPage() {
                 </button>
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {blocks.map((b) => (
-                  <li
-                    key={b.id}
-                    style={{
-                      marginBottom: '8px',
-                      padding: '12px',
-                      background: selectedBlockId === b.id ? '#e6f0ff' : '#f5f5f5',
-                      border: selectedBlockId === b.id ? '2px solid #0066cc' : '1px solid #ddd',
-                      borderRadius: 8,
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => setSelectedBlockId(b.id)}
-                  >
-                    {b.type}: {b.content ?? '(empty)'}
-                  </li>
-                ))}
+                {blocks.map((b, i) => {
+                  const isSelected = selectedBlockId === b.id;
+                  const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
+                  const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
+                  return (
+                    <li
+                      key={b.id}
+                      style={{
+                        marginBottom: '8px',
+                        padding: '12px',
+                        background: isSelected ? '#e6f0ff' : '#f5f5f5',
+                        border: isSelected ? '2px solid #0066cc' : '1px solid #ddd',
+                        borderRadius: 8,
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => setSelectedBlockId(b.id)}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                        <div style={{ flex: 1, minWidth: 0 }} onClick={(e) => e.stopPropagation()}>
+                          {b.type === 'text' && (
+                            <div style={{ whiteSpace: 'pre-wrap' }}>{b.content || '(empty text)'}</div>
+                          )}
+                          {b.type === 'chart' && (
+                            chartReady ? (
+                              <DataBarChart
+                                dataSourceId={b.data_source_id}
+                                config={chartConfig!}
+                                height={220}
+                              />
+                            ) : (
+                              <div
+                                style={{
+                                  padding: '24px',
+                                  background: '#eee',
+                                  borderRadius: 8,
+                                  color: '#666',
+                                  fontSize: '0.875rem',
+                                }}
+                              >
+                                Configure chart (select and use Properties panel)
+                              </div>
+                            )
+                          )}
+                        </div>
+                        <div style={{ flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            onClick={(e) => handleMoveBlock(b.id, 'up', e)}
+                            disabled={i === 0 || reorderBlocks.isPending}
+                            title="Move up"
+                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
+                          >
+                            ↑
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleMoveBlock(b.id, 'down', e)}
+                            disabled={i === blocks.length - 1 || reorderBlocks.isPending}
+                            title="Move down"
+                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
+                          >
+                            ↓
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => handleDeleteBlock(b.id, e)}
+                            disabled={deleteBlock.isPending}
+                            title="Delete block"
+                            style={{ padding: '4px 6px', fontSize: '0.75rem', color: '#c00' }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </>
           )}
