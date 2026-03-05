@@ -29,9 +29,9 @@ When running the prompts below, supply:
 3. **Optional: milestone-specific planning**
 
    - If this milestone has its own scope (e.g. a separate project overview or definition), create:
-     - `_docs/planning/<NN-milestone>/project-overview/`
-     - `_docs/planning/<NN-milestone>/definition/`
-   - Add overview or definition docs there as needed. Otherwise, the existing `_docs/planning/00-initial-milestones/project-overview/` and `_docs/planning/00-initial-milestones/definition/` serve the project.
+     - `_docs/planning/milestones/<NN-milestone>/project-overview/`
+     - `_docs/planning/milestones/<NN-milestone>/definition/`
+   - Add overview or definition docs there as needed. Otherwise, the existing `_docs/planning/milestones/00-initial-milestones/project-overview/` and `_docs/planning/milestones/00-initial-milestones/definition/` serve the project.
 
 4. **Progress folder**
 
