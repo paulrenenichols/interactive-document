@@ -25,10 +25,10 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ---
 
-## 4. Optional export (if in scope)
+## 4. Optional export (skipped for this phase)
 
-- If export is agreed: implement export path (e.g. PDF or image per slide); add "Export" action in editor or viewer. Otherwise skip and document as future work.
-- **Checkpoint:** If implemented, add, commit, and push (e.g. "feat(frontend): optional deck/slide export").
+- **Decision:** Skip export for this phase. Do not implement PDF/image export or an "Export" action.
+- Document export as future work (e.g. in `_docs/progress/03-post-mvp/01-polish.md` or a short "Future work" note in phase scope / README).
 
 ---
 
