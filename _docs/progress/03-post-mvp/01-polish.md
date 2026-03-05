@@ -13,7 +13,7 @@ Summary of work done on branch `03-post-mvp/01-polish` (from commits).
 - feat(frontend): line, pie, and area chart types
 - feat(frontend): chart axis, labels, and legend polish
 - docs: add/update READMEs for project and packages
-- (pending) chore(03-post-mvp): complete polish phase
+- chore(03-post-mvp): complete polish phase
 
 ## Phase plan
 
