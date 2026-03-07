@@ -1,0 +1,92 @@
+{
+  "charts": [
+    {
+      "sheetName": "Summary",
+      "chartIndex": 0,
+      "position": {
+        "col": 6,
+        "row": 9,
+        "colOff_emu": 509587,
+        "rowOff_emu": 57150
+      },
+      "size": {
+        "col": 13,
+        "row": 24,
+        "colOff_emu": 280987,
+        "rowOff_emu": 85725
+      },
+      "width_emu": 438150,
+      "height_emu": 2886075,
+      "title": "Opportunities by Sales Stage",
+      "chartType": "pieChart",
+      "plotArea": {
+        "x": 0.35066229221347334,
+        "y": 0.2145446923301254,
+        "w": 0.47089785651793525,
+        "h": 0.7848297608632254
+      },
+      "series": [
+        {
+          "name": "Sales Stage",
+          "categories": [
+            "1 - Qualify",
+            "2 - Needs & Solutions",
+            "3 - Presentation",
+            "4 - Activate & Transition"
+          ],
+          "values": [
+            7.0,
+            23.0,
+            76.0,
+            1.0
+          ],
+          "pointColors": [
+            "#F15026",
+            "#0B1228",
+            "#FFB74E",
+            "#489820"
+          ]
+        }
+      ],
+      "colors": [
+        {
+          "seriesColor": null,
+          "pointColors": [
+            "#F15026",
+            "#0B1228",
+            "#FFB74E",
+            "#489820"
+          ]
+        }
+      ]
+    }
+  ],
+  "styles": {
+    "theme": {
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#F38C0C",
+      "lt2": "#B5C3E6",
+      "accent1": "#F15026",
+      "accent2": "#0B1228",
+      "accent3": "#FFB74E",
+      "accent4": "#489820",
+      "accent5": "#415D80",
+      "accent6": "#B72824",
+      "hlink": "#013B69",
+      "folHlink": "#7030A0",
+      "tx1": "#000000",
+      "bg1": "#FFFFFF"
+    },
+    "chartStyle": {
+      "colorCycle": [
+        "#F15026",
+        "#0B1228",
+        "#FFB74E",
+        "#489820",
+        "#415D80",
+        "#B72824"
+      ]
+    }
+  }
+}
