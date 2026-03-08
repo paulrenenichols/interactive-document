@@ -2,12 +2,6 @@
 
 For overview and structure, see [../README.md](../README.md).
 
-## Overview
-
-Why this demo exists: proof of concept for adding sql.js to the project, for offline caching so documents can work without a network, and for SQL-driven charts. Relationship to rep-counter and where the demo app lives (`demo/sql-charts/` under a shared `demo/` folder for future demos).
-
-See [overview.md](overview.md).
-
 ## sql.js and demo data
 
 Integrating sql.js into the project; loading or building a demo SQLite database; seed/sample schema and data that reflect realistic use (e.g. sessions, metrics, or document-like tables).

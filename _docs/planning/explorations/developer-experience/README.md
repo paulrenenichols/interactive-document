@@ -10,12 +10,6 @@ Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/R
 
 ---
 
-## Overview
-
-Why we're exploring dev-ex improvements; parallel dev Docker with live rebuild, plus other ideas from the current project state.
-
-See [overview.md](feature-sets/overview.md) for details.
-
 ## Watch dev Docker + package.json script
 
 Separate `docker-compose.dev.yml` and a single script so the full stack runs in Docker with live reload (no image rebuild on code changes).
