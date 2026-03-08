@@ -13,7 +13,7 @@ Add live API documentation that developers and stakeholders can open in **local 
 ## Implementation options
 
 - **OpenAPI (Swagger):** Fastify plugin (e.g. `@fastify/swagger` + `@fastify/swagger-ui`) to expose a spec and a UI at e.g. `/docs` or `/api-docs`. Register schemas/routes so the spec stays in sync.
-- **Alternative:** Static OpenAPI/Swagger file maintained by hand or generated at build time; less “live” but simpler. Prefer live/schema-driven so dev and staging always match the running app.
+- **Alternative:** Static OpenAPI/Swagger file maintained by hand or generated at build time; less "live" but simpler. Prefer live/schema-driven so dev and staging always match the running app.
 
 ## Out of scope
 

@@ -14,18 +14,18 @@ Add a **separate** `docker-compose.dev.yml` and a single package.json script so 
   - `docker compose -f docker-compose.yml -f docker-compose.dev.yml up`
   so one command starts the full dev stack with watch.
 
-Prod `docker-compose.yml` stays unchanged so you can run prod Compose locally to test a “prod” build without dev tooling.
+Prod `docker-compose.yml` stays unchanged so you can run prod Compose locally to test a "prod" build without dev tooling.
 
 ## Dependencies
 
-- Current [docker-compose.yml](../../../docker-compose.yml) (db, migrations, api, frontend).
-- API dev: `tsx watch apps/api/src/main.ts` ([apps/api/project.json](../../../apps/api/project.json)).
-- Frontend dev: `next dev` ([apps/frontend/project.json](../../../apps/frontend/project.json)).
+- Current [docker-compose.yml](../../../../docker-compose.yml) (db, migrations, api, frontend).
+- API dev: `tsx watch apps/api/src/main.ts` ([apps/api/project.json](../../../../apps/api/project.json)).
+- Frontend dev: `next dev` ([apps/frontend/project.json](../../../../apps/frontend/project.json)).
 - Monorepo: pnpm workspace, Nx; dev containers need repo root (or apps + root config) mounted.
 
 ## Risks / mitigations
 
-- **Volume mount performance (macOS/Windows):** Use delegated/cached volumes; document “for fastest DX use host-run api/frontend + Docker DB only” if needed.
+- **Volume mount performance (macOS/Windows):** Use delegated/cached volumes; document "for fastest DX use host-run api/frontend + Docker DB only" if needed.
 - **Env parity:** Dev Compose reuses same env vars as prod (e.g. `DATABASE_URL`, `NEXT_PUBLIC_API_URL`).
 
 ## Out of scope
