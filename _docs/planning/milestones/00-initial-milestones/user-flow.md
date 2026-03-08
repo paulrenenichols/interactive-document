@@ -119,5 +119,5 @@ This document should be updated if new entry points (e.g. password reset, invite
 
 ### Email signup flow
 
-- **Flow:** User submits register form → backend creates user and sends verification email → user sees “Check your email” (no immediate login). User opens email and clicks verification link (e.g. `/verify-email?token=...`) → backend marks email verified → redirect to login or auto-login. Until verified, optional: block login or show “Verify your email” message.
+- **Flow:** User submits register form → backend creates user and sends verification email → user sees "Check your email" (no immediate login). User opens email and clicks verification link (e.g. `/verify-email?token=...`) → backend marks email verified → redirect to login or auto-login. Until verified, optional: block login or show "Verify your email" message.
 - **Local development:** This flow requires sending real-looking email in dev. Local Docker Compose must include **Mailpit** so the API can send mail to it; developers use the Mailpit web UI to view the verification email and click the link. See [auth](auth.md) (Future work — Email signup flow) and [tech-stack](tech-stack.md) (Runtime / local email).

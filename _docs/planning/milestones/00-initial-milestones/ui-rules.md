@@ -1,6 +1,6 @@
 # UI rules — Interactive Presentation App
 
-Design principles and interaction guidelines for the application. Aligns with [project overview](../project-overview/overview.md), [user flow](user-flow.md), and [tech stack](tech-stack.md). Use these rules when building components and layouts.
+Design principles and interaction guidelines for the application. Aligns with [project overview](README.md), [user flow](user-flow.md), and [tech stack](tech-stack.md). Use these rules when building components and layouts.
 
 ---
 

@@ -1,6 +1,6 @@
 # Authentication and permissions — Interactive Presentation App
 
-How authentication works (registration, login, JWT) and how permissions control access to decks (view vs edit, public vs restricted). Aligns with [project overview](../project-overview/overview.md) and [user flow](user-flow.md).
+How authentication works (registration, login, JWT) and how permissions control access to decks (view vs edit, public vs restricted). Aligns with [project overview](README.md) and [user flow](user-flow.md).
 
 ---
 

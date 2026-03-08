@@ -1,6 +1,6 @@
 # Tech stack — Interactive Presentation App
 
-Core technologies, their roles, conventions, and limitations. Aligns with [project overview](../project-overview/overview.md), [user flow](user-flow.md), and [auth](auth.md).
+Core technologies, their roles, conventions, and limitations. Aligns with [project overview](README.md), [user flow](user-flow.md), and [auth](auth.md).
 
 ---
 

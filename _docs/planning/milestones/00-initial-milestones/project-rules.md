@@ -1,6 +1,6 @@
 # Project rules — Interactive Presentation App
 
-Directory structure, file naming, and code conventions for an AI-friendly, navigable codebase. Aligns with [project overview](../project-overview/overview.md), [user flow](user-flow.md), [auth](auth.md), [tech stack](tech-stack.md), [UI rules](ui-rules.md), and [theme rules](theme-rules.md).
+Directory structure, file naming, and code conventions for an AI-friendly, navigable codebase. Aligns with [project overview](README.md), [user flow](user-flow.md), [auth](auth.md), [tech stack](tech-stack.md), [UI rules](ui-rules.md), and [theme rules](theme-rules.md).
 
 ---
 
@@ -76,4 +76,4 @@ Directory structure, file naming, and code conventions for an AI-friendly, navig
 - Do not commit `.env` or secrets. Do commit `.env.example` with placeholder keys.
 - Do not exceed ~500 lines per file without splitting; do not leave large files undocumented.
 
-These rules should be reflected in [milestones](../milestones/) and phase plans so implementation stays consistent.
+These rules should be reflected in [milestones](../../../milestones/) and phase plans so implementation stays consistent.

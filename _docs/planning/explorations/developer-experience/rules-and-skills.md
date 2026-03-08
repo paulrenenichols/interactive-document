@@ -9,7 +9,7 @@ Look at processes described in `_docs/` and extract them into Cursor **rules** (
 - **Phase plan workflow** ([new-project-setup.md](../../setup/new-project-setup.md), [new-milestone-setup.md](../../setup/new-milestone-setup.md)): (1) Create and check out branch `<milestone>/<phase>`. (2) Execute tasks; add, commit, and push at logical checkpoints. (3) On phase completion: update project and per-app READMEs; add or update `_docs/progress/<milestone>/<phase>.md`. (4) On user approval: final pass on progress doc, then final commit and push.
 - **Exploration evaluation** ([explorations-evaluation.md](../../setup/explorations-evaluation.md)): Planning mode; read exploration folder; summarize scope, feasibility, risks, roadmap fit; optional next step = turn into milestone via new-milestone-setup.
 - **New milestone creation** ([new-milestone-setup.md](../../setup/new-milestone-setup.md)): Create `_docs/milestones/<NN>/` with `phases/` and `phase-plans/`; each phase plan includes branch step, checkpoints, README step, progress doc step, final step; ensure `_docs/progress/<NN>/` exists.
-- **Definition docs** (project-rules, ui-rules, theme-rules, tech-stack under `_docs/planning/milestones/00-initial-milestones/definition/`): Conventions for structure, naming, UI, theme. New-project-setup suggests “Agent Rules” at user level; repo-level rules/skills version and share this.
+- **Definition docs** (project-rules, ui-rules, theme-rules, tech-stack in `_docs/planning/milestones/00-initial-milestones/`): Conventions for structure, naming, UI, theme. New-project-setup suggests “Agent Rules” at user level; repo-level rules/skills version and share this.
 
 ## Proposed extraction
 

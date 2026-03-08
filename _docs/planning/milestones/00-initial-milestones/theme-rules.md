@@ -1,6 +1,6 @@
 # Theme rules — Interactive Presentation App
 
-Theming foundation: colors, typography, spacing, and tokens so the UI is consistent across editor, viewer, and auth. Aligns with [project overview](../project-overview/overview.md), [user flow](user-flow.md), [tech stack](tech-stack.md), and [UI rules](ui-rules.md).
+Theming foundation: colors, typography, spacing, and tokens so the UI is consistent across editor, viewer, and auth. Aligns with [project overview](README.md), [user flow](user-flow.md), [tech stack](tech-stack.md), and [UI rules](ui-rules.md).
 
 ---
 
