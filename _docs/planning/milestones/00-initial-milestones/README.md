@@ -19,7 +19,7 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
   Each slide is an ordered list of **blocks**. Blocks can be **text** (title, body, formatting) or **chart**. Users can place and arrange blocks (grid or position/size) to lay out text and charts on each slide.
 
 - **Data sets and charts**  
-  Users upload **CSV files** (e.g. from Excel); the backend parses and stores them as named **data sources**. Each **chart block** is associated with **one data set** (one data source). The user maps that data set’s columns to the chart (e.g. category axis, value axis, series). That association is stored and used in both edit and view modes. Charts are built with **Recharts**; **hover tooltips** show data from the underlying source (e.g. full row or configured columns).
+  Users upload **CSV files** (e.g. from Excel); the backend parses and stores them as named **data sources**. Each **chart block** is associated with **one data set** (one data source). The user maps that data set's columns to the chart (e.g. category axis, value axis, series). That association is stored and used in both edit and view modes. Charts are built with **Recharts**; **hover tooltips** show data from the underlying source (e.g. full row or configured columns).
 
 - **Edit mode**  
   Route: `edit/[...deckId]`. Requires authentication and **edit permission** for the deck. UI: slide list (e.g. sidebar), canvas for the current slide, **properties panel** for the selected block (text content or chart data source + column mapping). Add/remove/reorder slides and blocks; configure chart type and data binding per chart.
@@ -28,7 +28,7 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
   Route: `view/[deckId]`. One slide at a time, full-screen; navigation (next/prev, optional keyboard). Same slide/chart components as edit, read-only; charts remain interactive (e.g. hover tooltips). Access is controlled by **permissions**: public (anyone with link) or restricted (only allowed users/roles).
 
 - **Roles and permissions**  
-  - **Edit vs view**: Backend enforces “can edit deck” and “can view deck”. Only users with edit permission can open edit mode and mutate content.  
+  - **Edit vs view**: Backend enforces "can edit deck" and "can view deck". Only users with edit permission can open edit mode and mutate content.  
   - **View visibility**: **Public** — anyone with the view link can open; **Restricted** — only certain users or roles (e.g. allow-list or share token). Backend checks permission before returning deck/slides; 401/403 when not allowed.
 
 - **Tech choices**  
@@ -45,7 +45,7 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
 ## Architecture
 
 - **Monorepo (Nx)**  
-  Single repo with an Nx workspace at the root. **Workspace layout**: `apps/frontend` (Next.js), `apps/api` (Fastify); optional `libs/` for shared code (e.g. types, validation, chart config). **Nx’s role**: shared tooling, build caching, and affected commands for CI and local dev; dependency graph for app–lib boundaries. **Docker / runtime**: Docker Compose still runs the same services (frontend, api, db); image build targets the Nx app projects.
+  Single repo with an Nx workspace at the root. **Workspace layout**: `apps/frontend` (Next.js), `apps/api` (Fastify); optional `libs/` for shared code (e.g. types, validation, chart config). **Nx's role**: shared tooling, build caching, and affected commands for CI and local dev; dependency graph for app–lib boundaries. **Docker / runtime**: Docker Compose still runs the same services (frontend, api, db); image build targets the Nx app projects.
 
 - **Frontend (Next.js)**  
   All data comes from the Fastify API. TanStack Query handles GET (decks, slides, data sources, rows) and mutations (create/update/delete). Auth: login, store JWT, send `Authorization` header with API requests.
@@ -100,3 +100,14 @@ A browser-based application for creating and viewing PowerPoint-like presentatio
 - **Large CSVs**: Store parsed rows in Postgres (JSONB or normalized); for very large files, consider sampling or pagination when loading into charts.
 - **Chart types**: Start with bar and line; add pie/area as needed. Recharts supports these.
 - **Permissions**: Implement early (visibility, allow-list or tokens) so view routes can be public or restricted from the start.
+
+---
+
+## Planning docs
+
+- [auth.md](auth.md) — Authentication and permissions
+- [project-rules.md](project-rules.md) — Directory structure, file naming, code conventions
+- [theme-rules.md](theme-rules.md) — Theming: colors, typography, spacing
+- [ui-rules.md](ui-rules.md) — Design principles and interaction guidelines
+- [user-flow.md](user-flow.md) — User journey and navigation
+- [tech-stack.md](tech-stack.md) — Core technologies and conventions
