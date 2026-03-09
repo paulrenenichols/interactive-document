@@ -18,4 +18,4 @@ Summary of work done on branch `02-mvp/03-chart-pipeline` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/02-mvp/phase-plans/03-chart-pipeline.md](../../milestones/02-mvp/phase-plans/03-chart-pipeline.md).
+See [_docs/milestones/completed/02-mvp/phase-plans/03-chart-pipeline.md](../../../milestones/completed/02-mvp/phase-plans/03-chart-pipeline.md).

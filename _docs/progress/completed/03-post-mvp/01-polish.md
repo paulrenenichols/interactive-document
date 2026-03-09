@@ -17,7 +17,7 @@ Summary of work done on branch `03-post-mvp/01-polish` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/03-post-mvp/phase-plans/01-polish.md](../../milestones/03-post-mvp/phase-plans/01-polish.md).
+See [_docs/milestones/completed/03-post-mvp/phase-plans/01-polish.md](../../../milestones/completed/03-post-mvp/phase-plans/01-polish.md).
 
 ## Future work (deferred)
 

@@ -1,0 +1,21 @@
+# Milestones
+
+Milestones are organized into **completed**, **active**, and **future**. Only completed milestones use number prefixes.
+
+## Completed milestones
+
+- **[01-setup](completed/01-setup/)** — Barebones runnable structure: Nx workspace, Next.js frontend, Fastify API, Docker Compose, Postgres schema.
+- **[02-mvp](completed/02-mvp/)** — Auth and permissions, data layer, chart pipeline, slide editor, viewer.
+- **[03-post-mvp](completed/03-post-mvp/)** — Polish: additional chart types, testing guides.
+
+## Active milestones
+
+_None._
+
+## Future milestones
+
+_None._
+
+---
+
+**Run a phase:** Open the phase plan in `completed/<milestone>/phase-plans/<phase>.md` (or `active/` / `future/` when applicable).

@@ -1,10 +1,10 @@
 # Demo: SQL + charts
 
-Updated with the **scaffold-exploration** skill (v1.1.0). (Created with v1.0.0.)
+Updated with the **docs-driven-dev** skill (v1.0.0). (Previously: scaffold-exploration v1.1.0.)
 
 A static demo app (lives in `demo/sql-charts/`) that proves out **sql.js** in the browser, **caching data in a local SQLite DB** for offline-capable documents, and **charts driven by database data**—including the idea of **driving charts from user-written SQL** (e.g. type a query in a text box and render the result set as a chart). The demo is intentionally similar in spirit to the rep-counter / interactive-presentation plan (stats, charts, queryable data) but with no backend: everything runs in the browser against an in-memory or persisted sql.js database.
 
-Use [explorations-evaluation.md](../../setup/explorations-evaluation.md) to evaluate this exploration or turn it into a milestone.
+Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
 
 Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/README.md)). Supporting materials (screenshots, extra docs) are in [supporting-docs/](supporting-docs/) with a short index in [supporting-docs/README.md](supporting-docs/README.md).
 
