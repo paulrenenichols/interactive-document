@@ -1,0 +1,29 @@
+{
+  "workbook": {
+    "Summary": [
+      {
+        "chartType": "PieChart",
+        "series": [
+          {
+            "name": "Sales Stage",
+            "categories": [
+              "1 - Qualify",
+              "2 - Needs & Solutions",
+              "3 - Presentation",
+              "4 - Activate & Transition"
+            ],
+            "values": [
+              7.0,
+              23.0,
+              76.0,
+              1.0
+            ]
+          }
+        ],
+        "varyColors": true,
+        "firstSliceAng": 0.0,
+        "title": null
+      }
+    ]
+  }
+}
