@@ -24,4 +24,4 @@ Summary of work done on branch `01-setup/01-scaffold` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/01-setup/phase-plans/01-scaffold.md](../../milestones/01-setup/phase-plans/01-scaffold.md).
+See [_docs/milestones/completed/01-setup/phase-plans/01-scaffold.md](../../../milestones/completed/01-setup/phase-plans/01-scaffold.md).

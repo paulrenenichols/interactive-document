@@ -17,4 +17,4 @@ Summary of work done on branch `02-mvp/04-slide-editor` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/02-mvp/phase-plans/04-slide-editor.md](../../milestones/02-mvp/phase-plans/04-slide-editor.md).
+See [_docs/milestones/completed/02-mvp/phase-plans/04-slide-editor.md](../../../milestones/completed/02-mvp/phase-plans/04-slide-editor.md).

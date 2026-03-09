@@ -20,4 +20,4 @@ Summary of work done on branch `02-mvp/01-auth-permissions` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/02-mvp/phase-plans/01-auth-permissions.md](../../milestones/02-mvp/phase-plans/01-auth-permissions.md).
+See [_docs/milestones/completed/02-mvp/phase-plans/01-auth-permissions.md](../../../milestones/completed/02-mvp/phase-plans/01-auth-permissions.md).

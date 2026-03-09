@@ -20,4 +20,4 @@ Summary of work done on branch `02-mvp/02-data-layer` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/02-mvp/phase-plans/02-data-layer.md](../../milestones/02-mvp/phase-plans/02-data-layer.md).
+See [_docs/milestones/completed/02-mvp/phase-plans/02-data-layer.md](../../../milestones/completed/02-mvp/phase-plans/02-data-layer.md).

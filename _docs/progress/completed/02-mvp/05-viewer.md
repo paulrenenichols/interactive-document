@@ -17,4 +17,4 @@ Summary of work done on branch `02-mvp/05-viewer` (from commits).
 
 ## Phase plan
 
-See [_docs/milestones/02-mvp/phase-plans/05-viewer.md](../../milestones/02-mvp/phase-plans/05-viewer.md).
+See [_docs/milestones/completed/02-mvp/phase-plans/05-viewer.md](../../../milestones/completed/02-mvp/phase-plans/05-viewer.md).
