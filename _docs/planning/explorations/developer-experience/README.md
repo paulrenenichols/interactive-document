@@ -6,6 +6,8 @@ This exploration collects ideas to improve **local development** for this projec
 
 Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
 
+**Milestone:** This exploration was turned into the [developer-experience](../../../milestones/future/developer-experience/) milestone (future).
+
 Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/README.md)). Supporting materials (screenshots, extra docs) are in [supporting-docs/](supporting-docs/) with a short index in [supporting-docs/README.md](supporting-docs/README.md).
 
 ---
