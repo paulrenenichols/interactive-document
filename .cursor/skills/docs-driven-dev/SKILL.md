@@ -69,7 +69,7 @@ Ask user about branch (current vs new from main) per scaffold-exploration patter
 3. Copy setup files from this skill's `setup/` to `_docs/planning/setup/`: `project-lifecycle.md`, `milestone-lifecycle.md`, `exploration-lifecycle.md`
 4. Add `Created with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md` (read version from this SKILL.md frontmatter)
 5. **Embed skill:** Copy this skill folder to project `.cursor/skills/docs-driven-dev/`
-6. **Project README:** Add or update project root `README.md` with the "Docs-driven development" section from `templates/readme-docs-section.md`
+6. **Project README:** Add or update project root `README.md` with the full "Docs-driven development" section from `templates/readme-docs-section.md` (including the **How to use the skill** subsection with trigger phrases and steps)
 7. Run discussion → draft 00-initial-milestones README → run project-lifecycle flow from `_docs/planning/setup/project-lifecycle.md`
 8. Milestones go in `milestones/future/` with no number prefix until completed. Create `milestones/README.md` with Completed / Active / Future sections.
 9. Commit with message "chore: add docs-driven-dev _docs structure" (if git)
@@ -84,7 +84,7 @@ Ask user about branch (current vs new from main) per scaffold-exploration patter
 4. Create `_docs/planning/milestones/00-initial-milestones/` with **inferred docs**: README.md (project overview from codebase), definition docs (user-flow, auth, tech-stack, ui-rules, theme-rules, project-rules). If something is missing (e.g. no auth), leave it out. If project has non-standard aspects, create appropriately named docs.
 5. Create empty `milestones/` and `progress/` (completed/, active/, future/ subfolders). No milestone content — user adds later via project-lifecycle.
 6. **Embed skill:** Copy to `.cursor/skills/docs-driven-dev/`
-7. **Project README:** Add or update project root `README.md` with "Docs-driven development" section
+7. **Project README:** Add or update project root `README.md` with the full "Docs-driven development" section from `templates/readme-docs-section.md` (including **How to use the skill**)
 8. Add `Converted with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md`
 9. Commit (if git)
 
@@ -101,7 +101,7 @@ Ask user about branch (current vs new from main) per scaffold-exploration patter
 7. Update exploration READMEs to current standards
 8. Preserve prior attribution in parentheses where useful
 9. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
-10. **Project README:** Add or update "Docs-driven development" section
+10. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
 11. Commit (if git)
 
 ---
