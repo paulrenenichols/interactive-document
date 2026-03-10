@@ -1,6 +1,8 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import multipart from "@fastify/multipart";
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
 import { authRoutes } from "./auth/routes.js";
 import { deckRoutes } from "./decks/routes.js";
 import { dataSourceRoutes } from "./data-sources/routes.js";
@@ -45,6 +47,37 @@ async function start() {
       allowedHeaders: corsAllowedHeaders,
     });
     await fastify.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB
+
+    // OpenAPI/Swagger documentation
+    await fastify.register(swagger, {
+      openapi: {
+        info: {
+          title: "Interactive Document API",
+          description: "API for creating and viewing interactive presentations with charts",
+          version: "1.0.0",
+        },
+        servers: [
+          { url: `http://localhost:${PORT}`, description: "Local development" },
+        ],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
+        },
+      },
+    });
+    await fastify.register(swaggerUi, {
+      routePrefix: "/docs",
+      uiConfig: {
+        docExpansion: "list",
+        deepLinking: true,
+      },
+    });
+
     await fastify.register(authRoutes);
     await fastify.register(deckRoutes);
     await fastify.register(dataSourceRoutes);
