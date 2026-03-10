@@ -37,6 +37,8 @@ services:
       PORT: "3000"
       # Required when NODE_ENV=production (e.g. in Docker). Comma-separated allowed frontend origins.
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      # Log level: error, warn, info, debug. Default: info.
+      LOG_LEVEL: ${LOG_LEVEL:-info}
     depends_on:
       migrations:
         condition: service_completed_successfully
