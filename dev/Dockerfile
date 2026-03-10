@@ -9,4 +9,4 @@ RUN pnpm install --frozen-lockfile
 # Copy config files needed at runtime
 COPY nx.json tsconfig*.json ./
 COPY apps/api/project.json apps/api/tsconfig*.json ./apps/api/
-COPY apps/frontend/project.json apps/frontend/tsconfig.json apps/frontend/next.config.mjs ./apps/frontend/
+COPY apps/frontend/project.json apps/frontend/package.json apps/frontend/tsconfig.json apps/frontend/next.config.mjs ./apps/frontend/
