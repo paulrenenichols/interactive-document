@@ -47,7 +47,7 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ## 7. Progress documentation
 
-- Add or update `_docs/progress/future/developer-experience/04-rules-and-skills.md` with a short summary of work done. Optionally link to this phase plan.
+- Add or update `_docs/progress/active/developer-experience/04-rules-and-skills.md` with a short summary of work done. Optionally link to this phase plan.
 
 ---
 
