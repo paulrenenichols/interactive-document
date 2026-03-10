@@ -10,6 +10,7 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
   - `JWT_SECRET` — Secret for signing JWTs (required for auth).
   - `PORT` — Server port (default 3000).
   - `CORS_ORIGINS` — (Production only.) Comma-separated list of allowed frontend origins. Leave unset for local dev.
+  - `LOG_LEVEL` — Log verbosity: `error`, `warn`, `info` (default), `debug`. Set to `debug` for verbose logging in dev.
 
 ## Commands
 
@@ -22,6 +23,13 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
 - **Run migrations:** from repo root, set `DATABASE_URL` then run:
   - `pnpm run migrate`
   - Or run each migration manually: `psql $DATABASE_URL -f apps/api/migrations/001_initial.sql`, etc.
+
+## API Documentation
+
+Interactive API docs (Swagger UI) are available at `/docs` when the server is running. The OpenAPI spec is auto-generated from route definitions.
+
+- **Local:** http://localhost:3001/docs (when running via Docker)
+- **Dev:** http://localhost:3000/docs (when running directly)
 
 ## Routes
 
