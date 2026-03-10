@@ -1,0 +1,29 @@
+# Dev override: mount source, run dev servers with live reload.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dev/Dockerfile
+    volumes:
+      - ./apps/api/src:/app/apps/api/src:cached
+      - ./apps/api/migrations:/app/apps/api/migrations:cached
+      - ./scripts:/app/scripts:cached
+    environment:
+      NODE_ENV: development
+    command: ["pnpm", "exec", "tsx", "watch", "apps/api/src/main.ts"]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: dev/Dockerfile
+    volumes:
+      - ./apps/frontend/app:/app/apps/frontend/app:cached
+      - ./apps/frontend/public:/app/apps/frontend/public:cached
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      # Next.js needs WATCHPACK_POLLING in Docker for file watching
+      WATCHPACK_POLLING: "true"
+    command: ["pnpm", "exec", "next", "dev", "--hostname", "0.0.0.0"]
+    working_dir: /app/apps/frontend
