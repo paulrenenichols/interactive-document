@@ -2,6 +2,8 @@
 
 A Cursor skill for docs-driven development: planning, milestones, explorations, and documentation workflows.
 
+**Current version:** 1.1.0
+
 ## What it does
 
 - **Setup docs** — Create _docs in an empty folder (planning, milestones, progress, setup)
