@@ -81,3 +81,17 @@ try {
 } finally {
   await client.end();
 }
+
+// Run seed if RUN_SEED=true (dev only)
+if (process.env.RUN_SEED === 'true') {
+  console.log('\nRUN_SEED=true, running seed script...');
+  const { spawn } = await import('child_process');
+  const seedPath = join(__dirname, 'seed.mjs');
+  const child = spawn('node', [seedPath], {
+    stdio: 'inherit',
+    env: process.env,
+  });
+  child.on('close', (code) => {
+    process.exit(code ?? 0);
+  });
+}

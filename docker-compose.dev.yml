@@ -1,6 +1,10 @@
 # Dev override: mount source, run dev servers with live reload.
 # Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 services:
+  migrations:
+    environment:
+      RUN_SEED: "true"
+
   adminer:
     image: adminer:4
     ports:
