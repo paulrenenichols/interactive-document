@@ -12,7 +12,7 @@
     "migrate": "node scripts/run-migrations.mjs",
     "start": "docker compose up -d",
     "stop": "docker compose down",
-    "dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build"
+    "dev": "docker compose -f docker-compose.dev.yml up --build"
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
