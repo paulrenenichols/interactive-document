@@ -34,12 +34,12 @@ Milestones live under `_docs/milestones/` in one of three folders:
      - **First step:** Create and check out branch `<milestone>/<phase>` (e.g. `developer-experience/01-infra`).
      - **During:** Add, commit, push at logical points.
      - **README step:** Add/update project-root and per-app READMEs on completion.
-     - **Progress doc:** Add/update `_docs/progress/future/<milestone>/<phase>.md` (path updates when milestone moves to active/completed).
+     - **Progress doc:** Add/update `_docs/progress/<milestone>/<phase>.md`.
      - **Final step:** On user approval, add, commit, push final changes.
    - **Pause for review.**
 
 4. **Progress folder**
-   - Ensure `_docs/progress/future/<name>/` exists.
+   - Ensure `_docs/progress/<name>/` exists with README.md.
 
 5. **Update milestones/README.md**
    - Add the new milestone to the Future milestones section with summary and link.
