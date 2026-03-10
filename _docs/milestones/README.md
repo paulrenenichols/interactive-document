@@ -10,11 +10,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 
 ## Active milestones
 
-_None._
+- **[developer-experience](active/developer-experience/)** — Dev Docker with live reload, DB UI, seed data; API docs and log level; Storybook; Cursor rules and skills.
 
 ## Future milestones
 
-- **[developer-experience](future/developer-experience/)** — Dev Docker with live reload, DB UI, seed data; API docs and log level; Storybook; Cursor rules and skills.
+_None._
 
 ---
 

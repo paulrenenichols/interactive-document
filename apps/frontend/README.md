@@ -33,4 +33,5 @@ To test the chart pipeline (bar chart with custom tooltip, wired to API data; ed
 
 ## Docker
 
-- From repo root: `pnpm start` runs the full stack. Frontend at http://localhost:3000, API at http://localhost:3001.
+- **Production:** From repo root: `pnpm start` runs the full stack. Frontend at http://localhost:3000, API at http://localhost:3001.
+- **Dev mode:** `pnpm dev` from repo root. Frontend runs `next dev` with hot reload; no image rebuild needed on code changes. Database is seeded with sample data (demo credentials: `demo@example.com` / `demo1234`).

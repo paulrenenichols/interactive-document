@@ -17,12 +17,30 @@ Create and view presentations with interactive charts. Monorepo: Next.js fronten
 3. **API:** In `apps/api` create `.env` with `DATABASE_URL`, `JWT_SECRET`, and optional `PORT`. From root: `pnpm run serve:api` (default port 3000).
 4. **Frontend:** In `apps/frontend` create `.env.local` with `NEXT_PUBLIC_API_URL=http://localhost:3000`. From root: `pnpm run serve:frontend` (default port 3000; may conflict with API — use different port or run API on another port).
 
-### Docker
+### Docker (production build)
 
 - **Start stack:** `pnpm start` (or `docker compose up -d`). Frontend: http://localhost:3000, API: http://localhost:3001.
 - **Stop:** `pnpm stop` (or `docker compose down`).
 
 Set `JWT_SECRET` for the API (e.g. in `docker-compose.yml` or env file) for auth to work.
+
+### Docker (dev mode with live reload)
+
+Run the full stack in Docker with live reload — code changes apply without rebuilding images.
+
+```sh
+pnpm dev
+```
+
+This starts:
+- **Frontend:** http://localhost:3000 (Next.js dev server with hot reload)
+- **API:** http://localhost:3001 (tsx watch mode)
+- **DB UI:** http://localhost:8080 (Adminer — browse Postgres, run queries)
+- **Database:** PostgreSQL with migrations and seed data
+
+**Demo credentials:** `demo@example.com` / `demo1234`
+
+The dev stack automatically seeds the database with sample users, decks, slides, and data sources.
 
 ## Links
 

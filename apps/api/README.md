@@ -56,4 +56,5 @@ Protected routes return 401 on missing/invalid JWT; 403 when authenticated but w
 
 ## Docker
 
-- From repo root: `pnpm start` runs the full stack. API uses `DATABASE_URL` from Compose; set `JWT_SECRET` for auth.
+- **Production:** From repo root: `pnpm start` runs the full stack. API uses `DATABASE_URL` from Compose; set `JWT_SECRET` for auth.
+- **Dev mode:** `pnpm dev` from repo root. API runs with `tsx watch` for live reload; no image rebuild needed on code changes. Database is seeded with sample data automatically.
