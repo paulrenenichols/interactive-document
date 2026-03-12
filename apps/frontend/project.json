@@ -29,18 +29,16 @@
       }
     },
     "storybook": {
-      "executor": "@nx/storybook:storybook",
+      "executor": "nx:run-commands",
       "options": {
-        "port": 6006,
-        "configDir": "apps/frontend/.storybook"
+        "command": "storybook dev -p 6006 --config-dir apps/frontend/.storybook"
       }
     },
     "build-storybook": {
-      "executor": "@nx/storybook:build",
-      "outputs": ["{options.outputDir}"],
+      "executor": "nx:run-commands",
+      "outputs": ["dist/storybook/frontend"],
       "options": {
-        "outputDir": "dist/storybook/frontend",
-        "configDir": "apps/frontend/.storybook"
+        "command": "storybook build --config-dir apps/frontend/.storybook -o dist/storybook/frontend"
       }
     }
   },
