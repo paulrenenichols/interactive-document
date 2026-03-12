@@ -1,12 +1,12 @@
 # Developer experience
 
-Updated with the **docs-driven-dev** skill (v1.0.0). (Previously: scaffold-exploration v1.1.0.)
+Updated with the **docs-driven-dev** skill (v1.2.0). (Previously: v1.0.0)
 
 This exploration collects ideas to improve **local development** for this project: faster feedback (e.g. live reload in Docker), better tooling (API docs, DB UI, Storybook), and clearer process (rules and skills for the agent).
 
-Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
+Use [exploration-lifecycle.md](../../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
 
-**Milestone:** This exploration was turned into the [developer-experience](../../../milestones/future/developer-experience/) milestone (future).
+**Milestone:** This exploration was turned into the [developer-experience](../../../../milestones/active/developer-experience/) milestone (active).
 
 Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/README.md)). Supporting materials (screenshots, extra docs) are in [supporting-docs/](supporting-docs/) with a short index in [supporting-docs/README.md](supporting-docs/README.md).
 

@@ -1,6 +1,6 @@
 ---
 name: docs-driven-dev
-version: "1.1.0"
+version: "1.2.0"
 description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
 ---
 
@@ -35,7 +35,7 @@ When the user asks "what can you do?", "help", "what capabilities", or similar, 
 - **Upgrade docs** — Update an existing docs project to the current skill version and structure
 - **Create exploration** — New exploration folder with feature-sets and supporting-docs
 - **Update exploration** — Update an existing exploration (add feature sets, align to standards)
-- **Create milestone from exploration** — Turn an exploration into a milestone in `milestones/future/`
+- **Create milestone from exploration** — Turn an exploration into a milestone in `milestones/future/` and move the exploration to `explorations/completed/`
 - **Make milestone active** — Move a future milestone to `active/` and verify phases/phase-plans
 - **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix
 
@@ -80,7 +80,7 @@ Do NOT automatically continue to the next phase. The user must explicitly reques
 ## 1. Setup docs (empty folder)
 
 1. Check git; ask about branch. Create branch `docs/setup` from main if user wants new branch.
-2. Create `_docs/` structure: `README.md`, `planning/setup/`, `planning/milestones/00-initial-milestones/`, `planning/explorations/`, `milestones/completed/`, `milestones/active/`, `milestones/future/`, `progress/`, `progress/miscellaneous/`
+2. Create `_docs/` structure: `README.md`, `planning/setup/`, `planning/milestones/00-initial-milestones/`, `planning/explorations/`, `planning/explorations/completed/`, `milestones/completed/`, `milestones/active/`, `milestones/future/`, `progress/`, `progress/miscellaneous/`
 3. Copy setup files from this skill's `setup/` to `_docs/planning/setup/`: `project-lifecycle.md`, `milestone-lifecycle.md`, `exploration-lifecycle.md`
 4. Add `Created with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md` (read version from this SKILL.md frontmatter)
 5. **Embed skill:** Copy this skill folder to project `.cursor/skills/docs-driven-dev/`
@@ -119,11 +119,12 @@ Do NOT automatically continue to the next phase. The user must explicitly reques
 5. Align milestones structure: ensure `milestones/` has `completed/`, `active/`, `future/`
 6. Ensure `milestones/README.md` has Completed / Active / Future sections
 7. Ensure setup files match skill's canonical copies
-8. Update exploration READMEs to current standards
-9. Preserve prior attribution in parentheses where useful
-10. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
-11. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
-12. Commit (if git)
+8. Ensure `_docs/planning/explorations/completed/` exists
+9. Update exploration READMEs to current standards
+10. Preserve prior attribution in parentheses where useful
+11. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
+12. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
+13. Commit (if git)
 
 ---
 
@@ -144,7 +145,8 @@ Follow scaffold-exploration update flow. Branch: `explore/update/<name>`. Use do
 1. Run evaluation per `exploration-lifecycle.md`
 2. Follow `milestone-lifecycle.md` to create milestone in `_docs/milestones/future/<name>/` (no number prefix)
 3. Create `_docs/progress/<name>/` folder with README.md
-4. Branch: `milestone/create/<name>`
+4. Move the exploration from `_docs/planning/explorations/<name>/` to `_docs/planning/explorations/completed/<name>/` (create `completed/` if it doesn't exist). Update any relative links in the moved exploration's READMEs that pointed to `../../setup/` (now `../../../setup/`).
+5. Branch: `milestone/create/<name>`
 
 ---
 
