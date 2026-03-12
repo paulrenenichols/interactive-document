@@ -10,7 +10,7 @@ Bring Tailwind CSS v4 into the frontend and Storybook using the CSS-first `@them
 
 ### Material Design component library
 
-Custom full-catalog M3 component library built with Tailwind in `apps/frontend/components/material-ui/`. See [material-design-component-library.md](material-design-component-library.md).
+Custom M3 component library targeting MUI feature parity (~57 core components) built with Tailwind in `libs/material-ui/` as a publishable Nx library with dedicated Storybook. See [material-design-component-library.md](material-design-component-library.md).
 
 ### Theming and color system
 

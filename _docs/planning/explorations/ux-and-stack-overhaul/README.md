@@ -1,6 +1,6 @@
 # UX and stack overhaul
 
-Created with the **docs-driven-dev** skill (v1.2.0).
+Updated with the **docs-driven-dev** skill (v1.2.0). (Previously: Created v1.2.0)
 
 A comprehensive exploration of modernizing the frontend stack and editor UX. Covers styling infrastructure (Tailwind 4, custom Material Design component library, dark/light theming), a layered data architecture (TanStack Query + zustand + zod + sql.js), and a WYSIWYG deck editor inspired by Google Slides.
 
@@ -20,7 +20,7 @@ See [tailwind-4-integration.md](feature-sets/tailwind-4-integration.md) for deta
 
 ## Material Design component library
 
-Build a custom, full-catalog component library in `apps/frontend/components/material-ui/` using Tailwind, following Material Design 3 (M3) principles. Covers core inputs, navigation, containment, layout, data display, and feedback components with M3 design tokens (elevation, shape, typography, motion).
+Build a custom component library targeting MUI feature parity (~57 core components + 4 deferrable) in `libs/material-ui/` as a publishable Nx library with its own dedicated Storybook. Uses Tailwind following Material Design 3 (M3) principles. Designed for ejection to a standalone repo and npm package.
 
 See [material-design-component-library.md](feature-sets/material-design-component-library.md) for details.
 
