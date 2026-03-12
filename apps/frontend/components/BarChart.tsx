@@ -159,14 +159,13 @@ export function BarChart({ data, config, width = '100%', height = 300 }: BarChar
           tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
           tickLine={{ stroke: 'var(--border-default)' }}
           axisLine={{ stroke: 'var(--border-default)' }}
-          label={{ value: config.categoryKey, position: 'insideBottom', offset: -4, fill: 'var(--text-secondary)', fontSize: 11 }}
         />
         <YAxis
           stroke="var(--text-secondary)"
           tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
           tickLine={{ stroke: 'var(--border-default)' }}
           axisLine={{ stroke: 'var(--border-default)' }}
-          label={{ value: config.valueKey, angle: -90, position: 'insideLeft', fill: 'var(--text-secondary)', fontSize: 11 }}
+          tickFormatter={(v: number) => v.toLocaleString()}
         />
         <Tooltip
           content={
