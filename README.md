@@ -47,6 +47,7 @@ The dev stack automatically seeds the database with sample users, decks, slides,
 - [API README](apps/api/README.md) — setup, routes, migrations
 - [Frontend README](apps/frontend/README.md) — setup, run, structure
 - **API Docs:** http://localhost:3001/docs (Swagger UI, available when running)
+- **Storybook:** `pnpm storybook` — component development at http://localhost:6006
 
 ## Docs-driven development
 

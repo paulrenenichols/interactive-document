@@ -114,7 +114,7 @@ export function PieChart({ data, config, width = '100%', height = 300 }: PieChar
           cy="50%"
           outerRadius="70%"
           label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-          labelLine={{ stroke: 'var(--border-default)' }}
+          labelLine={{ stroke: 'var(--text-secondary)' }}
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color ?? CHART_COLORS[index % CHART_COLORS.length]} />
