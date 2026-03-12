@@ -1,5 +1,4 @@
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 
 import type { StorybookConfig } from '@storybook/nextjs';
 
@@ -16,7 +15,7 @@ const config: StorybookConfig = {
 };
 
 function getAbsolutePath(value: string): string {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+  return dirname(require.resolve(join(value, 'package.json')));
 }
 
 export default config;
