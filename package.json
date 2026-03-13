@@ -14,7 +14,7 @@
     "stop": "docker compose down",
     "dev": "docker compose -f docker-compose.dev.yml up --build",
     "storybook": "nx storybook frontend",
-    "lint": "nx run-many -t lint",
+    "lint": "nx run-many -t lint --projects=api,frontend",
     "test": "nx run-many -t test --projects=api,frontend"
   },
   "dependencies": {
