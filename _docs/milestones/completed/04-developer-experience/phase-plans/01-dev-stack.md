@@ -42,10 +42,10 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ## 6. Progress documentation
 
-- Add or update `_docs/progress/active/developer-experience/01-dev-stack.md` with a short summary of work done (deliverables and key changes). Optionally link to this phase plan.
+- Add or update `_docs/progress/developer-experience/01-dev-stack.md` with a short summary of work done (deliverables and key changes). Optionally link to this phase plan.
 
 ---
 
 ## 7. Final step (on user approval)
 
-- When the user confirms the phase is complete: final pass on `_docs/progress/active/developer-experience/01-dev-stack.md`. Add any remaining changes, commit, and push (e.g. "chore(developer-experience): complete 01-dev-stack phase"), including the progress doc.
+- When the user confirms the phase is complete: final pass on `_docs/progress/developer-experience/01-dev-stack.md`. Add any remaining changes, commit, and push (e.g. "chore(developer-experience): complete 01-dev-stack phase"), including the progress doc.
