@@ -80,7 +80,7 @@ jobs:
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/storybook/frontend
+          path: apps/frontend/storybook-static
 
       - id: deployment
         name: Deploy to GitHub Pages
