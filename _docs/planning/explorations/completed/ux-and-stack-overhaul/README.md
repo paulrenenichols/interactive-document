@@ -4,7 +4,7 @@ Updated with the **docs-driven-dev** skill (v1.2.0). (Previously: Created v1.2.0
 
 A comprehensive exploration of modernizing the frontend stack and editor UX. Covers styling infrastructure (Tailwind 4, custom Material Design component library, dark/light theming), a layered data architecture (TanStack Query + zustand + zod + sql.js), and a WYSIWYG deck editor inspired by Google Slides.
 
-Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
+Use [exploration-lifecycle.md](../../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
 
 ## Structure
 

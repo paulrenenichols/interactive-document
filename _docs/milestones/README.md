@@ -14,7 +14,7 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 
 ## Future milestones
 
-_None._
+- **[ux-and-stack-overhaul](future/ux-and-stack-overhaul/)** — Lint/test/CI, Tailwind 4 and theming, Material component library, data layers (zod/zustand/sql.js), WYSIWYG deck editor and Google Slides–inspired UX.
 
 ---
 
