@@ -62,7 +62,7 @@ export default function EditDeckPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { data: deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
+  const { data: _deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
   const { data: slidesData, isLoading: slidesLoading } = useSlides(deckId);
   const createSlide = useCreateSlide(deckId ?? '');
   const deleteSlide = useDeleteSlide(deckId ?? '');

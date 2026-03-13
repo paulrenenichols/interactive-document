@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import Papa from 'papaparse';
 import { getPool } from '../db.js';
-import { canEditDeck, canEditDataSource, canViewDataSource } from '../permissions.js';
+import { canEditDeck, canViewDataSource } from '../permissions.js';
 import { jwtVerify, jwtOptional } from '../auth/jwtMiddleware.js';
 
 type ParamsWithDataSourceId = { dataSourceId?: string };

@@ -28,7 +28,7 @@ function BarChartTooltip({
   active,
   payload,
   label,
-  dataKey,
+  dataKey: _dataKey,
   showRowData = true,
   rowDataKeys,
 }: BarChartTooltipProps) {

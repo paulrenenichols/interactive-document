@@ -4,6 +4,12 @@
   "sourceRoot": "apps/frontend",
   "projectType": "application",
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx}"]
+      }
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
