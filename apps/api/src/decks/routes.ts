@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { getPool } from '../db.js';
 import { canEditDeck, canViewDeck } from '../permissions.js';
 import { jwtVerify, jwtOptional } from '../auth/jwtMiddleware.js';

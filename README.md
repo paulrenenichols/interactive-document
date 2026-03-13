@@ -42,6 +42,13 @@ This starts:
 
 The dev stack automatically seeds the database with sample users, decks, slides, and data sources.
 
+## Lint, tests, and CI
+
+- **Lint (workspace):** `pnpm lint` → `nx run-many -t lint` (runs ESLint for `api` and `frontend`, including React/JSX rules in `apps/frontend`).
+- **Tests (workspace):** `pnpm test` → `nx run-many -t test --projects=api,frontend` (Vitest for both apps; jsdom + React Testing Library in `frontend`).
+- **CI:** GitHub Actions workflow at `.github/workflows/ci.yml` runs `lint`, `test`, and `build` on pushes and PRs to `main`.
+- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and deploys it to GitHub Pages (configure Pages in the repo settings to use this workflow).
+
 ## Links
 
 - [API README](apps/api/README.md) — setup, routes, migrations
