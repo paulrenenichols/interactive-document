@@ -16,6 +16,8 @@ Fastify JSON API for the Interactive Presentation app. Handles auth (JWT), decks
 
 - **Build:** `nx build api` (or `pnpm run build:api` from root). Output: `apps/api/dist/`.
 - **Run:** `nx serve api` (or `pnpm run serve:api` from root). Ensure DB is up and migrations are run.
+- **Lint:** `pnpm lint` (workspace) or `nx run api:lint`.
+- **Tests:** `pnpm test` (workspace) or `nx run api:test` (Vitest).
 
 ## Migrations
 
