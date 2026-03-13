@@ -43,3 +43,17 @@ Canvas-based editor with drag-and-drop, resize, multi-select, snap-to-grid, and 
 ### Google Slides-inspired UX
 
 UX patterns borrowed from Google Slides: three-panel layout, slide thumbnails, canvas interactions, keyboard shortcuts, presenter view. See [google-slides-ux.md](google-slides-ux.md).
+
+## Quality and CI
+
+### Lint (ESLint)
+
+ESLint for API, frontend, and material-ui with a root `lint` script. See [lint-eslint.md](lint-eslint.md).
+
+### Unit testing (Vitest)
+
+Vitest for API, frontend, and material-ui; root `test` script. See [unit-testing-vitest.md](unit-testing-vitest.md).
+
+### CI and PR gates (GitHub Actions)
+
+Lint, test, build, and Storybook deploy to GitHub Pages; branch protection and review of existing main restrictions. See [ci-and-pr-gates.md](ci-and-pr-gates.md).
