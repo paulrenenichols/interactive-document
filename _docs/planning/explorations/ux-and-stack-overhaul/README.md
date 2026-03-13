@@ -1,6 +1,6 @@
 # UX and stack overhaul
 
-Updated with the **docs-driven-dev** skill (v1.2.0). (Previously: Created v1.2.0)
+Updated with the **docs-driven-dev** skill (v1.2.0). (Previously: Created v1.2.0, updated v1.2.0)
 
 A comprehensive exploration of modernizing the frontend stack and editor UX. Covers styling infrastructure (Tailwind 4, custom Material Design component library, dark/light theming), a layered data architecture (TanStack Query + zustand + zod + sql.js), and a WYSIWYG deck editor inspired by Google Slides.
 
@@ -65,3 +65,21 @@ See [wysiwyg-deck-editor.md](feature-sets/wysiwyg-deck-editor.md) for details.
 Adopt UX patterns from Google Slides where they make sense: three-panel layout, slide thumbnails with drag reorder, canvas interactions, keyboard shortcuts, and presenter view. Documents what to match and what to intentionally skip.
 
 See [google-slides-ux.md](feature-sets/google-slides-ux.md) for details.
+
+## Lint (ESLint)
+
+Add ESLint to the workspace so API, frontend, and material-ui can be linted. Single lint target per project and a root `lint` script for CI and local use.
+
+See [lint-eslint.md](feature-sets/lint-eslint.md) for details.
+
+## Unit testing (Vitest)
+
+Unit tests for the API, frontend, and Material UI library using Vitest as the single test runner. Root `test` script runs all project tests. React Testing Library for component tests where needed.
+
+See [unit-testing-vitest.md](feature-sets/unit-testing-vitest.md) for details.
+
+## CI and PR gates (GitHub Actions)
+
+GitHub Actions run lint, test, and build for API, frontend, and material-ui; build and deploy Storybook to GitHub Pages. Failed checks block merges to `main`. Covers branch protection, required status checks, and reviewing existing main restrictions so CI and deploy work correctly.
+
+See [ci-and-pr-gates.md](feature-sets/ci-and-pr-gates.md) for details.
