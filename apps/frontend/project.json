@@ -7,7 +7,11 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx}"]
+        "lintFilePatterns": [
+          "apps/frontend/app/**/*.{ts,tsx}",
+          "apps/frontend/components/**/*.{ts,tsx}",
+          "apps/frontend/lib/**/*.{ts,tsx}"
+        ]
       }
     },
     "test": {

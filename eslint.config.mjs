@@ -17,7 +17,14 @@ export default [
     },
   },
   {
-    files: ["apps/frontend/**/*.ts", "apps/frontend/**/*.tsx"],
+    files: [
+      "apps/frontend/app/**/*.ts",
+      "apps/frontend/app/**/*.tsx",
+      "apps/frontend/components/**/*.ts",
+      "apps/frontend/components/**/*.tsx",
+      "apps/frontend/lib/**/*.ts",
+      "apps/frontend/lib/**/*.tsx",
+    ],
     plugins: { react: reactPlugin },
     languageOptions: {
       parserOptions: {
