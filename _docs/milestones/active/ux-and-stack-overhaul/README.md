@@ -1,4 +1,4 @@
-# UX and stack overhaul (future)
+# UX and stack overhaul (active)
 
 Modernize the frontend stack and editor UX: quality tooling (lint, test, CI), styling (Tailwind 4, theming, Material component library), layered data architecture (TanStack Query, zustand, zod, sql.js), and a WYSIWYG deck editor with Google Slides–inspired UX.
 
