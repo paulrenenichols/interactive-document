@@ -21,6 +21,8 @@
   --color-accent-primary-hover: #0052a3;
   --color-accent-primary-active: #003d7a;
   --color-accent-destructive: #cc3333;
+  /* Overlay (backdrop) */
+  --color-overlay: rgba(0, 0, 0, 0.5);
   /* Status */
   --color-success: #16a34a;
   --color-warning: #ca8a04;
@@ -33,6 +35,13 @@
   --radius-large: 16px;
   --radius-extra-large: 28px;
   --radius-full: 9999px;
+  /* Motion (MUI-consistent: enter 225ms, exit 195ms) */
+  --duration-short: 150ms;
+  --duration-standard: 225ms;
+  --duration-leave: 195ms;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :root {
@@ -47,6 +56,7 @@
   --accent-primary-hover: #0052a3;
   --accent-primary-active: #003d7a;
   --accent-destructive: #cc3333;
+  --overlay: rgba(0, 0, 0, 0.5);
   --success: #16a34a;
   --warning: #ca8a04;
   --error: #dc2626;
@@ -64,6 +74,7 @@
   --accent-primary-hover: #2563eb;
   --accent-primary-active: #1d4ed8;
   --accent-destructive: #ef4444;
+  --overlay: rgba(0, 0, 0, 0.6);
   --success: #4ade80;
   --warning: #facc15;
   --error: #f87171;

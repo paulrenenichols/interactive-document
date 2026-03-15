@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import '../src/theme.css';
 
 function ThemeDecorator(
@@ -13,7 +13,8 @@ function ThemeDecorator(
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  useEffect(() => {
+  // Apply .dark on document root before first paint so Tailwind dark: and CSS vars apply
+  useLayoutEffect(() => {
     const root = document.documentElement;
     if (isDark) {
       root.classList.add('dark');
@@ -23,8 +24,13 @@ function ThemeDecorator(
     return () => root.classList.remove('dark');
   }, [isDark]);
 
+  // Wrapper with .dark ensures theme applies to story canvas; key forces re-render on theme change
   return (
-    <div className={isDark ? 'dark' : ''} style={{ minHeight: '100vh' }}>
+    <div
+      key={isDark ? 'dark' : 'light'}
+      className={isDark ? 'dark' : ''}
+      style={{ minHeight: '100vh' }}
+    >
       <Story />
     </div>
   );

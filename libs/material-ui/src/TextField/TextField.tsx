@@ -40,6 +40,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           id={inputId}
           className={[
             'rounded-radius-medium border bg-bg-primary px-3 py-2 text-text-primary placeholder:text-text-muted',
+            'transition-colors duration-[150ms]',
             'focus:outline-none focus:ring-2 focus:ring-border-focus',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             error
