@@ -1,6 +1,6 @@
 # Material UI remaining catalog
 
-Created with the **docs-driven-dev** skill (v1.4.0).
+Created with the **docs-driven-dev** skill (v1.4.0). Updated with the **docs-driven-dev** skill (v1.5.0).
 
 This exploration scopes the **remaining** components and utilities for the `libs/material-ui` M3 component library. The library was started in the ux-and-stack-overhaul milestone (phase 03: library + 4 components; phase 03b: theme/transitions, utilities, and a first batch of catalog components). What exists today is documented in [progress 03](../../../progress/05-ux-and-stack-overhaul/03-material-component-library.md) and [progress 03b](../../../progress/05-ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md).
 
