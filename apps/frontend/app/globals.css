@@ -34,6 +34,13 @@
   --color-error: #dc2626;
 }
 
+/* Base page uses theme variables so toggling .dark on <html> changes the page */
+html,
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 :root {
   /* Theme tokens for charts and UI (light default) – keep for var() usage */
   --bg-primary: #ffffff;
@@ -66,6 +73,7 @@
   --success: #16a34a;
   --warning: #ca8a04;
   --error: #dc2626;
+  --bg-selected: #e6f0ff;
 }
 
 /* Dark mode: M3-style tokens and chart palette (dark-optimized) */
@@ -100,4 +108,5 @@
   --success: #4ade80;
   --warning: #facc15;
   --error: #f87171;
+  --bg-selected: rgba(59, 130, 246, 0.25);
 }

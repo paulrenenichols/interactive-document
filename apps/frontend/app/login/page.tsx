@@ -42,11 +42,19 @@ function LoginForm() {
   }
 
   return (
-    <main style={{ padding: '2rem', fontFamily: 'system-ui', maxWidth: 400, margin: '0 auto' }}>
+    <main
+      style={{
+        padding: '2rem',
+        fontFamily: 'system-ui',
+        maxWidth: 400,
+        margin: '0 auto',
+        color: 'var(--text-primary)',
+      }}
+    >
       <h1>Log in</h1>
       <form onSubmit={handleSubmit}>
         {error && (
-          <p style={{ color: 'crimson', marginBottom: '1rem' }}>{error}</p>
+          <p style={{ color: 'var(--error)', marginBottom: '1rem' }}>{error}</p>
         )}
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="email" style={{ display: 'block', marginBottom: 4 }}>

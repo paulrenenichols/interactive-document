@@ -1,29 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useThemeStore, getEffectiveTheme } from '../lib/theme-store';
+import { useLayoutEffect, useEffect } from 'react';
+import { useThemeStore, getEffectiveTheme } from '@/lib/theme-store';
+
+function applyTheme(mode: 'light' | 'dark' | 'system') {
+  const effective = getEffectiveTheme(mode);
+  const root = document.documentElement;
+  root.classList.toggle('dark', effective === 'dark');
+}
 
 /** Applies theme store to document: adds/removes `dark` class on <html>. */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const mode = useThemeStore((s) => s.mode);
 
-  useEffect(() => {
-    const effective = getEffectiveTheme(mode);
-    const root = document.documentElement;
-    if (effective === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+  // Apply synchronously so the class is on <html> before paint
+  useLayoutEffect(() => {
+    applyTheme(mode);
   }, [mode]);
 
+  // React to system preference when mode is 'system'
   useEffect(() => {
     if (mode !== 'system') return;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const apply = () => {
-      const effective = getEffectiveTheme('system');
-      document.documentElement.classList.toggle('dark', effective === 'dark');
-    };
+    const apply = () => applyTheme('system');
     mq.addEventListener('change', apply);
     return () => mq.removeEventListener('change', apply);
   }, [mode]);

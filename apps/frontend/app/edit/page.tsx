@@ -20,7 +20,13 @@ export default function EditPage() {
 
   if (forbidden) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
+      <main
+        style={{
+          padding: '2rem',
+          fontFamily: 'system-ui',
+          color: 'var(--text-primary)',
+        }}
+      >
         <h1>No edit access</h1>
         <p>You don&apos;t have permission to edit this content.</p>
         <p>
@@ -32,7 +38,13 @@ export default function EditPage() {
 
   if (isLoading) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
+      <main
+        style={{
+          padding: '2rem',
+          fontFamily: 'system-ui',
+          color: 'var(--text-primary)',
+        }}
+      >
         <p>Loading…</p>
       </main>
     );
@@ -41,10 +53,24 @@ export default function EditPage() {
   const decks: Deck[] = data?.decks ?? [];
 
   return (
-    <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
+    <main
+      style={{
+        padding: '2rem',
+        fontFamily: 'system-ui',
+        color: 'var(--text-primary)',
+      }}
+    >
       <h1>Edit</h1>
 
-      <section style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #ddd', borderRadius: 8 }}>
+      <section
+        style={{
+          marginBottom: '1.5rem',
+          padding: '1rem',
+          border: '1px solid var(--border-default)',
+          borderRadius: 8,
+          backgroundColor: 'var(--bg-secondary)',
+        }}
+      >
         <h2 style={{ marginTop: 0, marginBottom: '0.5rem' }}>New document</h2>
         <button
           type="button"
@@ -52,7 +78,9 @@ export default function EditPage() {
           disabled={createDeck.isPending}
           style={{
             padding: '10px 20px',
-            backgroundColor: createDeck.isPending ? '#999' : '#0066cc',
+            backgroundColor: createDeck.isPending
+              ? 'var(--text-muted)'
+              : 'var(--accent-primary)',
             color: 'white',
             border: 'none',
             borderRadius: 4,
@@ -63,7 +91,7 @@ export default function EditPage() {
           {createDeck.isPending ? 'Creating…' : 'Create deck'}
         </button>
         {createDeck.isError && (
-          <span style={{ color: 'crimson', marginLeft: '0.5rem' }}>
+          <span style={{ color: 'var(--error)', marginLeft: '0.5rem' }}>
             {createDeck.error?.message}
           </span>
         )}
