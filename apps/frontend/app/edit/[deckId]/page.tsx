@@ -86,7 +86,7 @@ export default function EditDeckPage() {
   const canvasInnerRef = useRef<HTMLDivElement>(null);
   const dragStartMouseRef = useRef<{ x: number; y: number } | null>(null);
 
-  const { data: _deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
+  const { data: deckData, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
   const { data: slidesData, isLoading: slidesLoading } = useSlides(deckId);
   const createSlide = useCreateSlide(deckId ?? '');
   const deleteSlide = useDeleteSlide(deckId ?? '');
@@ -114,17 +114,30 @@ export default function EditDeckPage() {
     return first ? Object.keys(first) : [];
   }, [rowsData?.rows]);
 
-  // Reset editor state when deck changes
+  // Reset editor state when deck changes (but preserve persisted slide for same deck)
   useEffect(() => {
     if (deckId) resetForDeck();
   }, [deckId, resetForDeck]);
 
-  // Auto-select first slide when slides load and none selected
+  // Restore or set slide when slides load: prefer sessionStorage so reload shows same slide
   useEffect(() => {
-    if (slides.length > 0 && !selectedSlideId) {
-      selectSlide(slides[0].id);
+    if (slides.length === 0 || selectedSlideId) return;
+    const storageKey = deckId ? `edit-selected-slide-${deckId}` : null;
+    const stored = storageKey && typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(storageKey) : null;
+    const validStored = stored && slides.some((s) => s.id === stored);
+    selectSlide(validStored ? stored : slides[0].id);
+  }, [slides, selectedSlideId, deckId, selectSlide]);
+
+  // Persist selected slide per deck so reload shows same slide and its blocks
+  useEffect(() => {
+    if (deckId && selectedSlideId) {
+      try {
+        sessionStorage.setItem(`edit-selected-slide-${deckId}`, selectedSlideId);
+      } catch {
+        // ignore quota or private mode
+      }
     }
-  }, [slides, selectedSlideId, selectSlide]);
+  }, [deckId, selectedSlideId]);
 
   // Clear block selection when changing slide
   useEffect(() => {
@@ -230,7 +243,7 @@ export default function EditDeckPage() {
     );
   }
 
-  if (deckLoading || !deckId) {
+  if (!deckId || (deckLoading && !deckData)) {
     return (
       <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
         <p>Loading…</p>
