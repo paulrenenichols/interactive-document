@@ -24,6 +24,8 @@ Build a custom component library targeting MUI feature parity (~57 core componen
 
 See [material-design-component-library.md](feature-sets/material-design-component-library.md) for details.
 
+**Milestone phases:** The ux-and-stack-overhaul milestone implements this in two phases. **Phase 03** established the library, theme, and four starter components (Button, TextField, Dialog, Menu). **Phase 03b** ([milestone phase](../../../../milestones/active/ux-and-stack-overhaul/phases/03b-material-ui-catalog-and-polish.md)) completes the catalog and polish: theme reactivity (components respond to light/dark), MUI-consistent enter/exit transitions (Fade for Dialog, Grow for Menu/Popover), Transitions utility, and the remaining ~53 components/utilities.
+
 ## Theming and color system
 
 Dark mode and light mode with M3 color tokens, plus dedicated 8-color chart palettes optimized for each mode. Theme preference persisted via zustand.

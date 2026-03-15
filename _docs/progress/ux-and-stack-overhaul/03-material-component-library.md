@@ -31,6 +31,103 @@ All components use Tailwind utility classes and theme tokens from `theme.css`; d
 - `libs/material-ui/README.md` — Usage, component list, commands (build, lint, test, storybook), structure, theme.
 - Root `README.md` — Lint/test/CI updated to mention material-ui; Storybook section lists both frontend (6006) and material-ui (6007).
 
+## Gap vs exploration scope
+
+The exploration [material-design-component-library](../../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/material-design-component-library.md) targets **MUI feature parity with ~57 core components** (61 total minus 4 deferrable). Phase 03 delivered the **library setup and 4 starter components** (Button, TextField, Dialog, Menu). The following catalog shows what exists vs what remains for full parity.
+
+### Inputs (14 in scope; 4 deferrable excluded)
+
+| Component       | Status  |
+|----------------|---------|
+| Button         | Done    |
+| TextField      | Done    |
+| Autocomplete   | Todo    |
+| ButtonGroup    | Todo    |
+| Checkbox       | Todo    |
+| FAB            | Todo    |
+| IconButton     | Todo    |
+| NumberField    | Todo    |
+| Radio          | Todo    |
+| Rating         | Todo    |
+| Select         | Todo    |
+| Slider         | Todo    |
+| Switch         | Todo    |
+| ToggleButton   | Todo    |
+
+### Data display (10)
+
+| Component | Status |
+|-----------|--------|
+| Avatar    | Todo   |
+| Badge     | Todo   |
+| Chip      | Todo   |
+| Divider   | Todo   |
+| Icons     | Todo   |
+| List / ListItem | Todo |
+| Table     | Todo   |
+| Tooltip   | Todo   |
+| Typography | Todo  |
+
+### Feedback (7)
+
+| Component        | Status |
+|------------------|--------|
+| Dialog           | Done   |
+| Alert            | Todo   |
+| Backdrop         | Todo   |
+| CircularProgress | Todo   |
+| LinearProgress   | Todo   |
+| Skeleton         | Todo   |
+| Snackbar         | Todo   |
+
+### Surface (4)
+
+| Component | Status |
+|-----------|--------|
+| Accordion | Todo   |
+| AppBar    | Todo   |
+| Card      | Todo   |
+| Paper     | Todo   |
+
+### Navigation (10 in scope; SpeedDial deferrable)
+
+| Component          | Status |
+|--------------------|--------|
+| Menu / MenuItem    | Done   |
+| BottomNavigation   | Todo   |
+| BottomSheet        | Todo   |
+| Breadcrumbs        | Todo   |
+| Drawer             | Todo   |
+| Link               | Todo   |
+| NavigationRail     | Todo   |
+| Pagination         | Todo   |
+| Stepper            | Todo   |
+| Tabs               | Todo   |
+
+### Layout (5)
+
+| Component | Status |
+|-----------|--------|
+| Box       | Todo   |
+| Container | Todo   |
+| Grid      | Todo   |
+| ImageList | Todo   |
+| Stack     | Todo   |
+
+### Utilities (7)
+
+| Utility            | Status |
+|--------------------|--------|
+| ClickAwayListener  | Todo   |
+| CSSBaseline        | Todo   |
+| Modal              | Todo   |
+| Popover            | Todo   |
+| Portal             | Todo   |
+| Transitions        | Todo   |
+| useMediaQuery       | Todo   |
+
+**Summary:** 4 of 57 core components/utilities implemented. Remaining work can be done in a follow-up phase (e.g. 03b or a dedicated “material-ui catalog” phase) or incrementally as the app needs each component.
+
 ## Branch and commits
 
 - Branch: `ux-and-stack-overhaul/03-material-component-library`.
