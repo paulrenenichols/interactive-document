@@ -12,3 +12,19 @@ export type { MenuProps, MenuItemProps } from './Menu';
 
 export { Fade, Grow } from './Transitions';
 export type { FadeProps, GrowProps } from './Transitions';
+
+export { Portal } from './Portal';
+export type { PortalProps } from './Portal';
+
+export { Modal } from './Modal';
+export type { ModalProps } from './Modal';
+
+export { Popover } from './Popover';
+export type { PopoverProps } from './Popover';
+
+export { ClickAwayListener } from './ClickAwayListener';
+export type { ClickAwayListenerProps } from './ClickAwayListener';
+
+export { useMediaQuery } from './useMediaQuery';
+
+export { CSSBaseline } from './CSSBaseline';
