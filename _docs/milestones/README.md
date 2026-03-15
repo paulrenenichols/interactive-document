@@ -8,10 +8,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 - **[02-mvp](completed/02-mvp/)** — Auth and permissions, data layer, chart pipeline, slide editor, viewer.
 - **[03-post-mvp](completed/03-post-mvp/)** — Polish: additional chart types, testing guides.
 - **[04-developer-experience](completed/04-developer-experience/)** — Dev Docker with live reload, DB UI, seed data; API docs and log level; Storybook; Cursor rules and skills.
+- **[05-ux-and-stack-overhaul](completed/05-ux-and-stack-overhaul/)** — Lint/test/CI, Tailwind 4 and theming, Material component library, data layers (zod/zustand/sql.js), WYSIWYG deck editor and Google Slides–inspired UX.
 
 ## Active milestones
 
-- **[ux-and-stack-overhaul](active/ux-and-stack-overhaul/)** — Lint/test/CI, Tailwind 4 and theming, Material component library, data layers (zod/zustand/sql.js), WYSIWYG deck editor and Google Slides–inspired UX.
+_(none)_
 
 ## Future milestones
 

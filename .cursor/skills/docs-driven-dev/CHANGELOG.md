@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.0] - 2026-03-15
+
+### Added
+- **Exploration folder numerical prefix:** When marking a milestone completed (section 8), the skill now renames `planning/explorations/completed/<name>/` to `planning/explorations/completed/<NN>-<name>/` using the same number prefix, and instructs to update any links in _docs that point to the exploration.
+
 ## [1.4.0] - 2026-03-15
 
 ### Added

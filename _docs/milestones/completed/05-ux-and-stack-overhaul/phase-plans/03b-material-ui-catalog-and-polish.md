@@ -61,7 +61,7 @@ Implement in dependency order; add stories and use theme tokens + documented ani
 ## 6. READMEs and progress
 
 - Update [libs/material-ui/README.md](libs/material-ui/README.md) with full component list and transition behavior.
-- Add or update `_docs/progress/ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md` summarizing theme/animation fixes and catalog completion.
+- Add or update `_docs/progress/05-ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md` summarizing theme/animation fixes and catalog completion.
 
 ---
 

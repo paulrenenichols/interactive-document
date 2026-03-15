@@ -2,7 +2,7 @@
 
 Modernize the frontend stack and editor UX: quality tooling (lint, test, CI), styling (Tailwind 4, theming, Material component library), layered data architecture (TanStack Query, zustand, zod, sql.js), and a WYSIWYG deck editor with Google Slides–inspired UX.
 
-Source: created from exploration [ux-and-stack-overhaul](../../planning/explorations/completed/ux-and-stack-overhaul/).
+Source: created from exploration [ux-and-stack-overhaul](../../planning/explorations/completed/05-ux-and-stack-overhaul/).
 
 ## Phases
 

@@ -4,14 +4,14 @@ Created with the **docs-driven-dev** skill (v1.4.0).
 
 ## Summary
 
-Implement the remaining components and layout primitives for `libs/material-ui` so the library reaches the full catalog scoped in the ux-and-stack-overhaul exploration. What is **already implemented** (phase 03 + 03b) is out of scope here; see [progress 03](../../../../progress/ux-and-stack-overhaul/03-material-component-library.md) and [progress 03b](../../../../progress/ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md).
+Implement the remaining components and layout primitives for `libs/material-ui` so the library reaches the full catalog scoped in the ux-and-stack-overhaul exploration. What is **already implemented** (phase 03 + 03b) is out of scope here; see [progress 03](../../../../progress/05-ux-and-stack-overhaul/03-material-component-library.md) and [progress 03b](../../../../progress/05-ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md).
 
 All new components must use theme tokens from `theme.css`, support `.dark` (no hardcoded colors), and use Fade/Grow/Slide/Collapse where the phase plan specifies. Each component gets a Storybook story.
 
 ## References
 
-- Original scope: [material-design-component-library](../../../completed/ux-and-stack-overhaul/feature-sets/material-design-component-library.md) (ux-and-stack-overhaul exploration).
-- Gap table and counts: [03-material-component-library](../../../../progress/ux-and-stack-overhaul/03-material-component-library.md#gap-vs-exploration-scope).
+- Original scope: [material-design-component-library](../../../completed/05-ux-and-stack-overhaul/feature-sets/material-design-component-library.md) (ux-and-stack-overhaul exploration).
+- Gap table and counts: [03-material-component-library](../../../../progress/05-ux-and-stack-overhaul/03-material-component-library.md#gap-vs-exploration-scope).
 
 ## Already done (not in scope)
 

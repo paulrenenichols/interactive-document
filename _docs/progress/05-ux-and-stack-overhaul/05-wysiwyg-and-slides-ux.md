@@ -25,6 +25,6 @@ Phase 05 adds a WYSIWYG deck editor with a canvas model, block positioning, zoom
 
 ## References
 
-- Phase: [05-wysiwyg-and-slides-ux](../../milestones/active/ux-and-stack-overhaul/phases/05-wysiwyg-and-slides-ux.md)
-- Phase plan: [05-wysiwyg-and-slides-ux](../../milestones/active/ux-and-stack-overhaul/phase-plans/05-wysiwyg-and-slides-ux.md)
-- Exploration: [wysiwyg-deck-editor](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/wysiwyg-deck-editor.md), [google-slides-ux](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/google-slides-ux.md).
+- Phase: [05-wysiwyg-and-slides-ux](../../milestones/completed/05-ux-and-stack-overhaul/phases/05-wysiwyg-and-slides-ux.md)
+- Phase plan: [05-wysiwyg-and-slides-ux](../../milestones/completed/05-ux-and-stack-overhaul/phase-plans/05-wysiwyg-and-slides-ux.md)
+- Exploration: [wysiwyg-deck-editor](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/wysiwyg-deck-editor.md), [google-slides-ux](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/google-slides-ux.md).
