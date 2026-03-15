@@ -36,9 +36,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   const handleExited = React.useCallback(() => setExiting(false), []);
 
-  if (!show) return null;
-
-  // Scroll lock
+  // Scroll lock (hooks must run unconditionally)
   React.useEffect(() => {
     if (!show) return;
     const prev = document.body.style.overflow;
@@ -87,6 +85,8 @@ export const Modal: React.FC<ModalProps> = ({
     el.addEventListener('keydown', handleKeyDown);
     return () => el.removeEventListener('keydown', handleKeyDown);
   }, [open]);
+
+  if (!show) return null;
 
   return (
     <Portal container={container}>

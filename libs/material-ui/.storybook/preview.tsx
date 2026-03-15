@@ -13,7 +13,7 @@ function ThemeDecorator(
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  // Apply .dark on document root before first paint to avoid theme flash
+  // Apply .dark on document root before first paint so Tailwind dark: and CSS vars apply
   useLayoutEffect(() => {
     const root = document.documentElement;
     if (isDark) {
@@ -24,8 +24,13 @@ function ThemeDecorator(
     return () => root.classList.remove('dark');
   }, [isDark]);
 
+  // Wrapper with .dark ensures theme applies to story canvas; key forces re-render on theme change
   return (
-    <div className={isDark ? 'dark' : ''} style={{ minHeight: '100vh' }}>
+    <div
+      key={isDark ? 'dark' : 'light'}
+      className={isDark ? 'dark' : ''}
+      style={{ minHeight: '100vh' }}
+    >
       <Story />
     </div>
   );
