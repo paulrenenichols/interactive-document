@@ -33,7 +33,7 @@ All components use Tailwind utility classes and theme tokens from `theme.css`; d
 
 ## Gap vs exploration scope
 
-The exploration [material-design-component-library](../../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/material-design-component-library.md) targets **MUI feature parity with ~57 core components** (61 total minus 4 deferrable). Phase 03 delivered the **library setup and 4 starter components** (Button, TextField, Dialog, Menu). The following catalog shows what exists vs what remains for full parity.
+The exploration [material-design-component-library](../../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/material-design-component-library.md) targets **MUI feature parity with ~57 core components** (61 total minus 4 deferrable). Phase 03 delivered the **library setup and 4 starter components** (Button, TextField, Dialog, Menu). The following catalog shows what exists vs what remains for full parity.
 
 ### Inputs (14 in scope; 4 deferrable excluded)
 

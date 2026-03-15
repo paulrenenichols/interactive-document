@@ -56,6 +56,6 @@ Phase 04 implements the layered data architecture: Zod at boundaries, zustand fo
 
 ## References
 
-- Phase: [04-data-layers](../../milestones/active/ux-and-stack-overhaul/phases/04-data-layers.md)
-- Phase plan: [04-data-layers](../../milestones/active/ux-and-stack-overhaul/phase-plans/04-data-layers.md)
-- Exploration: [data-architecture](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/data-architecture.md), [zod-schema-validation](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/zod-schema-validation.md), [zustand-state-management](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/zustand-state-management.md), [sqljs-local-data-cache](../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/sqljs-local-data-cache.md).
+- Phase: [04-data-layers](../../milestones/completed/05-ux-and-stack-overhaul/phases/04-data-layers.md)
+- Phase plan: [04-data-layers](../../milestones/completed/05-ux-and-stack-overhaul/phase-plans/04-data-layers.md)
+- Exploration: [data-architecture](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/data-architecture.md), [zod-schema-validation](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/zod-schema-validation.md), [zustand-state-management](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/zustand-state-management.md), [sqljs-local-data-cache](../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/sqljs-local-data-cache.md).

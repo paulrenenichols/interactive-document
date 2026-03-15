@@ -16,12 +16,12 @@ Follow-up to phase 03. Fixes theme reactivity and enter/exit animations on the e
 
 - All material-ui components respond correctly to theme (light/dark) when the app toggles `.dark` on the document root.
 - Overlays (Dialog, Menu, future Popover/Select) use MUI-consistent enter/exit animations.
-- Full catalog per exploration [material-design-component-library](../../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/material-design-component-library.md) (57 core, excluding 4 deferrable).
+- Full catalog per exploration [material-design-component-library](../../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/material-design-component-library.md) (57 core, excluding 4 deferrable).
 
 ---
 
 ## References
 
-- Exploration: [material-design-component-library](../../../planning/explorations/completed/ux-and-stack-overhaul/feature-sets/material-design-component-library.md).
-- Progress (phase 03): [03-material-component-library](../../../../progress/ux-and-stack-overhaul/03-material-component-library.md) (includes gap table).
+- Exploration: [material-design-component-library](../../../planning/explorations/completed/05-ux-and-stack-overhaul/feature-sets/material-design-component-library.md).
+- Progress (phase 03): [03-material-component-library](../../../../progress/05-ux-and-stack-overhaul/03-material-component-library.md) (includes gap table).
 - Plan: [phase-plans/03b-material-ui-catalog-and-polish.md](../phase-plans/03b-material-ui-catalog-and-polish.md).

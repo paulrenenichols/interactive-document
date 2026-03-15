@@ -1,6 +1,6 @@
 ---
 name: docs-driven-dev
-version: "1.4.0"
+version: "1.5.0"
 description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
 ---
 
@@ -37,7 +37,7 @@ When the user asks "what can you do?", "help", "what capabilities", or similar, 
 - **Update exploration** — Update an existing exploration (add feature sets, align to standards)
 - **Create milestone from exploration** — Turn an exploration into a milestone in `milestones/future/` and move the exploration to `explorations/completed/`
 - **Make milestone active** — Move a future milestone to `active/` and verify phases/phase-plans
-- **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix to both the milestone folder and the corresponding `progress/` folder (do when the last phase is merged; skill prompts for this)
+- **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix to the milestone folder, the corresponding `progress/` folder, and the exploration in `planning/explorations/completed/` (do when the last phase is merged; skill prompts for this)
 
 ---
 
@@ -187,8 +187,9 @@ Do this when the milestone's **last phase** is finished (PR merged). It is part 
 1. Move folder from `milestones/active/<name>/` to `milestones/completed/`
 2. Add number prefix = max(completed numbers) + 1 (e.g. `04-<name>`)
 3. **Rename progress folder:** If `progress/<name>/` exists, rename it to `progress/<NN>-<name>/` using the same number prefix (e.g. `progress/developer-experience/` → `progress/04-developer-experience/`). This keeps progress folder names aligned with completed milestone numbering.
-4. Update `milestones/README.md` index
-5. Branch: `milestone/complete/<name>`
+4. **Rename exploration folder:** If `planning/explorations/completed/<name>/` exists, rename it to `planning/explorations/completed/<NN>-<name>/` using the same number prefix. Update any links in _docs that point to the exploration (e.g. progress READMEs, milestone README, exploration README relative links) to use the new path.
+5. Update `milestones/README.md` index
+6. Branch: `milestone/complete/<name>`
 
 ---
 
