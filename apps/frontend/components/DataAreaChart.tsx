@@ -1,6 +1,10 @@
 'use client';
 
-import { useDataSourceRows, type DataRow } from '@/lib/queries';
+import {
+  useDataSourceRows,
+  useDataSourceRowsSync,
+  type DataRow,
+} from '@/lib/queries';
 import type { ChartConfig } from './BarChart';
 import { AreaChart } from './AreaChart';
 
@@ -23,12 +27,14 @@ export function DataAreaChart({
   height = 300,
   shareToken,
 }: DataAreaChartProps) {
-  const { data, isLoading, isError, error } = useDataSourceRows(
+  const fromApi = useDataSourceRows(
     dataSourceId,
     undefined,
     undefined,
     { shareToken }
   );
+  const fromSync = useDataSourceRowsSync(shareToken ? undefined : dataSourceId);
+  const { data, isLoading, isError, error } = shareToken ? fromApi : fromSync;
 
   if (isLoading) {
     return (
