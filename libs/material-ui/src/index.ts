@@ -9,3 +9,6 @@ export type { DialogProps } from './Dialog';
 
 export { Menu, MenuItem } from './Menu';
 export type { MenuProps, MenuItemProps } from './Menu';
+
+export { Fade, Grow } from './Transitions';
+export type { FadeProps, GrowProps } from './Transitions';

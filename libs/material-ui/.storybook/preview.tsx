@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import '../src/theme.css';
 
 function ThemeDecorator(
@@ -13,7 +13,8 @@ function ThemeDecorator(
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  useEffect(() => {
+  // Apply .dark on document root before first paint to avoid theme flash
+  useLayoutEffect(() => {
     const root = document.documentElement;
     if (isDark) {
       root.classList.add('dark');
