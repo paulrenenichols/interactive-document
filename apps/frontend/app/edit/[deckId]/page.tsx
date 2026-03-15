@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useDeck,
   useSlides,
@@ -17,6 +18,7 @@ import {
   useDataSources,
   useDataSourceRows,
   useUploadDataSource,
+  queryKeys,
   type Slide,
   type Block,
 } from '@/lib/queries';
@@ -25,6 +27,7 @@ import {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
   getBlockPosition,
+  layoutFromPosition,
 } from '@/lib/canvas-model';
 import { DataBarChart } from '@/components/DataBarChart';
 import { DataLineChart } from '@/components/DataLineChart';
@@ -73,9 +76,15 @@ export default function EditDeckPage() {
   const setZoom = useEditorStore((s) => s.setZoom);
   const canvasScrollPosition = useEditorStore((s) => s.canvasScrollPosition);
   const setCanvasScroll = useEditorStore((s) => s.setCanvasScroll);
+  const dragState = useEditorStore((s) => s.dragState);
+  const startDrag = useEditorStore((s) => s.startDrag);
+  const updateDrag = useEditorStore((s) => s.updateDrag);
+  const endDrag = useEditorStore((s) => s.endDrag);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasScrollRef = useRef<HTMLDivElement>(null);
+  const canvasInnerRef = useRef<HTMLDivElement>(null);
+  const dragStartMouseRef = useRef<{ x: number; y: number } | null>(null);
 
   const { data: _deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
   const { data: slidesData, isLoading: slidesLoading } = useSlides(deckId);
@@ -87,6 +96,7 @@ export default function EditDeckPage() {
   const deleteBlock = useDeleteBlock(deckId ?? '', selectedSlideId ?? '');
   const reorderBlocks = useReorderBlocks(deckId ?? '', selectedSlideId ?? '');
   const updateBlock = useUpdateBlock(deckId ?? '', selectedSlideId ?? '');
+  const queryClient = useQueryClient();
   const { data: dataSourcesData } = useDataSources(deckId);
   const uploadCsv = useUploadDataSource();
 
@@ -125,6 +135,76 @@ export default function EditDeckPage() {
   const handleCanvasScroll = () => {
     const el = canvasScrollRef.current;
     if (el) setCanvasScroll(el.scrollLeft, el.scrollTop);
+  };
+
+  // Convert client coordinates to canvas (logical) coordinates
+  const clientToCanvas = (clientX: number, clientY: number) => {
+    const el = canvasInnerRef.current;
+    if (!el) return { x: 0, y: 0 };
+    const rect = el.getBoundingClientRect();
+    return {
+      x: (clientX - rect.left) / zoomLevel,
+      y: (clientY - rect.top) / zoomLevel,
+    };
+  };
+
+  const dragStartPosRef = useRef<{ width: number; height: number } | null>(null);
+  const justDraggedBlockIdRef = useRef<string | null>(null);
+
+  const handleBlockMouseDown = (e: React.MouseEvent, blockId: string, pos: { x: number; y: number; width: number; height: number }) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    const canvas = clientToCanvas(e.clientX, e.clientY);
+    dragStartMouseRef.current = canvas;
+    dragStartPosRef.current = { width: pos.width, height: pos.height };
+    startDrag(blockId, pos.x, pos.y);
+
+    const handleDocMouseMove = (moveEvent: MouseEvent) => {
+      const start = dragStartMouseRef.current;
+      if (!start) return;
+      const state = useEditorStore.getState().dragState;
+      if (!state || state.blockId !== blockId) return;
+      const canvasPos = clientToCanvas(moveEvent.clientX, moveEvent.clientY);
+      const w = dragStartPosRef.current?.width ?? pos.width;
+      const h = dragStartPosRef.current?.height ?? pos.height;
+      const newX = Math.max(0, Math.min(CANVAS_WIDTH - w, state.startX + (canvasPos.x - start.x)));
+      const newY = Math.max(0, Math.min(CANVAS_HEIGHT - h, state.startY + (canvasPos.y - start.y)));
+      updateDrag(newX, newY);
+    };
+    const handleDocMouseUp = () => {
+      const state = useEditorStore.getState().dragState;
+      const posRef = dragStartPosRef.current;
+      dragStartMouseRef.current = null;
+      dragStartPosRef.current = null;
+      document.removeEventListener('mousemove', handleDocMouseMove);
+      document.removeEventListener('mouseup', handleDocMouseUp);
+
+      if (state && state.blockId === blockId && posRef && (state.currentX !== state.startX || state.currentY !== state.startY)) {
+        justDraggedBlockIdRef.current = blockId;
+        const newLayout = { x: state.currentX, y: state.currentY, width: posRef.width, height: posRef.height };
+        // Optimistic update: write new layout into cache so block stays where we dropped it
+        if (deckId && selectedSlideId) {
+          const key = queryKeys.blocks(deckId, selectedSlideId);
+          queryClient.setQueryData(key, (old: { blocks: Block[] } | undefined) => {
+            if (!old?.blocks) return old;
+            return {
+              blocks: old.blocks.map((b) =>
+                b.id === state.blockId ? { ...b, layout: newLayout } : b
+              ),
+            };
+          });
+        }
+        endDrag();
+        updateBlock.mutate({
+          blockId: state.blockId,
+          layout: layoutFromPosition(newLayout),
+        });
+      } else {
+        endDrag();
+      }
+    };
+    document.addEventListener('mousemove', handleDocMouseMove);
+    document.addEventListener('mouseup', handleDocMouseUp);
   };
 
   const forbidden =
@@ -506,6 +586,7 @@ export default function EditDeckPage() {
                   }}
                 >
                   <div
+                    ref={canvasInnerRef}
                     style={{
                       position: 'absolute',
                       left: 0,
@@ -522,6 +603,9 @@ export default function EditDeckPage() {
                     {blocks.map((b, i) => {
                       const isSelected = selectedBlockId === b.id;
                       const pos = getBlockPosition(b, i);
+                      const isDragging = dragState?.blockId === b.id;
+                      const displayX = isDragging ? dragState.currentX : pos.x;
+                      const displayY = isDragging ? dragState.currentY : pos.y;
                       const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
                       const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
                       return (
@@ -529,8 +613,8 @@ export default function EditDeckPage() {
                           key={b.id}
                           style={{
                             position: 'absolute',
-                            left: pos.x,
-                            top: pos.y,
+                            left: displayX,
+                            top: displayY,
                             width: pos.width,
                             height: pos.height,
                             padding: '8px',
@@ -538,12 +622,19 @@ export default function EditDeckPage() {
                             background: isSelected ? 'var(--bg-selected)' : 'var(--bg-secondary)',
                             border: isSelected ? '2px solid var(--accent-primary)' : '1px solid var(--border-default)',
                             borderRadius: 8,
-                            cursor: 'pointer',
+                            cursor: isDragging ? 'grabbing' : 'grab',
                             overflow: 'hidden',
                             display: 'flex',
                             flexDirection: 'column',
                           }}
-                          onClick={() => selectBlock(b.id)}
+                          onMouseDown={(e) => handleBlockMouseDown(e, b.id, pos)}
+                          onClick={() => {
+                            if (justDraggedBlockIdRef.current === b.id) {
+                              justDraggedBlockIdRef.current = null;
+                              return;
+                            }
+                            selectBlock(b.id);
+                          }}
                         >
                           <div style={{ flex: 1, minHeight: 0 }} onClick={(e) => e.stopPropagation()}>
                             {b.type === 'text' && (
