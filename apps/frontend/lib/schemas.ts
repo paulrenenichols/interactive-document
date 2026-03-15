@@ -3,6 +3,19 @@ import { z } from 'zod';
 const uuid = z.string().uuid();
 const nonNegativeInt = z.number().int().nonnegative();
 
+/** Coerce JSON/JSONB from API: accept object or string (parse string so layout survives serialization). */
+const jsonbLike = z.union([
+  z.record(z.unknown()).nullable(),
+  z.string().transform((s) => {
+    try {
+      const v = JSON.parse(s);
+      return typeof v === 'object' && v !== null ? v : null;
+    } catch {
+      return null;
+    }
+  }),
+]);
+
 /** API / CRUD response shapes */
 export const DeckSchema = z.object({
   id: uuid,
@@ -25,11 +38,11 @@ export const BlockSchema = z.object({
   id: uuid,
   slide_id: uuid,
   type: z.enum(['text', 'chart']),
-  layout: z.record(z.unknown()).nullable().default(null),
+  layout: jsonbLike.default(null),
   content: z.string().nullable().optional(),
   data_source_id: uuid.nullable().optional(),
   chart_type: z.enum(['bar', 'line', 'pie', 'area']).nullable().optional(),
-  column_mapping: z.record(z.unknown()).nullable().optional(),
+  column_mapping: jsonbLike.optional(),
   order: nonNegativeInt,
 });
 export type Block = z.infer<typeof BlockSchema>;

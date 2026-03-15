@@ -108,6 +108,7 @@ export function useDeck(
       return DeckSchema.parse(data);
     },
     enabled: !!deckId,
+    staleTime: 60 * 1000,
     ...options,
   });
 }
@@ -150,6 +151,7 @@ export function useSlides(
       return SlidesResponseSchema.parse(data);
     },
     enabled: !!deckId,
+    staleTime: 30 * 1000,
     ...options,
   });
 }
@@ -164,7 +166,6 @@ export function useCreateSlide(
       apiPost<Slide>(`/decks/${deckId}/slides`, body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.slides(deckId) });
-      qc.invalidateQueries({ queryKey: queryKeys.deck(deckId) });
     },
     ...options,
   });
@@ -225,8 +226,13 @@ export function useCreateBlock(
   return useMutation({
     mutationFn: (body) =>
       apiPost<Block>(`/decks/${deckId}/slides/${slideId}/blocks`, body),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.blocks(deckId, slideId) });
+    onSuccess: (newBlock) => {
+      qc.setQueryData(
+        queryKeys.blocks(deckId, slideId),
+        (old: { blocks: Block[] } | undefined) => ({
+          blocks: [...(old?.blocks ?? []), newBlock],
+        })
+      );
     },
     ...options,
   });
