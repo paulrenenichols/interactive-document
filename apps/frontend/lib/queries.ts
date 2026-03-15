@@ -8,15 +8,12 @@ import {
 import { fetchWithAuth, uploadWithAuth, getJsonNoRedirect } from './api';
 import {
   DeckSchema,
-  SlideSchema,
-  BlockSchema,
   DataSourceSchema,
   DecksResponseSchema,
   SlidesResponseSchema,
   BlocksResponseSchema,
   DataSourcesResponseSchema,
   DataSourceRowsResponseSchema,
-  DataRowArraySchema,
   type Deck,
   type Slide,
   type Block,
