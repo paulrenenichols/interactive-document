@@ -21,6 +21,11 @@ import {
   type Block,
 } from '@/lib/queries';
 import { useEditorStore } from '@/lib/stores/editor-store';
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  getBlockPosition,
+} from '@/lib/canvas-model';
 import { DataBarChart } from '@/components/DataBarChart';
 import { DataLineChart } from '@/components/DataLineChart';
 import { DataPieChart } from '@/components/DataPieChart';
@@ -64,8 +69,13 @@ export default function EditDeckPage() {
   const selectBlock = useEditorStore((s) => s.selectBlock);
   const resetForDeck = useEditorStore((s) => s.resetForDeck);
   const selectedBlockId = selectedBlockIds[0] ?? null;
+  const zoomLevel = useEditorStore((s) => s.zoomLevel);
+  const setZoom = useEditorStore((s) => s.setZoom);
+  const canvasScrollPosition = useEditorStore((s) => s.canvasScrollPosition);
+  const setCanvasScroll = useEditorStore((s) => s.setCanvasScroll);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const canvasScrollRef = useRef<HTMLDivElement>(null);
 
   const { data: _deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
   const { data: slidesData, isLoading: slidesLoading } = useSlides(deckId);
@@ -110,6 +120,12 @@ export default function EditDeckPage() {
   useEffect(() => {
     selectBlock(null);
   }, [selectedSlideId, selectBlock]);
+
+  // Sync canvas scroll from container to store
+  const handleCanvasScroll = () => {
+    const el = canvasScrollRef.current;
+    if (el) setCanvasScroll(el.scrollLeft, el.scrollTop);
+  };
 
   const forbidden =
     deckError &&
@@ -410,28 +426,33 @@ export default function EditDeckPage() {
             )}
           </div>
         </div>
-        <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           {!selectedSlideId ? (
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Select a slide or add one.
-            </p>
+            <div style={{ padding: '16px' }}>
+              <p style={{ color: 'var(--text-secondary)' }}>
+                Select a slide or add one.
+              </p>
+            </div>
           ) : (
             <>
-              <p
+              <div
                 style={{
-                  marginBottom: '12px',
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)',
+                  padding: '8px 16px',
+                  borderBottom: '1px solid var(--border-default)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  flexWrap: 'wrap',
                 }}
               >
-                Slide {slides.findIndex((s) => s.id === selectedSlideId) + 1} of {slides.length}
-              </p>
-              <p style={{ marginBottom: '8px' }}>
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                  Slide {slides.findIndex((s) => s.id === selectedSlideId) + 1} of {slides.length}
+                </span>
                 <button
                   type="button"
                   onClick={() => createBlock.mutate({ type: 'text' })}
                   disabled={createBlock.isPending}
-                  style={{ padding: '6px 12px', marginRight: '8px' }}
+                  style={{ padding: '6px 12px' }}
                 >
                   Add text block
                 </button>
@@ -443,95 +464,152 @@ export default function EditDeckPage() {
                 >
                   Add chart block
                 </button>
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {blocks.map((b, i) => {
-                  const isSelected = selectedBlockId === b.id;
-                  const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
-                  const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
-                  return (
-                    <li
-                      key={b.id}
-                      style={{
-                        marginBottom: '8px',
-                        padding: '12px',
-                        background: isSelected
-                          ? 'var(--bg-selected)'
-                          : 'var(--bg-secondary)',
-                        border: isSelected
-                          ? '2px solid var(--accent-primary)'
-                          : '1px solid var(--border-default)',
-                        borderRadius: 8,
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => selectBlock(b.id)}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <div style={{ flex: 1, minWidth: 0 }} onClick={(e) => e.stopPropagation()}>
-                          {b.type === 'text' && (
-                            <div style={{ whiteSpace: 'pre-wrap' }}>{b.content || '(empty text)'}</div>
-                          )}
-                          {b.type === 'chart' && (
-                            chartReady ? (
-                              renderChartByType(
-                                b.chart_type,
-                                b.data_source_id,
-                                chartConfig!,
-                                220
-                              )
-                            ) : (
-                              <div
-                                style={{
-                                  padding: '24px',
-                                  background: 'var(--border-default)',
-                                  borderRadius: 8,
-                                  color: 'var(--text-secondary)',
-                                  fontSize: '0.875rem',
-                                }}
-                              >
-                                Configure chart (select and use Properties panel)
-                              </div>
-                            )
-                          )}
-                        </div>
-                        <div style={{ flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
-                          <button
-                            type="button"
-                            onClick={(e) => handleMoveBlock(b.id, 'up', e)}
-                            disabled={i === 0 || reorderBlocks.isPending}
-                            title="Move up"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleMoveBlock(b.id, 'down', e)}
-                            disabled={i === blocks.length - 1 || reorderBlocks.isPending}
-                            title="Move down"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
-                          >
-                            ↓
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleDeleteBlock(b.id, e)}
-                            disabled={deleteBlock.isPending}
-                            title="Delete block"
-                            style={{
-                            padding: '4px 6px',
-                            fontSize: '0.75rem',
-                            color: 'var(--error)',
+                <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setZoom(zoomLevel - 0.25)}
+                    disabled={zoomLevel <= 0.25}
+                    style={{ padding: '4px 8px', fontSize: '0.875rem' }}
+                    title="Zoom out"
+                  >
+                    −
+                  </button>
+                  <span style={{ fontSize: '0.875rem', minWidth: '3rem', textAlign: 'center' }}>
+                    {Math.round(zoomLevel * 100)}%
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setZoom(zoomLevel + 0.25)}
+                    disabled={zoomLevel >= 2}
+                    style={{ padding: '4px 8px', fontSize: '0.875rem' }}
+                    title="Zoom in"
+                  >
+                    +
+                  </button>
+                </span>
+              </div>
+              <div
+                ref={canvasScrollRef}
+                onScroll={handleCanvasScroll}
+                style={{
+                  flex: 1,
+                  overflow: 'auto',
+                  padding: '16px',
+                  backgroundColor: 'var(--bg-secondary)',
+                }}
+              >
+                <div
+                  style={{
+                    width: CANVAS_WIDTH * zoomLevel,
+                    height: CANVAS_HEIGHT * zoomLevel,
+                    position: 'relative',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      width: CANVAS_WIDTH,
+                      height: CANVAS_HEIGHT,
+                      transform: `scale(${zoomLevel})`,
+                      transformOrigin: '0 0',
+                      backgroundColor: 'var(--bg-primary)',
+                      border: '1px solid var(--border-default)',
+                      borderRadius: 8,
+                    }}
+                  >
+                    {blocks.map((b, i) => {
+                      const isSelected = selectedBlockId === b.id;
+                      const pos = getBlockPosition(b, i);
+                      const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
+                      const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
+                      return (
+                        <div
+                          key={b.id}
+                          style={{
+                            position: 'absolute',
+                            left: pos.x,
+                            top: pos.y,
+                            width: pos.width,
+                            height: pos.height,
+                            padding: '8px',
+                            boxSizing: 'border-box',
+                            background: isSelected ? 'var(--bg-selected)' : 'var(--bg-secondary)',
+                            border: isSelected ? '2px solid var(--accent-primary)' : '1px solid var(--border-default)',
+                            borderRadius: 8,
+                            cursor: 'pointer',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            flexDirection: 'column',
                           }}
-                          >
-                            ×
-                          </button>
+                          onClick={() => selectBlock(b.id)}
+                        >
+                          <div style={{ flex: 1, minHeight: 0 }} onClick={(e) => e.stopPropagation()}>
+                            {b.type === 'text' && (
+                              <div style={{ whiteSpace: 'pre-wrap', fontSize: '0.875rem' }}>{b.content || '(empty text)'}</div>
+                            )}
+                            {b.type === 'chart' && (
+                              chartReady ? (
+                                renderChartByType(
+                                  b.chart_type,
+                                  b.data_source_id,
+                                  chartConfig!,
+                                  Math.max(120, pos.height - 24)
+                                )
+                              ) : (
+                                <div
+                                  style={{
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: 'var(--border-default)',
+                                    borderRadius: 6,
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                  }}
+                                >
+                                  Configure chart (Properties panel)
+                                </div>
+                              )
+                            )}
+                          </div>
+                          <div style={{ flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                            <button
+                              type="button"
+                              onClick={(e) => handleMoveBlock(b.id, 'up', e)}
+                              disabled={i === 0 || reorderBlocks.isPending}
+                              title="Move up"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', marginRight: '2px' }}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleMoveBlock(b.id, 'down', e)}
+                              disabled={i === blocks.length - 1 || reorderBlocks.isPending}
+                              title="Move down"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', marginRight: '2px' }}
+                            >
+                              ↓
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleDeleteBlock(b.id, e)}
+                              disabled={deleteBlock.isPending}
+                              title="Delete block"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', color: 'var(--error)' }}
+                            >
+                              ×
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </div>
