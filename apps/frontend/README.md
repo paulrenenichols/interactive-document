@@ -13,10 +13,14 @@ Next.js application (App Router) for the Interactive Presentation app. Login and
 - **Build:** `nx build frontend` (or `pnpm run build:frontend` from root).
 - **Dev server:** `nx serve frontend` (or `pnpm run serve:frontend` from root). Default port 3000.
 - **Storybook:** `pnpm storybook` (or `nx storybook frontend`). Runs at http://localhost:6006.
+ - **Lint:** `pnpm lint` (workspace) or `nx run frontend:lint`.
+ - **Tests:** `pnpm test` (workspace) or `nx run frontend:test` (Vitest + jsdom + React Testing Library).
 
 ## Storybook
 
 Component development and documentation with Storybook. Run `pnpm storybook` to start.
+
+In CI, Storybook is built via `nx run frontend:build-storybook` and deployed to GitHub Pages by `.github/workflows/ci.yml` when changes are merged to `main`.
 
 Stories available for:
 - **Charts:** BarChart, LineChart, PieChart, AreaChart — various data configurations and series

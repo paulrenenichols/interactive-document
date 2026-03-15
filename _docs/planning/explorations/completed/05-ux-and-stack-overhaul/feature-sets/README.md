@@ -1,0 +1,59 @@
+# Feature sets
+
+For overview and structure, see [../README.md](../README.md).
+
+## Styling and components
+
+### Tailwind 4 integration
+
+Bring Tailwind CSS v4 into the frontend and Storybook using the CSS-first `@theme` configuration model. See [tailwind-4-integration.md](tailwind-4-integration.md).
+
+### Material Design component library
+
+Custom M3 component library targeting MUI feature parity (~57 core components) built with Tailwind in `libs/material-ui/` as a publishable Nx library with dedicated Storybook. See [material-design-component-library.md](material-design-component-library.md).
+
+### Theming and color system
+
+Dark/light mode with M3 color tokens and dedicated chart color palettes for each mode. See [theming-and-color-system.md](theming-and-color-system.md).
+
+## Data architecture
+
+### Layered data architecture
+
+How TanStack Query, zustand, zod, and sql.js coordinate. The architectural keystone document. See [data-architecture.md](data-architecture.md).
+
+### sql.js local data cache
+
+Read-through cache for chart data using in-browser SQLite with IndexedDB persistence. See [sqljs-local-data-cache.md](sqljs-local-data-cache.md).
+
+### Zustand state management
+
+Ephemeral UI state for the WYSIWYG editor: selection, drag/resize, undo/redo, theme preference. See [zustand-state-management.md](zustand-state-management.md).
+
+### Zod schema validation
+
+Runtime validation at every boundary (API, sql.js, forms). Single source of truth for TypeScript types. See [zod-schema-validation.md](zod-schema-validation.md).
+
+## Editor and UX
+
+### WYSIWYG deck editor
+
+Canvas-based editor with drag-and-drop, resize, multi-select, snap-to-grid, and undo/redo. See [wysiwyg-deck-editor.md](wysiwyg-deck-editor.md).
+
+### Google Slides-inspired UX
+
+UX patterns borrowed from Google Slides: three-panel layout, slide thumbnails, canvas interactions, keyboard shortcuts, presenter view. See [google-slides-ux.md](google-slides-ux.md).
+
+## Quality and CI
+
+### Lint (ESLint)
+
+ESLint for API, frontend, and material-ui with a root `lint` script. See [lint-eslint.md](lint-eslint.md).
+
+### Unit testing (Vitest)
+
+Vitest for API, frontend, and material-ui; root `test` script. See [unit-testing-vitest.md](unit-testing-vitest.md).
+
+### CI and PR gates (GitHub Actions)
+
+Lint, test, build, and Storybook deploy to GitHub Pages; branch protection and review of existing main restrictions. See [ci-and-pr-gates.md](ci-and-pr-gates.md).

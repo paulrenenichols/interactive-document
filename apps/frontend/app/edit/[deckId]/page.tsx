@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useDeck,
   useSlides,
@@ -17,9 +18,17 @@ import {
   useDataSources,
   useDataSourceRows,
   useUploadDataSource,
+  queryKeys,
   type Slide,
   type Block,
 } from '@/lib/queries';
+import { useEditorStore } from '@/lib/stores/editor-store';
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  getBlockPosition,
+  layoutFromPosition,
+} from '@/lib/canvas-model';
 import { DataBarChart } from '@/components/DataBarChart';
 import { DataLineChart } from '@/components/DataLineChart';
 import { DataPieChart } from '@/components/DataPieChart';
@@ -57,12 +66,26 @@ function renderChartByType(
 export default function EditDeckPage() {
   const params = useParams();
   const deckId = params?.deckId as string | undefined;
-  const [selectedSlideId, setSelectedSlideId] = useState<string | null>(null);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const selectedSlideId = useEditorStore((s) => s.selectedSlideId);
+  const selectSlide = useEditorStore((s) => s.selectSlide);
+  const selectedBlockIds = useEditorStore((s) => s.selectedBlockIds);
+  const selectBlock = useEditorStore((s) => s.selectBlock);
+  const resetForDeck = useEditorStore((s) => s.resetForDeck);
+  const selectedBlockId = selectedBlockIds[0] ?? null;
+  const zoomLevel = useEditorStore((s) => s.zoomLevel);
+  const setZoom = useEditorStore((s) => s.setZoom);
+  const setCanvasScroll = useEditorStore((s) => s.setCanvasScroll);
+  const dragState = useEditorStore((s) => s.dragState);
+  const startDrag = useEditorStore((s) => s.startDrag);
+  const updateDrag = useEditorStore((s) => s.updateDrag);
+  const endDrag = useEditorStore((s) => s.endDrag);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const canvasScrollRef = useRef<HTMLDivElement>(null);
+  const canvasInnerRef = useRef<HTMLDivElement>(null);
+  const dragStartMouseRef = useRef<{ x: number; y: number } | null>(null);
 
-  const { data: deck, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
+  const { data: deckData, isLoading: deckLoading, isError: deckError, error: deckErr } = useDeck(deckId);
   const { data: slidesData, isLoading: slidesLoading } = useSlides(deckId);
   const createSlide = useCreateSlide(deckId ?? '');
   const deleteSlide = useDeleteSlide(deckId ?? '');
@@ -72,6 +95,7 @@ export default function EditDeckPage() {
   const deleteBlock = useDeleteBlock(deckId ?? '', selectedSlideId ?? '');
   const reorderBlocks = useReorderBlocks(deckId ?? '', selectedSlideId ?? '');
   const updateBlock = useUpdateBlock(deckId ?? '', selectedSlideId ?? '');
+  const queryClient = useQueryClient();
   const { data: dataSourcesData } = useDataSources(deckId);
   const uploadCsv = useUploadDataSource();
 
@@ -89,17 +113,111 @@ export default function EditDeckPage() {
     return first ? Object.keys(first) : [];
   }, [rowsData?.rows]);
 
-  // Auto-select first slide when slides load and none selected
+  // Reset editor state when deck changes (but preserve persisted slide for same deck)
   useEffect(() => {
-    if (slides.length > 0 && !selectedSlideId) {
-      setSelectedSlideId(slides[0].id);
+    if (deckId) resetForDeck();
+  }, [deckId, resetForDeck]);
+
+  // Restore or set slide when slides load: prefer sessionStorage so reload shows same slide
+  useEffect(() => {
+    if (slides.length === 0 || selectedSlideId) return;
+    const storageKey = deckId ? `edit-selected-slide-${deckId}` : null;
+    const stored = storageKey && typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(storageKey) : null;
+    const validStored = stored && slides.some((s) => s.id === stored);
+    selectSlide(validStored ? stored : slides[0].id);
+  }, [slides, selectedSlideId, deckId, selectSlide]);
+
+  // Persist selected slide per deck so reload shows same slide and its blocks
+  useEffect(() => {
+    if (deckId && selectedSlideId) {
+      try {
+        sessionStorage.setItem(`edit-selected-slide-${deckId}`, selectedSlideId);
+      } catch {
+        // ignore quota or private mode
+      }
     }
-  }, [slides, selectedSlideId]);
+  }, [deckId, selectedSlideId]);
 
   // Clear block selection when changing slide
   useEffect(() => {
-    setSelectedBlockId(null);
-  }, [selectedSlideId]);
+    selectBlock(null);
+  }, [selectedSlideId, selectBlock]);
+
+  // Sync canvas scroll from container to store
+  const handleCanvasScroll = () => {
+    const el = canvasScrollRef.current;
+    if (el) setCanvasScroll(el.scrollLeft, el.scrollTop);
+  };
+
+  // Convert client coordinates to canvas (logical) coordinates
+  const clientToCanvas = (clientX: number, clientY: number) => {
+    const el = canvasInnerRef.current;
+    if (!el) return { x: 0, y: 0 };
+    const rect = el.getBoundingClientRect();
+    return {
+      x: (clientX - rect.left) / zoomLevel,
+      y: (clientY - rect.top) / zoomLevel,
+    };
+  };
+
+  const dragStartPosRef = useRef<{ width: number; height: number } | null>(null);
+  const justDraggedBlockIdRef = useRef<string | null>(null);
+
+  const handleBlockMouseDown = (e: React.MouseEvent, blockId: string, pos: { x: number; y: number; width: number; height: number }) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    const canvas = clientToCanvas(e.clientX, e.clientY);
+    dragStartMouseRef.current = canvas;
+    dragStartPosRef.current = { width: pos.width, height: pos.height };
+    startDrag(blockId, pos.x, pos.y);
+
+    const handleDocMouseMove = (moveEvent: MouseEvent) => {
+      const start = dragStartMouseRef.current;
+      if (!start) return;
+      const state = useEditorStore.getState().dragState;
+      if (!state || state.blockId !== blockId) return;
+      const canvasPos = clientToCanvas(moveEvent.clientX, moveEvent.clientY);
+      const w = dragStartPosRef.current?.width ?? pos.width;
+      const h = dragStartPosRef.current?.height ?? pos.height;
+      const newX = Math.max(0, Math.min(CANVAS_WIDTH - w, state.startX + (canvasPos.x - start.x)));
+      const newY = Math.max(0, Math.min(CANVAS_HEIGHT - h, state.startY + (canvasPos.y - start.y)));
+      updateDrag(newX, newY);
+    };
+    const handleDocMouseUp = () => {
+      const state = useEditorStore.getState().dragState;
+      const posRef = dragStartPosRef.current;
+      dragStartMouseRef.current = null;
+      dragStartPosRef.current = null;
+      document.removeEventListener('mousemove', handleDocMouseMove);
+      document.removeEventListener('mouseup', handleDocMouseUp);
+
+      if (state && state.blockId === blockId && posRef && (state.currentX !== state.startX || state.currentY !== state.startY)) {
+        justDraggedBlockIdRef.current = blockId;
+        const newLayout = { x: state.currentX, y: state.currentY, width: posRef.width, height: posRef.height };
+        // Optimistic update: write new layout into cache so block stays where we dropped it
+        if (deckId && selectedSlideId) {
+          const key = queryKeys.blocks(deckId, selectedSlideId);
+          queryClient.setQueryData(key, (old: { blocks: Block[] } | undefined) => {
+            if (!old?.blocks) return old;
+            return {
+              blocks: old.blocks.map((b) =>
+                b.id === state.blockId ? { ...b, layout: newLayout } : b
+              ),
+            };
+          });
+        }
+        endDrag();
+        updateBlock.mutate({
+          blockId: state.blockId,
+          layout: layoutFromPosition(newLayout),
+        });
+      } else {
+        endDrag();
+      }
+    };
+    document.addEventListener('mousemove', handleDocMouseMove);
+    document.addEventListener('mouseup', handleDocMouseUp);
+  };
 
   const forbidden =
     deckError &&
@@ -124,7 +242,7 @@ export default function EditDeckPage() {
     );
   }
 
-  if (deckLoading || !deckId) {
+  if (!deckId || (deckLoading && !deckData)) {
     return (
       <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
         <p>Loading…</p>
@@ -150,7 +268,7 @@ export default function EditDeckPage() {
       { order: slides.length },
       {
         onSuccess: (newSlide) => {
-          setSelectedSlideId(newSlide.id);
+          selectSlide(newSlide.id);
         },
       }
     );
@@ -162,7 +280,7 @@ export default function EditDeckPage() {
     const nextSlide = slides[idx + 1] ?? slides[idx - 1];
     deleteSlide.mutate(slideId, {
       onSuccess: () => {
-        setSelectedSlideId(nextSlide?.id ?? null);
+        selectSlide(nextSlide?.id ?? null);
       },
     });
   };
@@ -183,7 +301,7 @@ export default function EditDeckPage() {
     const nextBlock = blocks[idx + 1] ?? blocks[idx - 1];
     deleteBlock.mutate(blockId, {
       onSuccess: () => {
-        setSelectedBlockId(selectedBlockId === blockId ? (nextBlock?.id ?? null) : selectedBlockId);
+        selectBlock(selectedBlockId === blockId ? (nextBlock?.id ?? null) : selectedBlockId);
       },
     });
   };
@@ -219,24 +337,41 @@ export default function EditDeckPage() {
         height: '100vh',
         fontFamily: 'system-ui',
         overflow: 'hidden',
+        backgroundColor: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
       }}
     >
       {/* Sidebar: slide list */}
       <aside
         style={{
           flex: '0 0 240px',
-          borderRight: '1px solid #ddd',
+          borderRight: '1px solid var(--border-default)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          backgroundColor: 'var(--bg-secondary)',
         }}
       >
-        <div style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>
-          <Link href="/edit" style={{ fontSize: '0.875rem', color: '#0066cc' }}>
+        <div
+          style={{
+            padding: '12px',
+            borderBottom: '1px solid var(--border-default)',
+          }}
+        >
+          <Link
+            href="/edit"
+            style={{ fontSize: '0.875rem', color: 'var(--accent-primary)' }}
+          >
             ← Decks
           </Link>
           {deckId && (
-            <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: '#666' }}>
+            <p
+              style={{
+                margin: '4px 0 0',
+                fontSize: '0.75rem',
+                color: 'var(--text-secondary)',
+              }}
+            >
               <Link href={`/view/${deckId}`}>View</Link>
               {' · '}
               <Link href={`/view/${deckId}`}>Present</Link>
@@ -259,7 +394,14 @@ export default function EditDeckPage() {
             {createSlide.isPending ? 'Adding…' : '+ Add slide'}
           </button>
           {slidesLoading ? (
-            <p style={{ fontSize: '0.875rem', color: '#666' }}>Loading…</p>
+            <p
+              style={{
+                fontSize: '0.875rem',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              Loading…
+            </p>
           ) : (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {slides.map((s, i) => (
@@ -274,13 +416,16 @@ export default function EditDeckPage() {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedSlideId(s.id)}
+                    onClick={() => selectSlide(s.id)}
                     style={{
                       flex: 1,
                       padding: '8px 8px',
                       textAlign: 'left',
                       fontWeight: selectedSlideId === s.id ? 600 : 400,
-                      backgroundColor: selectedSlideId === s.id ? '#e6f0ff' : 'transparent',
+                      backgroundColor:
+                        selectedSlideId === s.id
+                          ? 'var(--bg-selected)'
+                          : 'transparent',
                       border: '1px solid transparent',
                       borderRadius: 4,
                       cursor: 'pointer',
@@ -311,7 +456,11 @@ export default function EditDeckPage() {
                     onClick={() => handleDeleteSlide(s.id)}
                     disabled={slides.length <= 1 || deleteSlide.isPending}
                     title="Delete slide"
-                    style={{ padding: '4px 6px', fontSize: '0.75rem', color: '#c00' }}
+                    style={{
+                      padding: '4px 6px',
+                      fontSize: '0.75rem',
+                      color: 'var(--error)',
+                    }}
                   >
                     ×
                   </button>
@@ -330,9 +479,17 @@ export default function EditDeckPage() {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          backgroundColor: 'var(--bg-primary)',
         }}
       >
-        <div style={{ padding: '12px', borderBottom: '1px solid #ddd', flexShrink: 0 }}>
+        <div
+          style={{
+            padding: '12px',
+            borderBottom: '1px solid var(--border-default)',
+            flexShrink: 0,
+            backgroundColor: 'var(--bg-secondary)',
+          }}
+        >
           <h1 style={{ margin: 0, fontSize: '1rem' }}>Edit deck</h1>
           <div style={{ marginTop: '8px', fontSize: '0.875rem' }}>
             <input
@@ -355,24 +512,39 @@ export default function EditDeckPage() {
               {uploadCsv.isPending ? 'Uploading…' : 'Upload CSV'}
             </button>
             {dataSources.length > 0 && (
-              <span style={{ color: '#666' }}>Data: {dataSources.map((ds) => ds.name).join(', ')}</span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                Data: {dataSources.map((ds) => ds.name).join(', ')}
+              </span>
             )}
           </div>
         </div>
-        <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           {!selectedSlideId ? (
-            <p style={{ color: '#666' }}>Select a slide or add one.</p>
+            <div style={{ padding: '16px' }}>
+              <p style={{ color: 'var(--text-secondary)' }}>
+                Select a slide or add one.
+              </p>
+            </div>
           ) : (
             <>
-              <p style={{ marginBottom: '12px', fontSize: '0.875rem', color: '#666' }}>
-                Slide {slides.findIndex((s) => s.id === selectedSlideId) + 1} of {slides.length}
-              </p>
-              <p style={{ marginBottom: '8px' }}>
+              <div
+                style={{
+                  padding: '8px 16px',
+                  borderBottom: '1px solid var(--border-default)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                  Slide {slides.findIndex((s) => s.id === selectedSlideId) + 1} of {slides.length}
+                </span>
                 <button
                   type="button"
                   onClick={() => createBlock.mutate({ type: 'text' })}
                   disabled={createBlock.isPending}
-                  style={{ padding: '6px 12px', marginRight: '8px' }}
+                  style={{ padding: '6px 12px' }}
                 >
                   Add text block
                 </button>
@@ -384,87 +556,163 @@ export default function EditDeckPage() {
                 >
                   Add chart block
                 </button>
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {blocks.map((b, i) => {
-                  const isSelected = selectedBlockId === b.id;
-                  const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
-                  const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
-                  return (
-                    <li
-                      key={b.id}
-                      style={{
-                        marginBottom: '8px',
-                        padding: '12px',
-                        background: isSelected ? '#e6f0ff' : '#f5f5f5',
-                        border: isSelected ? '2px solid #0066cc' : '1px solid #ddd',
-                        borderRadius: 8,
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => setSelectedBlockId(b.id)}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <div style={{ flex: 1, minWidth: 0 }} onClick={(e) => e.stopPropagation()}>
-                          {b.type === 'text' && (
-                            <div style={{ whiteSpace: 'pre-wrap' }}>{b.content || '(empty text)'}</div>
-                          )}
-                          {b.type === 'chart' && (
-                            chartReady ? (
-                              renderChartByType(
-                                b.chart_type,
-                                b.data_source_id,
-                                chartConfig!,
-                                220
+                <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setZoom(zoomLevel - 0.25)}
+                    disabled={zoomLevel <= 0.25}
+                    style={{ padding: '4px 8px', fontSize: '0.875rem' }}
+                    title="Zoom out"
+                  >
+                    −
+                  </button>
+                  <span style={{ fontSize: '0.875rem', minWidth: '3rem', textAlign: 'center' }}>
+                    {Math.round(zoomLevel * 100)}%
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setZoom(zoomLevel + 0.25)}
+                    disabled={zoomLevel >= 2}
+                    style={{ padding: '4px 8px', fontSize: '0.875rem' }}
+                    title="Zoom in"
+                  >
+                    +
+                  </button>
+                </span>
+              </div>
+              <div
+                ref={canvasScrollRef}
+                onScroll={handleCanvasScroll}
+                style={{
+                  flex: 1,
+                  overflow: 'auto',
+                  padding: '16px',
+                  backgroundColor: 'var(--bg-secondary)',
+                }}
+              >
+                <div
+                  style={{
+                    width: CANVAS_WIDTH * zoomLevel,
+                    height: CANVAS_HEIGHT * zoomLevel,
+                    position: 'relative',
+                  }}
+                >
+                  <div
+                    ref={canvasInnerRef}
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      width: CANVAS_WIDTH,
+                      height: CANVAS_HEIGHT,
+                      transform: `scale(${zoomLevel})`,
+                      transformOrigin: '0 0',
+                      backgroundColor: 'var(--bg-primary)',
+                      border: '1px solid var(--border-default)',
+                      borderRadius: 8,
+                    }}
+                  >
+                    {blocks.map((b, i) => {
+                      const isSelected = selectedBlockId === b.id;
+                      const pos = getBlockPosition(b, i);
+                      const isDragging = dragState?.blockId === b.id;
+                      const displayX = isDragging ? dragState.currentX : pos.x;
+                      const displayY = isDragging ? dragState.currentY : pos.y;
+                      const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
+                      const chartReady = b.type === 'chart' && b.data_source_id && chartConfig?.categoryKey && chartConfig?.valueKey;
+                      return (
+                        <div
+                          key={b.id}
+                          style={{
+                            position: 'absolute',
+                            left: displayX,
+                            top: displayY,
+                            width: pos.width,
+                            height: pos.height,
+                            padding: '8px',
+                            boxSizing: 'border-box',
+                            background: isSelected ? 'var(--bg-selected)' : 'var(--bg-secondary)',
+                            border: isSelected ? '2px solid var(--accent-primary)' : '1px solid var(--border-default)',
+                            borderRadius: 8,
+                            cursor: isDragging ? 'grabbing' : 'grab',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            flexDirection: 'column',
+                          }}
+                          onMouseDown={(e) => handleBlockMouseDown(e, b.id, pos)}
+                          onClick={() => {
+                            if (justDraggedBlockIdRef.current === b.id) {
+                              justDraggedBlockIdRef.current = null;
+                              return;
+                            }
+                            selectBlock(b.id);
+                          }}
+                        >
+                          <div style={{ flex: 1, minHeight: 0 }} onClick={(e) => e.stopPropagation()}>
+                            {b.type === 'text' && (
+                              <div style={{ whiteSpace: 'pre-wrap', fontSize: '0.875rem' }}>{b.content || '(empty text)'}</div>
+                            )}
+                            {b.type === 'chart' && (
+                              chartReady ? (
+                                renderChartByType(
+                                  b.chart_type,
+                                  b.data_source_id,
+                                  chartConfig!,
+                                  Math.max(120, pos.height - 24)
+                                )
+                              ) : (
+                                <div
+                                  style={{
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: 'var(--border-default)',
+                                    borderRadius: 6,
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                  }}
+                                >
+                                  Configure chart (Properties panel)
+                                </div>
                               )
-                            ) : (
-                              <div
-                                style={{
-                                  padding: '24px',
-                                  background: '#eee',
-                                  borderRadius: 8,
-                                  color: '#666',
-                                  fontSize: '0.875rem',
-                                }}
-                              >
-                                Configure chart (select and use Properties panel)
-                              </div>
-                            )
-                          )}
+                            )}
+                          </div>
+                          <div style={{ flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
+                            <button
+                              type="button"
+                              onClick={(e) => handleMoveBlock(b.id, 'up', e)}
+                              disabled={i === 0 || reorderBlocks.isPending}
+                              title="Move up"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', marginRight: '2px' }}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleMoveBlock(b.id, 'down', e)}
+                              disabled={i === blocks.length - 1 || reorderBlocks.isPending}
+                              title="Move down"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', marginRight: '2px' }}
+                            >
+                              ↓
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleDeleteBlock(b.id, e)}
+                              disabled={deleteBlock.isPending}
+                              title="Delete block"
+                              style={{ padding: '2px 4px', fontSize: '0.75rem', color: 'var(--error)' }}
+                            >
+                              ×
+                            </button>
+                          </div>
                         </div>
-                        <div style={{ flexShrink: 0 }} onClick={(e) => e.stopPropagation()}>
-                          <button
-                            type="button"
-                            onClick={(e) => handleMoveBlock(b.id, 'up', e)}
-                            disabled={i === 0 || reorderBlocks.isPending}
-                            title="Move up"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleMoveBlock(b.id, 'down', e)}
-                            disabled={i === blocks.length - 1 || reorderBlocks.isPending}
-                            title="Move down"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', marginRight: '2px' }}
-                          >
-                            ↓
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleDeleteBlock(b.id, e)}
-                            disabled={deleteBlock.isPending}
-                            title="Delete block"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', color: '#c00' }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </div>
@@ -474,14 +722,22 @@ export default function EditDeckPage() {
       <aside
         style={{
           flex: '0 0 280px',
-          borderLeft: '1px solid #ddd',
+          borderLeft: '1px solid var(--border-default)',
           padding: '12px',
           overflow: 'auto',
+          backgroundColor: 'var(--bg-secondary)',
         }}
       >
         <h2 style={{ margin: '0 0 8px', fontSize: '0.875rem', fontWeight: 600 }}>Properties</h2>
         {!selectedBlock ? (
-          <p style={{ fontSize: '0.875rem', color: '#666' }}>Select a block to edit.</p>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            Select a block to edit.
+          </p>
         ) : selectedBlock.type === 'text' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <label htmlFor="block-content" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
@@ -500,14 +756,21 @@ export default function EditDeckPage() {
               style={{
                 width: '100%',
                 padding: '8px',
-                border: '1px solid #ddd',
+                border: '1px solid var(--border-default)',
                 borderRadius: 4,
                 fontSize: '0.875rem',
                 resize: 'vertical',
               }}
             />
             {updateBlock.isError && (
-              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--error)',
+                }}
+              >
+                {updateBlock.error?.message}
+              </span>
             )}
           </div>
         ) : (
@@ -526,7 +789,7 @@ export default function EditDeckPage() {
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 4,
                 }}
               >
@@ -553,7 +816,7 @@ export default function EditDeckPage() {
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 4,
                 }}
               >
@@ -588,7 +851,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     {columnKeys.map((k) => (
                       <option key={k} value={k}>{k}</option>
@@ -616,7 +879,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     {columnKeys.map((k) => (
                       <option key={k} value={k}>{k}</option>
@@ -642,7 +905,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     <option value="">— None —</option>
                     {columnKeys.map((k) => (
@@ -653,7 +916,14 @@ export default function EditDeckPage() {
               </>
             )}
             {updateBlock.isError && (
-              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--error)',
+                }}
+              >
+                {updateBlock.error?.message}
+              </span>
             )}
           </div>
         )}

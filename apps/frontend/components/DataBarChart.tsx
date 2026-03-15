@@ -1,6 +1,10 @@
 'use client';
 
-import { useDataSourceRows, type DataRow } from '@/lib/queries';
+import {
+  useDataSourceRows,
+  useDataSourceRowsSync,
+  type DataRow,
+} from '@/lib/queries';
 import { BarChart, type ChartConfig } from './BarChart';
 
 export type DataBarChartProps = {
@@ -23,12 +27,14 @@ export function DataBarChart({
   height = 300,
   shareToken,
 }: DataBarChartProps) {
-  const { data, isLoading, isError, error } = useDataSourceRows(
+  const fromApi = useDataSourceRows(
     dataSourceId,
     undefined,
     undefined,
     { shareToken }
   );
+  const fromSync = useDataSourceRowsSync(shareToken ? undefined : dataSourceId);
+  const { data, isLoading, isError, error } = shareToken ? fromApi : fromSync;
 
   if (isLoading) {
     return (

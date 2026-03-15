@@ -4,7 +4,7 @@ Create and view presentations with interactive charts. Monorepo: Next.js fronten
 
 ## Overview
 
-- **Frontend** (`apps/frontend`) — Next.js App Router. Login/register, edit and view routes; TanStack Query for decks, slides, blocks, data sources; Recharts charts (bar, line, pie, area) with custom tooltips and axis labels; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401. Edit deck page: three-panel layout (slide list sidebar, canvas, properties panel); add/remove/reorder slides and blocks; text and chart blocks; chart blocks use chart type (Bar/Line/Pie/Area), data source, and column mapping (category/value/series) persisted per block. Viewer at `view/[deckId]`: full-screen presentation (one slide at a time), next/previous and keyboard (arrows, Space, Escape); read-only slide and chart rendering with tooltips; optional share token in URL for restricted decks. Dev chart test page at `/dev/chart` for testing the chart pipeline with live data.
+- **Frontend** (`apps/frontend`) — Next.js App Router; Tailwind 4 (CSS-first `@theme`), light/dark/system theme (zustand-persisted). Login/register, edit and view routes; TanStack Query for decks, slides, blocks, data sources; Recharts charts (bar, line, pie, area) with custom tooltips and axis labels; JWT stored in localStorage; API client sends `Authorization: Bearer <token>` and redirects to login on 401. Edit deck page: three-panel layout (slide list sidebar, canvas, properties panel); add/remove/reorder slides and blocks; text and chart blocks; chart blocks use chart type (Bar/Line/Pie/Area), data source, and column mapping (category/value/series) persisted per block. Viewer at `view/[deckId]`: full-screen presentation (one slide at a time), next/previous and keyboard (arrows, Space, Escape); read-only slide and chart rendering with tooltips; optional share token in URL for restricted decks. Dev chart test page at `/dev/chart` for testing the chart pipeline with live data.
 - **API** (`apps/api`) — Fastify JSON API. Auth (register, login, JWT), decks/slides/blocks CRUD, data sources with CSV upload, permissions (`canEditDeck`, `canViewDeck`). PostgreSQL with raw SQL.
 
 ## How to run
@@ -42,12 +42,20 @@ This starts:
 
 The dev stack automatically seeds the database with sample users, decks, slides, and data sources.
 
+## Lint, tests, and CI
+
+- **Lint (workspace):** `pnpm lint` → runs ESLint for `api`, `frontend`, and `material-ui` (React/JSX in frontend and material-ui).
+- **Tests (workspace):** `pnpm test` → Vitest for `api`, `frontend`, and `material-ui` (jsdom + React Testing Library in frontend and material-ui).
+- **CI:** GitHub Actions at `.github/workflows/ci.yml` runs `lint`, `test`, and `build` on pushes and PRs to `main`.
+- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and `material-ui`, merges them, and deploys to GitHub Pages. Frontend Storybook at `/`, material-ui at `/material-ui/`.
+
 ## Links
 
 - [API README](apps/api/README.md) — setup, routes, migrations
 - [Frontend README](apps/frontend/README.md) — setup, run, structure
 - **API Docs:** http://localhost:3001/docs (Swagger UI, available when running)
-- **Storybook:** `pnpm storybook` — component development at http://localhost:6006
+- **Storybook (frontend):** `pnpm storybook` — http://localhost:6006
+- **Storybook (material-ui):** `nx storybook material-ui` — http://localhost:6007
 
 ## Docs-driven development
 

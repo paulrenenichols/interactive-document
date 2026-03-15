@@ -6,6 +6,21 @@ import {
   type UseMutationOptions,
 } from '@tanstack/react-query';
 import { fetchWithAuth, uploadWithAuth, getJsonNoRedirect } from './api';
+import {
+  DeckSchema,
+  DataSourceSchema,
+  DecksResponseSchema,
+  SlidesResponseSchema,
+  BlocksResponseSchema,
+  DataSourcesResponseSchema,
+  DataSourceRowsResponseSchema,
+  type Deck,
+  type Slide,
+  type Block,
+  type DataSource,
+  type DataRow,
+} from './schemas';
+import { initDb, upsertRows, queryRows, getRowCount } from './local-db';
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetchWithAuth(path);
@@ -65,49 +80,19 @@ export const queryKeys = {
   dataSource: (id: string) => ['dataSources', id] as const,
   dataSourceRows: (id: string, limit?: number, offset?: number) =>
     ['dataSources', id, 'rows', limit, offset] as const,
+  /** Sync coordinator for chart data: API → Zod → sql.js → IndexedDB */
+  dataSourceSync: (id: string) => ['dataSource', id, 'sync'] as const,
 };
 
-export type Deck = {
-  id: string;
-  owner_id: string;
-  visibility: string;
-  share_token?: string;
-  created_at: string;
-  updated_at: string;
-};
-
-export type Slide = { id: string; deck_id: string; order: number };
-
-export type Block = {
-  id: string;
-  slide_id: string;
-  type: 'text' | 'chart';
-  layout: Record<string, unknown>;
-  content?: string;
-  data_source_id?: string;
-  chart_type?: string;
-  column_mapping?: Record<string, unknown>;
-  order: number;
-};
-
-export type DataSource = {
-  id: string;
-  owner_id: string;
-  deck_id?: string;
-  name: string;
-  created_at: string;
-};
-
-export type DataRow = {
-  id: string;
-  row_index: number;
-  row_data: Record<string, unknown>;
-};
+export type { Deck, Slide, Block, DataSource, DataRow };
 
 export function useDecks(options?: Omit<UseQueryOptions<{ decks: Deck[] }>, 'queryKey' | 'queryFn'>) {
   return useQuery({
     queryKey: queryKeys.decks,
-    queryFn: () => apiGet<{ decks: Deck[] }>('/decks'),
+    queryFn: async () => {
+      const data = await apiGet<unknown>('/decks');
+      return DecksResponseSchema.parse(data);
+    },
     ...options,
   });
 }
@@ -118,8 +103,12 @@ export function useDeck(
 ) {
   return useQuery({
     queryKey: queryKeys.deck(deckId ?? ''),
-    queryFn: () => apiGet<Deck>(`/decks/${deckId}`),
+    queryFn: async () => {
+      const data = await apiGet<unknown>(`/decks/${deckId}`);
+      return DeckSchema.parse(data);
+    },
     enabled: !!deckId,
+    staleTime: 60 * 1000,
     ...options,
   });
 }
@@ -157,8 +146,12 @@ export function useSlides(
 ) {
   return useQuery({
     queryKey: queryKeys.slides(deckId ?? ''),
-    queryFn: () => apiGet<{ slides: Slide[] }>(`/decks/${deckId}/slides`),
+    queryFn: async () => {
+      const data = await apiGet<unknown>(`/decks/${deckId}/slides`);
+      return SlidesResponseSchema.parse(data);
+    },
     enabled: !!deckId,
+    staleTime: 30 * 1000,
     ...options,
   });
 }
@@ -173,7 +166,6 @@ export function useCreateSlide(
       apiPost<Slide>(`/decks/${deckId}/slides`, body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.slides(deckId) });
-      qc.invalidateQueries({ queryKey: queryKeys.deck(deckId) });
     },
     ...options,
   });
@@ -216,8 +208,10 @@ export function useBlocks(
 ) {
   return useQuery({
     queryKey: queryKeys.blocks(deckId ?? '', slideId ?? ''),
-    queryFn: () =>
-      apiGet<{ blocks: Block[] }>(`/decks/${deckId}/slides/${slideId}/blocks`),
+    queryFn: async () => {
+      const data = await apiGet<unknown>(`/decks/${deckId}/slides/${slideId}/blocks`);
+      return BlocksResponseSchema.parse(data);
+    },
     enabled: !!deckId && !!slideId,
     ...options,
   });
@@ -232,8 +226,13 @@ export function useCreateBlock(
   return useMutation({
     mutationFn: (body) =>
       apiPost<Block>(`/decks/${deckId}/slides/${slideId}/blocks`, body),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.blocks(deckId, slideId) });
+    onSuccess: (newBlock) => {
+      qc.setQueryData(
+        queryKeys.blocks(deckId, slideId),
+        (old: { blocks: Block[] } | undefined) => ({
+          blocks: [...(old?.blocks ?? []), newBlock],
+        })
+      );
     },
     ...options,
   });
@@ -327,9 +326,12 @@ export function useUploadDataSource(
       }
       return res.json() as Promise<UploadDataSourceResult>;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (result, variables) => {
       qc.invalidateQueries({ queryKey: queryKeys.dataSources(variables.deckId) });
       qc.invalidateQueries({ queryKey: queryKeys.dataSources() });
+      if (result?.id) {
+        qc.invalidateQueries({ queryKey: queryKeys.dataSourceSync(result.id) });
+      }
     },
     ...options,
   });
@@ -341,10 +343,12 @@ export function useDataSources(
 ) {
   return useQuery({
     queryKey: queryKeys.dataSources(deckId),
-    queryFn: () =>
-      apiGet<{ dataSources: DataSource[] }>(
+    queryFn: async () => {
+      const data = await apiGet<unknown>(
         deckId ? `/data-sources?deckId=${deckId}` : '/data-sources'
-      ),
+      );
+      return DataSourcesResponseSchema.parse(data);
+    },
     ...options,
   });
 }
@@ -355,7 +359,10 @@ export function useDataSource(
 ) {
   return useQuery({
     queryKey: queryKeys.dataSource(id ?? ''),
-    queryFn: () => apiGet<DataSource>(`/data-sources/${id}`),
+    queryFn: async () => {
+      const data = await apiGet<unknown>(`/data-sources/${id}`);
+      return DataSourceSchema.parse(data);
+    },
     enabled: !!id,
     ...options,
   });
@@ -381,11 +388,54 @@ export function useDataSourceRows(
   const path = `/data-sources/${id}/rows${qs ? `?${qs}` : ''}`;
   return useQuery({
     queryKey: [...queryKeys.dataSourceRows(id ?? '', limit, offset), shareToken ?? null],
-    queryFn: () =>
-      shareToken != null
-        ? getJsonNoRedirect<{ rows: DataRow[]; total: number }>(path)
-        : apiGet<{ rows: DataRow[]; total: number }>(path),
+    queryFn: async () => {
+      const data =
+        shareToken != null
+          ? await getJsonNoRedirect<unknown>(path)
+          : await apiGet<unknown>(path);
+      return DataSourceRowsResponseSchema.parse(data);
+    },
     enabled: !!id,
     ...queryOptions,
+  });
+}
+
+/** Sync chart data from API to sql.js + IndexedDB and return rows from local cache. Use for edit view (no share token). */
+export type DataSourceSyncResult = {
+  rows: DataRow[];
+  total: number;
+  lastSynced: number;
+};
+
+export function useDataSourceRowsSync(
+  id: string | undefined,
+  options?: Omit<
+    UseQueryOptions<DataSourceSyncResult>,
+    'queryKey' | 'queryFn'
+  >
+) {
+  return useQuery({
+    queryKey: queryKeys.dataSourceSync(id ?? ''),
+    queryFn: async (): Promise<DataSourceSyncResult> => {
+      if (!id) throw new Error('dataSource id required');
+      await initDb();
+      const path = `/data-sources/${id}/rows`;
+      const data = await apiGet<unknown>(path);
+      const parsed = DataSourceRowsResponseSchema.parse(data);
+      await upsertRows(id, parsed.rows);
+      const fromDb = queryRows(id);
+      return {
+        rows: fromDb.map(({ id: rowId, row_index, row_data }) => ({
+          id: rowId,
+          row_index,
+          row_data,
+        })),
+        total: getRowCount(id),
+        lastSynced: Date.now(),
+      };
+    },
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+    ...options,
   });
 }

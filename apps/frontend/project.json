@@ -4,6 +4,23 @@
   "sourceRoot": "apps/frontend",
   "projectType": "application",
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/frontend/app/**/*.{ts,tsx}",
+          "apps/frontend/components/**/*.{ts,tsx}",
+          "apps/frontend/lib/**/*.{ts,tsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run",
+        "cwd": "apps/frontend"
+      }
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
@@ -28,19 +45,6 @@
         }
       }
     },
-    "storybook": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "storybook dev -p 6006 --config-dir apps/frontend/.storybook"
-      }
-    },
-    "build-storybook": {
-      "executor": "nx:run-commands",
-      "outputs": ["dist/storybook/frontend"],
-      "options": {
-        "command": "storybook build --config-dir apps/frontend/.storybook -o dist/storybook/frontend"
-      }
-    }
   },
   "tags": []
 }

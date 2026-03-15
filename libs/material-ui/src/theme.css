@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode (add .dark on <html> to toggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* M3 design tokens – map to Tailwind utility classes */
+@theme {
+  /* Backgrounds */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-slide: #ffffff;
+  /* Text */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  /* Borders */
+  --color-border-default: #e0e0e0;
+  --color-border-focus: #0066cc;
+  /* Accents */
+  --color-accent-primary: #0066cc;
+  --color-accent-primary-hover: #0052a3;
+  --color-accent-primary-active: #003d7a;
+  --color-accent-destructive: #cc3333;
+  /* Overlay (backdrop) */
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #ca8a04;
+  --color-error: #dc2626;
+  /* Shape */
+  --radius-none: 0px;
+  --radius-extra-small: 4px;
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 16px;
+  --radius-extra-large: 28px;
+  --radius-full: 9999px;
+  /* Motion (MUI-consistent: enter 225ms, exit 195ms) */
+  --duration-short: 150ms;
+  --duration-standard: 225ms;
+  --duration-leave: 195ms;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --border-default: #e0e0e0;
+  --border-focus: #0066cc;
+  --accent-primary: #0066cc;
+  --accent-primary-hover: #0052a3;
+  --accent-primary-active: #003d7a;
+  --accent-destructive: #cc3333;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --error: #dc2626;
+}
+
+.dark {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
+  --border-default: #404040;
+  --border-focus: #3b82f6;
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #2563eb;
+  --accent-primary-active: #1d4ed8;
+  --accent-destructive: #ef4444;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #f87171;
+}

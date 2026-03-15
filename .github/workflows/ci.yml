@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+  storybook-pages:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook (frontend)
+        run: pnpm exec nx run frontend:build-storybook
+
+      - name: Build Storybook (material-ui)
+        run: pnpm exec nx run material-ui:build-storybook
+
+      - name: Merge Storybook artifacts
+        run: |
+          mkdir -p storybook-static/material-ui
+          cp -r apps/frontend/storybook-static/* storybook-static/
+          cp -r libs/material-ui/storybook-static/* storybook-static/material-ui/
+
+      - id: artifact-name
+        name: Set unique artifact name
+        run: echo "ARTIFACT_SUFFIX=${{ github.run_id }}-${{ github.run_attempt }}-$(date +%s%N | cut -b1-13)" >> $GITHUB_ENV
+
+      - name: Upload Storybook artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+          name: github-pages-${{ env.ARTIFACT_SUFFIX }}
+
+      - id: deployment
+        name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ env.ARTIFACT_SUFFIX }}
+
