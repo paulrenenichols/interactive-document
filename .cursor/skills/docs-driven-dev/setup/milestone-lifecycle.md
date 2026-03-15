@@ -36,6 +36,7 @@ Milestones live under `_docs/milestones/` in one of three folders:
      - **README step:** Add/update project-root and per-app READMEs on completion.
      - **Progress doc:** Add/update `_docs/progress/<milestone>/<phase>.md`.
      - **Final step:** On user approval, add, commit, push final changes.
+   - **Last phase only:** When this phase is the milestone's final phase, after the PR is merged the milestone must be moved from `active/` to `completed/` with a number prefix, and `milestones/README.md` updated (see "Mark milestone completed" in the docs-driven-dev skill).
    - **Pause for review.**
 
 4. **Progress folder**

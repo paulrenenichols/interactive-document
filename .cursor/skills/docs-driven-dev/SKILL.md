@@ -1,6 +1,6 @@
 ---
 name: docs-driven-dev
-version: "1.2.0"
+version: "1.4.0"
 description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
 ---
 
@@ -21,7 +21,7 @@ Docs-driven development: planning, milestones, explorations, and documentation w
 | **Update exploration** | "update exploration", "add feature sets to exploration" |
 | **Create milestone from exploration** | "turn exploration into milestone", "create milestone from exploration", "exploration to milestone", "evaluate exploration and create milestone" |
 | **Make milestone active** | "make milestone active", "start milestone", "activate milestone", "move to active", "begin work on" |
-| **Mark milestone completed** | "mark milestone completed", "finish milestone", "complete milestone", "move to completed" |
+| **Mark milestone completed** | "mark milestone completed", "finish milestone", "complete milestone", "move to completed"; also prompted when the last phase of an active milestone is merged |
 | **Help** | "what can you do", "help", "what capabilities", "docs-driven-dev help" |
 
 ---
@@ -37,7 +37,7 @@ When the user asks "what can you do?", "help", "what capabilities", or similar, 
 - **Update exploration** — Update an existing exploration (add feature sets, align to standards)
 - **Create milestone from exploration** — Turn an exploration into a milestone in `milestones/future/` and move the exploration to `explorations/completed/`
 - **Make milestone active** — Move a future milestone to `active/` and verify phases/phase-plans
-- **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix
+- **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix to both the milestone folder and the corresponding `progress/` folder (do when the last phase is merged; skill prompts for this)
 
 ---
 
@@ -70,10 +70,10 @@ When executing milestone phases:
 1. **One phase at a time:** Complete one phase fully, then STOP
 2. **User testing:** Inform user phase is complete and ready for testing
 3. **PR and merge:** User creates PR, tests, and merges to main
-4. **Next phase:** User explicitly asks to start next phase
+4. **Next phase:** User explicitly asks to start next phase — or, if this was the **last phase** of the milestone, prompt to **mark milestone completed** (see section 8): move folder from `active/<name>/` to `completed/`, add number prefix, update `milestones/README.md`, branch `milestone/complete/<name>`
 5. **Branch from main:** Each phase branches from main AFTER previous phase is merged
 
-Do NOT automatically continue to the next phase. The user must explicitly request it after merging the previous phase.
+Do NOT automatically continue to the next phase. The user must explicitly request it after merging the previous phase. When the phase just merged was the milestone's final phase, do not leave the milestone in active — complete the milestone (section 8) as part of closing out that phase.
 
 ---
 
@@ -116,15 +116,16 @@ Do NOT automatically continue to the next phase. The user must explicitly reques
    - Move contents of `progress/future/<milestone>/` to `progress/<milestone>/`
    - Keep `progress/miscellaneous/` as-is
    - Delete empty `completed/`, `active/`, `future/` folders
-5. Align milestones structure: ensure `milestones/` has `completed/`, `active/`, `future/`
-6. Ensure `milestones/README.md` has Completed / Active / Future sections
-7. Ensure setup files match skill's canonical copies
-8. Ensure `_docs/planning/explorations/completed/` exists
-9. Update exploration READMEs to current standards
-10. Preserve prior attribution in parentheses where useful
-11. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
-12. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
-13. Commit (if git)
+5. **Align progress folder prefixes** (v1.4.0): For each completed milestone in `milestones/completed/` (e.g. `04-developer-experience`), if `progress/` has a folder with the same base name but no number prefix (e.g. `progress/developer-experience/`), rename it to the prefixed form (e.g. `progress/04-developer-experience/`). Skip `progress/miscellaneous/`. This fixes progress folders that were completed before the skill added progress prefixing.
+6. Align milestones structure: ensure `milestones/` has `completed/`, `active/`, `future/`
+7. Ensure `milestones/README.md` has Completed / Active / Future sections
+8. Ensure setup files match skill's canonical copies
+9. Ensure `_docs/planning/explorations/completed/` exists
+10. Update exploration READMEs to current standards
+11. Preserve prior attribution in parentheses where useful
+12. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
+13. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
+14. Commit (if git)
 
 ---
 
@@ -181,10 +182,13 @@ Follow scaffold-exploration update flow. Branch: `explore/update/<name>`. Use do
 
 ## 8. Mark milestone completed
 
+Do this when the milestone's **last phase** is finished (PR merged). It is part of closing out the final phase — do not leave the milestone in active after the last phase is done.
+
 1. Move folder from `milestones/active/<name>/` to `milestones/completed/`
 2. Add number prefix = max(completed numbers) + 1 (e.g. `04-<name>`)
-3. Update `milestones/README.md` index
-4. Branch: `milestone/complete/<name>`
+3. **Rename progress folder:** If `progress/<name>/` exists, rename it to `progress/<NN>-<name>/` using the same number prefix (e.g. `progress/developer-experience/` → `progress/04-developer-experience/`). This keeps progress folder names aligned with completed milestone numbering.
+4. Update `milestones/README.md` index
+5. Branch: `milestone/complete/<name>`
 
 ---
 

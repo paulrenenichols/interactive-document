@@ -77,6 +77,15 @@ jobs:
       - name: Build Storybook (frontend)
         run: pnpm exec nx run frontend:build-storybook
 
+      - name: Build Storybook (material-ui)
+        run: pnpm exec nx run material-ui:build-storybook
+
+      - name: Merge Storybook artifacts
+        run: |
+          mkdir -p storybook-static/material-ui
+          cp -r apps/frontend/storybook-static/* storybook-static/
+          cp -r libs/material-ui/storybook-static/* storybook-static/material-ui/
+
       - id: artifact-name
         name: Set unique artifact name
         run: echo "ARTIFACT_SUFFIX=${{ github.run_id }}-${{ github.run_attempt }}-$(date +%s%N | cut -b1-13)" >> $GITHUB_ENV
@@ -84,7 +93,7 @@ jobs:
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/frontend/storybook-static
+          path: storybook-static
           name: github-pages-${{ env.ARTIFACT_SUFFIX }}
 
       - id: deployment
