@@ -74,7 +74,6 @@ export default function EditDeckPage() {
   const selectedBlockId = selectedBlockIds[0] ?? null;
   const zoomLevel = useEditorStore((s) => s.zoomLevel);
   const setZoom = useEditorStore((s) => s.setZoom);
-  const canvasScrollPosition = useEditorStore((s) => s.canvasScrollPosition);
   const setCanvasScroll = useEditorStore((s) => s.setCanvasScroll);
   const dragState = useEditorStore((s) => s.dragState);
   const startDrag = useEditorStore((s) => s.startDrag);
