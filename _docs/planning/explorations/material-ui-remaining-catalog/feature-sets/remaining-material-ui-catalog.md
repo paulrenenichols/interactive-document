@@ -1,6 +1,6 @@
 # Remaining Material UI catalog
 
-Created with the **docs-driven-dev** skill (v1.4.0).
+Created with the **docs-driven-dev** skill (v1.4.0). Updated with the **docs-driven-dev** skill (v1.5.0).
 
 ## Summary
 
@@ -110,3 +110,19 @@ All new components must use theme tokens from `theme.css`, support `.dark` (no h
 - Export from `libs/material-ui/src/index.ts`.
 - Update `libs/material-ui/README.md` with new entries.
 - Optional: add Slide and Collapse to Transitions if not yet present, for Drawer/BottomSheet/Accordion.
+
+## Storybook publishing (GitHub Pages)
+
+Publishing is **already** done in CI (`.github/workflows/ci.yml`): one GitHub Pages site with frontend Storybook at `/` and material-ui Storybook at `/material-ui/`. No separate workflow or site is required; the existing job builds both, merges them into a single artifact (frontend at root, material-ui in `material-ui/`), and deploys. The frontend Storybook is unchanged at the root; the material-ui catalog is an extra app at the `/material-ui/` subpath.
+
+- **Build:** `nx run material-ui:build-storybook`; output is `libs/material-ui/storybook-static`. CI runs this and copies the result into the combined artifact.
+- **Base path:** If the material-ui Storybook has broken assets when served from `/material-ui/`, set Storybook’s `base` (or Vite `base`) in `libs/material-ui/.storybook` to `/material-ui/` — or `/<repo>/material-ui/` for a project site (e.g. `https://<org>.github.io/<repo>/`) — so asset URLs match the subpath.
+
+## Frontend migration (replace with material-ui)
+
+Replace UI in the frontend app (`apps/frontend`) with equivalents from `@interactive-document/material-ui` so the app uses the shared component library and theme consistently.
+
+- **Audit:** Identify all UI that can be replaced — forms (inputs, buttons), layout (containers, stacks), navigation (links, menus where used), surfaces (cards, paper), typography, and any ad-hoc styled elements. The frontend currently uses native HTML and inline styles in many places (e.g. login/register, edit pages, layout).
+- **Replace:** Swap those with library components: e.g. `Button`, `TextField`, `Typography`, `Box`, `Stack`, `Paper`, `Link` (or Next.js `Link` wrapped with library styling), and others as the catalog grows. Ensure the app’s theme provider (or root) applies the same theme/class (e.g. `.dark`) so library tokens and dark mode stay in sync.
+- **Order:** Prefer replacing screens that use components already in the library first (Button, TextField, Typography, Box, Stack, Paper, Dialog, Menu, etc.). Add and adopt new catalog components (e.g. Card, Tabs, Drawer) as they are implemented.
+- **Scope:** `apps/frontend` only; other apps can be migrated in a later phase if needed.
