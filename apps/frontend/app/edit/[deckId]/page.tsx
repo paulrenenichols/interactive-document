@@ -20,6 +20,7 @@ import {
   type Slide,
   type Block,
 } from '@/lib/queries';
+import { useEditorStore } from '@/lib/stores/editor-store';
 import { DataBarChart } from '@/components/DataBarChart';
 import { DataLineChart } from '@/components/DataLineChart';
 import { DataPieChart } from '@/components/DataPieChart';
@@ -57,8 +58,12 @@ function renderChartByType(
 export default function EditDeckPage() {
   const params = useParams();
   const deckId = params?.deckId as string | undefined;
-  const [selectedSlideId, setSelectedSlideId] = useState<string | null>(null);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const selectedSlideId = useEditorStore((s) => s.selectedSlideId);
+  const selectSlide = useEditorStore((s) => s.selectSlide);
+  const selectedBlockIds = useEditorStore((s) => s.selectedBlockIds);
+  const selectBlock = useEditorStore((s) => s.selectBlock);
+  const resetForDeck = useEditorStore((s) => s.resetForDeck);
+  const selectedBlockId = selectedBlockIds[0] ?? null;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -89,17 +94,22 @@ export default function EditDeckPage() {
     return first ? Object.keys(first) : [];
   }, [rowsData?.rows]);
 
+  // Reset editor state when deck changes
+  useEffect(() => {
+    if (deckId) resetForDeck();
+  }, [deckId, resetForDeck]);
+
   // Auto-select first slide when slides load and none selected
   useEffect(() => {
     if (slides.length > 0 && !selectedSlideId) {
-      setSelectedSlideId(slides[0].id);
+      selectSlide(slides[0].id);
     }
-  }, [slides, selectedSlideId]);
+  }, [slides, selectedSlideId, selectSlide]);
 
   // Clear block selection when changing slide
   useEffect(() => {
-    setSelectedBlockId(null);
-  }, [selectedSlideId]);
+    selectBlock(null);
+  }, [selectedSlideId, selectBlock]);
 
   const forbidden =
     deckError &&
@@ -150,7 +160,7 @@ export default function EditDeckPage() {
       { order: slides.length },
       {
         onSuccess: (newSlide) => {
-          setSelectedSlideId(newSlide.id);
+          selectSlide(newSlide.id);
         },
       }
     );
@@ -162,7 +172,7 @@ export default function EditDeckPage() {
     const nextSlide = slides[idx + 1] ?? slides[idx - 1];
     deleteSlide.mutate(slideId, {
       onSuccess: () => {
-        setSelectedSlideId(nextSlide?.id ?? null);
+        selectSlide(nextSlide?.id ?? null);
       },
     });
   };
@@ -183,7 +193,7 @@ export default function EditDeckPage() {
     const nextBlock = blocks[idx + 1] ?? blocks[idx - 1];
     deleteBlock.mutate(blockId, {
       onSuccess: () => {
-        setSelectedBlockId(selectedBlockId === blockId ? (nextBlock?.id ?? null) : selectedBlockId);
+        selectBlock(selectedBlockId === blockId ? (nextBlock?.id ?? null) : selectedBlockId);
       },
     });
   };
@@ -298,7 +308,7 @@ export default function EditDeckPage() {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedSlideId(s.id)}
+                    onClick={() => selectSlide(s.id)}
                     style={{
                       flex: 1,
                       padding: '8px 8px',
@@ -454,7 +464,7 @@ export default function EditDeckPage() {
                         borderRadius: 8,
                         cursor: 'pointer',
                       }}
-                      onClick={() => setSelectedBlockId(b.id)}
+                      onClick={() => selectBlock(b.id)}
                     >
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                         <div style={{ flex: 1, minWidth: 0 }} onClick={(e) => e.stopPropagation()}>
