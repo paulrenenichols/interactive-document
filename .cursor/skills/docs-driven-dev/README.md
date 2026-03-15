@@ -2,7 +2,7 @@
 
 A Cursor skill for docs-driven development: planning, milestones, explorations, and documentation workflows.
 
-**Current version:** 1.1.0
+**Current version:** 1.4.0
 
 ## What it does
 
@@ -39,7 +39,7 @@ Trigger with phrases like: "setup docs", "convert to docs", "upgrade docs", "cre
 ## Supersedes
 
 This skill consolidates and extends:
-- [scaffold-docs](https://github.com/paulrenenichols/cursor-skills/tree/main/scaffold-docs)
-- [scaffold-exploration](https://github.com/paulrenenichols/cursor-skills/tree/main/scaffold-exploration)
+- [scaffold-docs](https://github.com/paulrenenichols/cursor-skills/tree/main/deprecated/scaffold-docs)
+- [scaffold-exploration](https://github.com/paulrenenichols/cursor-skills/tree/main/deprecated/scaffold-exploration)
 
 See [cursor-skills](https://github.com/paulrenenichols/cursor-skills) for the original skills. For new adopters, docs-driven-dev is the recommended unified skill.

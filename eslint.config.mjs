@@ -24,6 +24,8 @@ export default [
       "apps/frontend/components/**/*.tsx",
       "apps/frontend/lib/**/*.ts",
       "apps/frontend/lib/**/*.tsx",
+      "libs/material-ui/src/**/*.ts",
+      "libs/material-ui/src/**/*.tsx",
     ],
     plugins: { react: reactPlugin },
     languageOptions: {

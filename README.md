@@ -44,17 +44,18 @@ The dev stack automatically seeds the database with sample users, decks, slides,
 
 ## Lint, tests, and CI
 
-- **Lint (workspace):** `pnpm lint` → `nx run-many -t lint` (runs ESLint for `api` and `frontend`, including React/JSX rules in `apps/frontend`).
-- **Tests (workspace):** `pnpm test` → `nx run-many -t test --projects=api,frontend` (Vitest for both apps; jsdom + React Testing Library in `frontend`).
-- **CI:** GitHub Actions workflow at `.github/workflows/ci.yml` runs `lint`, `test`, and `build` on pushes and PRs to `main`.
-- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and deploys it to GitHub Pages (configure Pages in the repo settings to use this workflow).
+- **Lint (workspace):** `pnpm lint` → runs ESLint for `api`, `frontend`, and `material-ui` (React/JSX in frontend and material-ui).
+- **Tests (workspace):** `pnpm test` → Vitest for `api`, `frontend`, and `material-ui` (jsdom + React Testing Library in frontend and material-ui).
+- **CI:** GitHub Actions at `.github/workflows/ci.yml` runs `lint`, `test`, and `build` on pushes and PRs to `main`.
+- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and `material-ui`, merges them, and deploys to GitHub Pages. Frontend Storybook at `/`, material-ui at `/material-ui/`.
 
 ## Links
 
 - [API README](apps/api/README.md) — setup, routes, migrations
 - [Frontend README](apps/frontend/README.md) — setup, run, structure
 - **API Docs:** http://localhost:3001/docs (Swagger UI, available when running)
-- **Storybook:** `pnpm storybook` — component development at http://localhost:6006
+- **Storybook (frontend):** `pnpm storybook` — http://localhost:6006
+- **Storybook (material-ui):** `nx storybook material-ui` — http://localhost:6007
 
 ## Docs-driven development
 
