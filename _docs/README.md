@@ -1,6 +1,6 @@
 # _docs
 
-Updated with the **docs-driven-dev** skill (v1.2.0). (Previously v1.0.0)
+Updated with the **docs-driven-dev** skill (v1.5.0). (Previously v1.2.0)
 
 Project and process documentation: overview, definitions, milestones, phase plans, setup guides, progress, and planning.
 
