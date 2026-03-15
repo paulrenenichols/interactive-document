@@ -219,24 +219,41 @@ export default function EditDeckPage() {
         height: '100vh',
         fontFamily: 'system-ui',
         overflow: 'hidden',
+        backgroundColor: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
       }}
     >
       {/* Sidebar: slide list */}
       <aside
         style={{
           flex: '0 0 240px',
-          borderRight: '1px solid #ddd',
+          borderRight: '1px solid var(--border-default)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          backgroundColor: 'var(--bg-secondary)',
         }}
       >
-        <div style={{ padding: '12px', borderBottom: '1px solid #ddd' }}>
-          <Link href="/edit" style={{ fontSize: '0.875rem', color: '#0066cc' }}>
+        <div
+          style={{
+            padding: '12px',
+            borderBottom: '1px solid var(--border-default)',
+          }}
+        >
+          <Link
+            href="/edit"
+            style={{ fontSize: '0.875rem', color: 'var(--accent-primary)' }}
+          >
             ← Decks
           </Link>
           {deckId && (
-            <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: '#666' }}>
+            <p
+              style={{
+                margin: '4px 0 0',
+                fontSize: '0.75rem',
+                color: 'var(--text-secondary)',
+              }}
+            >
               <Link href={`/view/${deckId}`}>View</Link>
               {' · '}
               <Link href={`/view/${deckId}`}>Present</Link>
@@ -259,7 +276,14 @@ export default function EditDeckPage() {
             {createSlide.isPending ? 'Adding…' : '+ Add slide'}
           </button>
           {slidesLoading ? (
-            <p style={{ fontSize: '0.875rem', color: '#666' }}>Loading…</p>
+            <p
+              style={{
+                fontSize: '0.875rem',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              Loading…
+            </p>
           ) : (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {slides.map((s, i) => (
@@ -280,7 +304,10 @@ export default function EditDeckPage() {
                       padding: '8px 8px',
                       textAlign: 'left',
                       fontWeight: selectedSlideId === s.id ? 600 : 400,
-                      backgroundColor: selectedSlideId === s.id ? '#e6f0ff' : 'transparent',
+                      backgroundColor:
+                        selectedSlideId === s.id
+                          ? 'var(--bg-selected)'
+                          : 'transparent',
                       border: '1px solid transparent',
                       borderRadius: 4,
                       cursor: 'pointer',
@@ -311,7 +338,11 @@ export default function EditDeckPage() {
                     onClick={() => handleDeleteSlide(s.id)}
                     disabled={slides.length <= 1 || deleteSlide.isPending}
                     title="Delete slide"
-                    style={{ padding: '4px 6px', fontSize: '0.75rem', color: '#c00' }}
+                    style={{
+                      padding: '4px 6px',
+                      fontSize: '0.75rem',
+                      color: 'var(--error)',
+                    }}
                   >
                     ×
                   </button>
@@ -330,9 +361,17 @@ export default function EditDeckPage() {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          backgroundColor: 'var(--bg-primary)',
         }}
       >
-        <div style={{ padding: '12px', borderBottom: '1px solid #ddd', flexShrink: 0 }}>
+        <div
+          style={{
+            padding: '12px',
+            borderBottom: '1px solid var(--border-default)',
+            flexShrink: 0,
+            backgroundColor: 'var(--bg-secondary)',
+          }}
+        >
           <h1 style={{ margin: 0, fontSize: '1rem' }}>Edit deck</h1>
           <div style={{ marginTop: '8px', fontSize: '0.875rem' }}>
             <input
@@ -355,16 +394,26 @@ export default function EditDeckPage() {
               {uploadCsv.isPending ? 'Uploading…' : 'Upload CSV'}
             </button>
             {dataSources.length > 0 && (
-              <span style={{ color: '#666' }}>Data: {dataSources.map((ds) => ds.name).join(', ')}</span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                Data: {dataSources.map((ds) => ds.name).join(', ')}
+              </span>
             )}
           </div>
         </div>
         <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
           {!selectedSlideId ? (
-            <p style={{ color: '#666' }}>Select a slide or add one.</p>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Select a slide or add one.
+            </p>
           ) : (
             <>
-              <p style={{ marginBottom: '12px', fontSize: '0.875rem', color: '#666' }}>
+              <p
+                style={{
+                  marginBottom: '12px',
+                  fontSize: '0.875rem',
+                  color: 'var(--text-secondary)',
+                }}
+              >
                 Slide {slides.findIndex((s) => s.id === selectedSlideId) + 1} of {slides.length}
               </p>
               <p style={{ marginBottom: '8px' }}>
@@ -396,8 +445,12 @@ export default function EditDeckPage() {
                       style={{
                         marginBottom: '8px',
                         padding: '12px',
-                        background: isSelected ? '#e6f0ff' : '#f5f5f5',
-                        border: isSelected ? '2px solid #0066cc' : '1px solid #ddd',
+                        background: isSelected
+                          ? 'var(--bg-selected)'
+                          : 'var(--bg-secondary)',
+                        border: isSelected
+                          ? '2px solid var(--accent-primary)'
+                          : '1px solid var(--border-default)',
                         borderRadius: 8,
                         cursor: 'pointer',
                       }}
@@ -420,9 +473,9 @@ export default function EditDeckPage() {
                               <div
                                 style={{
                                   padding: '24px',
-                                  background: '#eee',
+                                  background: 'var(--border-default)',
                                   borderRadius: 8,
-                                  color: '#666',
+                                  color: 'var(--text-secondary)',
                                   fontSize: '0.875rem',
                                 }}
                               >
@@ -455,7 +508,11 @@ export default function EditDeckPage() {
                             onClick={(e) => handleDeleteBlock(b.id, e)}
                             disabled={deleteBlock.isPending}
                             title="Delete block"
-                            style={{ padding: '4px 6px', fontSize: '0.75rem', color: '#c00' }}
+                            style={{
+                            padding: '4px 6px',
+                            fontSize: '0.75rem',
+                            color: 'var(--error)',
+                          }}
                           >
                             ×
                           </button>
@@ -474,14 +531,22 @@ export default function EditDeckPage() {
       <aside
         style={{
           flex: '0 0 280px',
-          borderLeft: '1px solid #ddd',
+          borderLeft: '1px solid var(--border-default)',
           padding: '12px',
           overflow: 'auto',
+          backgroundColor: 'var(--bg-secondary)',
         }}
       >
         <h2 style={{ margin: '0 0 8px', fontSize: '0.875rem', fontWeight: 600 }}>Properties</h2>
         {!selectedBlock ? (
-          <p style={{ fontSize: '0.875rem', color: '#666' }}>Select a block to edit.</p>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            Select a block to edit.
+          </p>
         ) : selectedBlock.type === 'text' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <label htmlFor="block-content" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
@@ -500,14 +565,21 @@ export default function EditDeckPage() {
               style={{
                 width: '100%',
                 padding: '8px',
-                border: '1px solid #ddd',
+                border: '1px solid var(--border-default)',
                 borderRadius: 4,
                 fontSize: '0.875rem',
                 resize: 'vertical',
               }}
             />
             {updateBlock.isError && (
-              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--error)',
+                }}
+              >
+                {updateBlock.error?.message}
+              </span>
             )}
           </div>
         ) : (
@@ -526,7 +598,7 @@ export default function EditDeckPage() {
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 4,
                 }}
               >
@@ -553,7 +625,7 @@ export default function EditDeckPage() {
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 4,
                 }}
               >
@@ -588,7 +660,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     {columnKeys.map((k) => (
                       <option key={k} value={k}>{k}</option>
@@ -616,7 +688,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     {columnKeys.map((k) => (
                       <option key={k} value={k}>{k}</option>
@@ -642,7 +714,7 @@ export default function EditDeckPage() {
                         },
                       });
                     }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 4 }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-default)', borderRadius: 4 }}
                   >
                     <option value="">— None —</option>
                     {columnKeys.map((k) => (
@@ -653,7 +725,14 @@ export default function EditDeckPage() {
               </>
             )}
             {updateBlock.isError && (
-              <span style={{ fontSize: '0.75rem', color: '#c00' }}>{updateBlock.error?.message}</span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  color: 'var(--error)',
+                }}
+              >
+                {updateBlock.error?.message}
+              </span>
             )}
           </div>
         )}
