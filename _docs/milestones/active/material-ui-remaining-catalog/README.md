@@ -1,4 +1,4 @@
-# Material UI remaining catalog (future)
+# Material UI remaining catalog (active)
 
 Complete the `libs/material-ui` component catalog (remaining inputs, data display, feedback, surface, navigation, layout), ensure Storybook works at the GitHub Pages subpath, and migrate the frontend app to use library components.
 
