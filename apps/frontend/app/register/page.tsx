@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import NextLink from 'next/link';
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from '@/lib/material-ui-shim';
 import { apiUrl } from '@/lib/api';
 import { setToken } from '@/lib/auth';
 
@@ -42,56 +52,60 @@ export default function RegisterPage() {
   }
 
   return (
-    <main
-      style={{
-        padding: '2rem',
-        fontFamily: 'system-ui',
-        maxWidth: 400,
-        margin: '0 auto',
-        color: 'var(--text-primary)',
-      }}
-    >
-      <h1>Create account</h1>
-      <form onSubmit={handleSubmit}>
-        {error && (
-          <p style={{ color: 'var(--error)', marginBottom: '1rem' }}>{error}</p>
-        )}
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: 4 }}>
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            style={{ width: '100%', padding: 8 }}
-          />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: 4 }}>
-            Password (min 8 characters)
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-            autoComplete="new-password"
-            style={{ width: '100%', padding: 8 }}
-          />
-        </div>
-        <button type="submit" disabled={loading} style={{ padding: '8px 16px' }}>
-          {loading ? 'Creating account…' : 'Create account'}
-        </button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        <a href="/login">Already have an account? Log in</a>
-      </p>
-    </main>
+    <Box component="main" sx={{ py: 4 }}>
+      <Paper
+        elevation={1}
+        sx={{
+          maxWidth: 400,
+          mx: 'auto',
+          p: 3,
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              Create account
+            </Typography>
+            {error && (
+              <Alert severity="error">
+                {error}
+              </Alert>
+            )}
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              fullWidth
+            />
+            <TextField
+              id="password"
+              label="Password (min 8 characters)"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete="new-password"
+              fullWidth
+            />
+            <Button type="submit" disabled={loading} variant="filled">
+              {loading ? 'Creating account…' : 'Create account'}
+            </Button>
+            <Typography variant="body2">
+              <NextLink
+                href="/login"
+                className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 dark:text-accent-primary dark:hover:text-accent-primary-hover"
+              >
+                Already have an account? Log in
+              </NextLink>
+            </Typography>
+          </Stack>
+        </form>
+      </Paper>
+    </Box>
   );
 }

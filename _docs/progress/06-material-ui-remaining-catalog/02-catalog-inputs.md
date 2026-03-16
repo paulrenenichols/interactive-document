@@ -20,5 +20,5 @@ All components are exported from `libs/material-ui/src/index.ts` and documented 
 
 ## References
 
-- Phase plan: [02-catalog-inputs](../../milestones/active/material-ui-remaining-catalog/phase-plans/02-catalog-inputs.md).
-- Feature set: [remaining-material-ui-catalog](../../planning/explorations/completed/material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
+- Phase plan: [02-catalog-inputs](../../milestones/completed/06-material-ui-remaining-catalog/phase-plans/02-catalog-inputs.md).
+- Feature set: [remaining-material-ui-catalog](../../planning/explorations/completed/06-material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).

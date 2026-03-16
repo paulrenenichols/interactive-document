@@ -20,5 +20,5 @@ Step-by-step execution plan. Branch from main after phase 02 is merged. Commit/p
 
 ## 3. Progress doc and final step
 
-- Add or update `_docs/progress/material-ui-remaining-catalog/03-catalog-feedback-surface-navigation.md`. Update project-root README if needed.
+- Add or update `_docs/progress/06-material-ui-remaining-catalog/03-catalog-feedback-surface-navigation.md`. Update project-root README if needed.
 - On user approval: final commit and push (e.g. "chore(material-ui-remaining-catalog): complete 03-catalog-feedback-surface-navigation phase").

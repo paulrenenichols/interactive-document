@@ -27,5 +27,5 @@ Step-by-step execution plan. Branch first; commit/push at logical points; final 
 
 ## 4. Progress doc and final step
 
-- Add or update `_docs/progress/material-ui-remaining-catalog/01-catalog-layout-and-data-display.md`. Update project-root README if needed.
+- Add or update `_docs/progress/06-material-ui-remaining-catalog/01-catalog-layout-and-data-display.md`. Update project-root README if needed.
 - On user approval: final commit and push (e.g. "chore(material-ui-remaining-catalog): complete 01-catalog-layout-and-data-display phase").

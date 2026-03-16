@@ -15,4 +15,4 @@ Implement feedback, surface, and navigation components for `libs/material-ui`. E
 
 ## References
 
-- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
+- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/06-material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).

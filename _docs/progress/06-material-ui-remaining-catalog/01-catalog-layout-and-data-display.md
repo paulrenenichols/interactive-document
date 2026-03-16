@@ -1,6 +1,6 @@
 # Phase 01: Catalog — layout and data display
 
-**Milestone:** [material-ui-remaining-catalog](../../milestones/active/material-ui-remaining-catalog/)  
+**Milestone:** [06-material-ui-remaining-catalog](../../milestones/completed/06-material-ui-remaining-catalog/)  
 **Branch:** `material-ui-remaining-catalog/01-catalog-layout-and-data-display`
 
 ## Summary
