@@ -12,11 +12,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 
 ## Active milestones
 
-_(none)_
+- **[material-ui-remaining-catalog](active/material-ui-remaining-catalog/)** — Complete the material-ui component catalog (layout, data display, inputs, feedback, surface, navigation), Storybook base path if needed, and frontend migration to library components.
 
 ## Future milestones
 
-- **[material-ui-remaining-catalog](future/material-ui-remaining-catalog/)** — Complete the material-ui component catalog (layout, data display, inputs, feedback, surface, navigation), Storybook base path if needed, and frontend migration to library components.
+_(none)_
 
 ---
 

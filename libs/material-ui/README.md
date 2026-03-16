@@ -26,6 +26,21 @@ import {
   ClickAwayListener,
   useMediaQuery,
   CSSBaseline,
+  Container,
+  Grid,
+  Divider,
+  Avatar,
+  Badge,
+  Chip,
+  Icon,
+  List,
+  ListItem,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Tooltip,
 } from '@interactive-document/material-ui';
 ```
 
@@ -42,6 +57,16 @@ Ensure the consuming app has Tailwind configured and includes the same theme tok
 - **Typography** — Text variants (h1–h6, body1, body2, caption, overline) using theme tokens.
 - **Paper** — Surface with elevated, outlined, or filled variant.
 - **IconButton** — Icon-sized button with small/medium/large.
+- **Container** — Max-width layout with optional gutters; breakpoints xs–xl.
+- **Grid** — CSS Grid layout with configurable columns, rows, and spacing.
+- **Divider** — Horizontal or vertical separator (theme border color).
+- **Avatar** — Circular or rounded avatar; image or initials; size prop.
+- **Badge** — Badge overlay (count or dot) on children; default/primary/error.
+- **Chip** — Compact pill (filled/outlined); optional onDelete.
+- **Icon** — Wrapper for SVG icons with size and color (inherit/primary/secondary/muted).
+- **List** / **ListItem** — List layout with optional dense padding.
+- **Table** — Table, TableHead, TableBody, TableRow, TableCell (variant head/body).
+- **Tooltip** — Hover tooltip with Fade; placement and enter/leave delay.
 - **Transitions** — Fade and Grow (MUI-consistent timeouts: enter 225ms, exit 195ms).
 - **Portal** — Render children into `document.body` or optional container.
 - **Modal** — Backdrop (Fade), focus trap, scroll lock, semantic overlay token.
