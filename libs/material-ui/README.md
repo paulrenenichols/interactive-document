@@ -13,6 +13,11 @@ import {
   Dialog,
   Menu,
   MenuItem,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  CardMedia,
   Box,
   Stack,
   Typography,
@@ -20,6 +25,8 @@ import {
   IconButton,
   Fade,
   Grow,
+  Slide,
+  Collapse,
   Portal,
   Modal,
   Popover,
@@ -33,6 +40,8 @@ import {
   Badge,
   Chip,
   Icon,
+  Link,
+  Breadcrumbs,
   List,
   ListItem,
   Table,
@@ -54,6 +63,18 @@ import {
   Rating,
   Autocomplete,
   FAB,
+  Skeleton,
+  CircularProgress,
+  LinearProgress,
+  Backdrop,
+  Alert,
+  Snackbar,
+  Drawer,
+  BottomNavigation,
+  NavigationRail,
+  Stepper,
+  Pagination,
+  BottomSheet,
 } from '@interactive-document/material-ui';
 ```
 
@@ -80,6 +101,9 @@ Ensure the consuming app has Tailwind configured and includes the same theme tok
 - **List** / **ListItem** — List layout with optional dense padding.
 - **Table** — Table, TableHead, TableBody, TableRow, TableCell (variant head/body).
 - **Tooltip** — Hover tooltip with Fade; placement and enter/leave delay.
+- **Card** — Surface container (elevated/filled/outlined) with `CardHeader`, `CardContent`, `CardActions`, `CardMedia` for composing content.
+- **Accordion** — Expand/collapse sections using `Collapse`; keyboard and ARIA-friendly summary + details.
+- **AppBar** — Top app bar (small/medium/large, center-aligned) with leading/title/trailing slots.
 - **Checkbox** — Standard and indeterminate; optional label.
 - **Switch** — Toggle with optional label.
 - **Radio** / **RadioGroup** — Radio group with row/column layout.
@@ -91,7 +115,22 @@ Ensure the consuming app has Tailwind configured and includes the same theme tok
 - **Rating** — Star-based rating (standard or half precision).
 - **Autocomplete** — Combobox with search/filter (TextField + Popover).
 - **FAB** — Floating action button (small/medium/large, extended).
-- **Transitions** — Fade and Grow (MUI-consistent timeouts: enter 225ms, exit 195ms).
+- **Link** — Themed anchor with color and underline behavior.
+- **Breadcrumbs** — Trail of links with separators for navigation hierarchy.
+- **Tabs** — Tab list and indicator for switching between views.
+- **Drawer** — Side navigation panel (temporary or persistent) using `Slide` and `Backdrop`.
+- **BottomNavigation** — Fixed bottom navigation bar with icons and labels.
+- **NavigationRail** — Vertical navigation rail for medium/large layouts.
+- **Stepper** — Horizontal stepper showing progress through a multi-step flow.
+- **Pagination** — Page navigation control with previous/next and numbered pages.
+- **Skeleton** — Loading placeholder in text, rectangular, or circular variants with optional pulse animation.
+- **CircularProgress** — Circular progress indicator (indeterminate or determinate).
+- **LinearProgress** — Bar-based progress (indeterminate, determinate, or buffer).
+- **Backdrop** — Full-screen overlay using the overlay token, optionally with Fade.
+- **Alert** — Inline status messages for success/info/warning/error with optional action/close.
+- **Snackbar** — Temporary messages at screen edge, with auto-dismiss and action support.
+- **BottomSheet** — Slide-up panel from the bottom using `Slide` and `Backdrop`.
+- **Transitions** — Fade, Grow, Slide, and Collapse (MUI-consistent timeouts: enter 225ms, exit 195ms).
 - **Portal** — Render children into `document.body` or optional container.
 - **Modal** — Backdrop (Fade), focus trap, scroll lock, semantic overlay token.
 - **Popover** — Positioned overlay with anchorOrigin, Grow for content.
