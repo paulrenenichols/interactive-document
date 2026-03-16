@@ -5,7 +5,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from './Table';
+} from '.';
 import { Typography } from '../Typography';
 
 const meta: Meta<typeof Table> = {
