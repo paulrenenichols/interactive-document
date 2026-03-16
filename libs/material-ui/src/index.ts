@@ -43,3 +43,45 @@ export type { PaperProps } from './Paper';
 
 export { IconButton } from './IconButton';
 export type { IconButtonProps } from './IconButton';
+
+export { Container } from './Container';
+export type { ContainerProps, ContainerMaxWidth } from './Container';
+
+export { Grid } from './Grid';
+export type { GridProps } from './Grid';
+
+export { Divider } from './Divider';
+export type { DividerProps } from './Divider';
+
+export { Avatar } from './Avatar';
+export type { AvatarProps } from './Avatar';
+
+export { Badge } from './Badge';
+export type { BadgeProps } from './Badge';
+
+export { Chip } from './Chip';
+export type { ChipProps } from './Chip';
+
+export { Icon } from './Icon';
+export type { IconProps } from './Icon';
+
+export { List, ListItem } from './List';
+export type { ListProps, ListItemProps } from './List';
+
+export {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from './Table';
+export type {
+  TableProps,
+  TableHeadProps,
+  TableBodyProps,
+  TableRowProps,
+  TableCellProps,
+} from './Table';
+
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
