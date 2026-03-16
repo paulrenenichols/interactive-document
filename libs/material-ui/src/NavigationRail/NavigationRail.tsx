@@ -7,7 +7,7 @@ export interface NavigationRailAction {
 }
 
 export interface NavigationRailProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   actions: NavigationRailAction[];
   value?: string;
   defaultValue?: string;

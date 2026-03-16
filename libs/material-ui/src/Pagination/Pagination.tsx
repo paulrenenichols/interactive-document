@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface PaginationProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   count: number;
   page: number;
   onChange: (event: React.MouseEvent<HTMLButtonElement>, page: number) => void;

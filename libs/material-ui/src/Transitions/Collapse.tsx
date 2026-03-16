@@ -54,13 +54,15 @@ export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>(
 
     React.useEffect(() => {
       if (!wrapperRef.current) return;
+
+      let timeoutId: number | undefined;
+
       if (inProp) {
         const fullHeight = getHeight();
         setHeight(fullHeight);
-        const id = window.setTimeout(() => {
+        timeoutId = window.setTimeout(() => {
           setHeight('auto');
         }, enterMs);
-        return () => window.clearTimeout(id);
       } else {
         const fullHeight = getHeight();
         setHeight(fullHeight);
@@ -69,7 +71,13 @@ export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>(
         wrapperRef.current.offsetHeight;
         setHeight(collapsedSize);
       }
-    }, [inProp, collapsedSize, enterMs]);
+
+      return () => {
+        if (timeoutId !== undefined) {
+          window.clearTimeout(timeoutId);
+        }
+      };
+    }, [inProp, collapsedSize, enterMs, getHeight]);
 
     if (exited && !inProp) return null;
 

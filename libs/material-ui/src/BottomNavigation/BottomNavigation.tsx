@@ -7,7 +7,7 @@ export interface BottomNavigationAction {
 }
 
 export interface BottomNavigationProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   actions: BottomNavigationAction[];
   value?: string;
   defaultValue?: string;

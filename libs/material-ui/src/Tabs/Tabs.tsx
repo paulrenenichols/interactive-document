@@ -5,7 +5,8 @@ export interface Tab {
   value: string;
 }
 
-export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TabsProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   tabs: Tab[];
   value?: string;
   defaultValue?: string;

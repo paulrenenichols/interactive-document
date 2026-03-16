@@ -3,7 +3,8 @@ import * as React from 'react';
 export type AppBarPosition = 'fixed' | 'absolute' | 'sticky' | 'static';
 export type AppBarVariant = 'center-aligned' | 'small' | 'medium' | 'large';
 
-export interface AppBarProps extends React.HTMLAttributes<HTMLElement> {
+export interface AppBarProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
   position?: AppBarPosition;
   variant?: AppBarVariant;
   leading?: React.ReactNode;

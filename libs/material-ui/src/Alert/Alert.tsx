@@ -4,7 +4,8 @@ import { IconButton } from '../IconButton';
 
 export type AlertSeverity = 'success' | 'info' | 'warning' | 'error';
 
-export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AlertProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   severity?: AlertSeverity;
   title?: React.ReactNode;
   action?: React.ReactNode;
