@@ -22,7 +22,9 @@ export const Drawer: React.FC<DrawerProps> = ({
   children,
   ...props
 }) => {
-  if (!open && variant === 'persistent') {
+  // When closed, do not render anything so we don't leave an invisible
+  // full-screen overlay intercepting clicks in the Storybook canvas.
+  if (!open) {
     return null;
   }
 
