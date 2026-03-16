@@ -13,7 +13,7 @@ Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate
 
 ## Structure
 
-Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/README.md)). Supporting materials are in [supporting-docs/](supporting-docs/) with a short index in [supporting-docs/README.md](supporting-docs/README.md).
+Feature sets are in `feature-sets/` (see [feature-sets/README.md](feature-sets/README.md)). **Supporting docs** in [supporting-docs/](supporting-docs/) include design specs and reference implementations: auth screens (login/sign up) with shared layout and form patterns, editor layout and keyboard shortcuts for the Google Slides–style experience, and semantic theme tokens (light/dark) for consistent UI. See [supporting-docs/README.md](supporting-docs/README.md) for the index.
 
 ## Scope
 
