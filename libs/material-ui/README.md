@@ -41,6 +41,19 @@ import {
   TableRow,
   TableCell,
   Tooltip,
+  Checkbox,
+  Switch,
+  Radio,
+  RadioGroup,
+  Slider,
+  Select,
+  NumberField,
+  ButtonGroup,
+  ToggleButton,
+  ToggleButtonGroup,
+  Rating,
+  Autocomplete,
+  FAB,
 } from '@interactive-document/material-ui';
 ```
 
@@ -67,6 +80,17 @@ Ensure the consuming app has Tailwind configured and includes the same theme tok
 - **List** / **ListItem** — List layout with optional dense padding.
 - **Table** — Table, TableHead, TableBody, TableRow, TableCell (variant head/body).
 - **Tooltip** — Hover tooltip with Fade; placement and enter/leave delay.
+- **Checkbox** — Standard and indeterminate; optional label.
+- **Switch** — Toggle with optional label.
+- **Radio** / **RadioGroup** — Radio group with row/column layout.
+- **Slider** — Continuous, discrete, or range; optional value label.
+- **Select** — Dropdown with options (Popover-based).
+- **NumberField** — Numeric input with optional increment/decrement stepper.
+- **ButtonGroup** — Group of buttons with shared styling.
+- **ToggleButton** / **ToggleButtonGroup** — On/off button; exclusive or multiple selection.
+- **Rating** — Star-based rating (standard or half precision).
+- **Autocomplete** — Combobox with search/filter (TextField + Popover).
+- **FAB** — Floating action button (small/medium/large, extended).
 - **Transitions** — Fade and Grow (MUI-consistent timeouts: enter 225ms, exit 195ms).
 - **Portal** — Render children into `document.body` or optional container.
 - **Modal** — Backdrop (Fade), focus trap, scroll lock, semantic overlay token.
