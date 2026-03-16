@@ -7,7 +7,6 @@ import {
   Alert,
   Box,
   Button,
-  Link as MuiLink,
   Paper,
   Stack,
   TextField,
@@ -62,44 +61,49 @@ function LoginForm() {
           p: 3,
         }}
       >
-        <Stack component="form" spacing={2} onSubmit={handleSubmit}>
-          <Typography variant="h5" component="h1">
-            Log in
-          </Typography>
-          {error && (
-            <Alert severity="error">
-              {error}
-            </Alert>
-          )}
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            fullWidth
-          />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-            fullWidth
-          />
-          <Button type="submit" disabled={loading} variant="filled">
-            {loading ? 'Signing in…' : 'Sign in'}
-          </Button>
-          <Typography variant="body2">
-            <MuiLink component={NextLink} href="/register">
-              Create an account
-            </MuiLink>
-          </Typography>
-        </Stack>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              Log in
+            </Typography>
+            {error && (
+              <Alert severity="error">
+                {error}
+              </Alert>
+            )}
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              fullWidth
+            />
+            <TextField
+              id="password"
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+              fullWidth
+            />
+            <Button type="submit" disabled={loading} variant="filled">
+              {loading ? 'Signing in…' : 'Sign in'}
+            </Button>
+            <Typography variant="body2">
+              <NextLink
+                href="/register"
+                className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 dark:text-accent-primary dark:hover:text-accent-primary-hover"
+              >
+                Create an account
+              </NextLink>
+            </Typography>
+          </Stack>
+        </form>
       </Paper>
     </Box>
   );

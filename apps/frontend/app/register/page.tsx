@@ -7,7 +7,6 @@ import {
   Alert,
   Box,
   Button,
-  Link as MuiLink,
   Paper,
   Stack,
   TextField,
@@ -62,45 +61,50 @@ export default function RegisterPage() {
           p: 3,
         }}
       >
-        <Stack component="form" spacing={2} onSubmit={handleSubmit}>
-          <Typography variant="h5" component="h1">
-            Create account
-          </Typography>
-          {error && (
-            <Alert severity="error">
-              {error}
-            </Alert>
-          )}
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            fullWidth
-          />
-          <TextField
-            id="password"
-            label="Password (min 8 characters)"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-            autoComplete="new-password"
-            fullWidth
-          />
-          <Button type="submit" disabled={loading} variant="filled">
-            {loading ? 'Creating account…' : 'Create account'}
-          </Button>
-          <Typography variant="body2">
-            <MuiLink component={NextLink} href="/login">
-              Already have an account? Log in
-            </MuiLink>
-          </Typography>
-        </Stack>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              Create account
+            </Typography>
+            {error && (
+              <Alert severity="error">
+                {error}
+              </Alert>
+            )}
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              fullWidth
+            />
+            <TextField
+              id="password"
+              label="Password (min 8 characters)"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete="new-password"
+              fullWidth
+            />
+            <Button type="submit" disabled={loading} variant="filled">
+              {loading ? 'Creating account…' : 'Create account'}
+            </Button>
+            <Typography variant="body2">
+              <NextLink
+                href="/login"
+                className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 dark:text-accent-primary dark:hover:text-accent-primary-hover"
+              >
+                Already have an account? Log in
+              </NextLink>
+            </Typography>
+          </Stack>
+        </form>
       </Paper>
     </Box>
   );

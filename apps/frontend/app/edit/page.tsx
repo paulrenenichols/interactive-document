@@ -6,7 +6,6 @@ import {
   Alert,
   Box,
   Button,
-  Link as MuiLink,
   Paper,
   Stack,
   Typography,
@@ -46,9 +45,9 @@ export default function EditPage() {
               You don&apos;t have permission to edit this content.
             </Typography>
             <Typography variant="body2">
-              <MuiLink component={Link} href="/">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                 Go home
-              </MuiLink>
+              </Link>
             </Typography>
           </Stack>
         </Paper>
@@ -111,13 +110,13 @@ export default function EditPage() {
             <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', pl: 0 }}>
               {decks.map((d) => (
                 <li key={d.id}>
-                  <MuiLink component={Link} href={`/edit/${d.id}`}>
+                  <Link href={`/edit/${d.id}`} className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                     Deck {d.id.slice(0, 8)}…
-                  </MuiLink>
+                  </Link>
                   {' — '}
-                  <MuiLink component={Link} href={`/view/${d.id}`}>
+                  <Link href={`/view/${d.id}`} className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                     View
-                  </MuiLink>
+                  </Link>
                 </li>
               ))}
             </Stack>
@@ -125,9 +124,9 @@ export default function EditPage() {
         </Stack>
 
         <Typography variant="body2">
-          <MuiLink component={Link} href="/">
+          <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
             Home
-          </MuiLink>
+          </Link>
         </Typography>
       </Stack>
     </Box>

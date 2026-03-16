@@ -70,6 +70,7 @@ services:
       - ./apps/frontend/lib:/app/apps/frontend/lib:cached
       - ./apps/frontend/public:/app/apps/frontend/public:cached
       - ./apps/frontend/postcss.config.mjs:/app/apps/frontend/postcss.config.mjs:cached
+      - ./libs/material-ui:/app/libs/material-ui:cached
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_API_URL: http://localhost:3001

@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Container,
-  Link as MuiLink,
   Paper,
   Stack,
   Typography,
@@ -199,18 +198,18 @@ function ViewDeckContent() {
             </Typography>
             <Typography>
               This deck is restricted.{' '}
-              <MuiLink
-                component={Link}
+              <Link
                 href={`/login?returnUrl=${encodeURIComponent(`/view/${deckId}${shareToken ? `?token=${shareToken}` : ''}`)}`}
+                className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover"
               >
                 Log in
-              </MuiLink>{' '}
+              </Link>{' '}
               or use a share link.
             </Typography>
             <Typography variant="body2">
-              <MuiLink component={Link} href="/">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                 Go home
-              </MuiLink>
+              </Link>
             </Typography>
           </Stack>
         </Container>
@@ -230,9 +229,9 @@ function ViewDeckContent() {
               You don&apos;t have permission to view this deck.
             </Typography>
             <Typography variant="body2">
-              <MuiLink component={Link} href="/">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                 Go home
-              </MuiLink>
+              </Link>
             </Typography>
           </Stack>
         </Container>
@@ -262,9 +261,9 @@ function ViewDeckContent() {
               {deckError instanceof Error ? deckError.message : 'Failed to load deck.'}
             </Typography>
             <Typography variant="body2">
-              <MuiLink component={Link} href="/">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
                 Go home
-              </MuiLink>
+              </Link>
             </Typography>
           </Stack>
         </Container>
@@ -294,18 +293,13 @@ function ViewDeckContent() {
           }}
         >
           <Stack direction="row" spacing={2} alignItems="center">
-            <MuiLink component={Link} href="/" color="inherit" underline="hover">
+            <Link href="/" className="text-inherit no-underline hover:underline">
               Home
-            </MuiLink>
+            </Link>
             {deckId && canEdit && (
-              <MuiLink
-                component={Link}
-                href={`/edit/${deckId}`}
-                color="inherit"
-                underline="hover"
-              >
+              <Link href={`/edit/${deckId}`} className="text-inherit no-underline hover:underline">
                 Edit
-              </MuiLink>
+              </Link>
             )}
           </Stack>
           <Typography variant="body2" color="textSecondary">
