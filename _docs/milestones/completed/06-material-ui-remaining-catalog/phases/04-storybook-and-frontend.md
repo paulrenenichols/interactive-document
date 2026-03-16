@@ -13,4 +13,4 @@ Ensure the material-ui Storybook works when served from the `/material-ui/` subp
 
 ## References
 
-- Exploration: [material-ui-remaining-catalog](../../../../planning/explorations/completed/material-ui-remaining-catalog/) — Storybook publishing and Frontend migration sections.
+- Exploration: [06-material-ui-remaining-catalog](../../../../planning/explorations/completed/06-material-ui-remaining-catalog/) — Storybook publishing and Frontend migration sections.

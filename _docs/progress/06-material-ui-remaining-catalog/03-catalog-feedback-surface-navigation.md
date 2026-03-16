@@ -17,6 +17,6 @@ Phase 03 of the material-ui-remaining-catalog milestone. Implement feedback, sur
 
 ## References
 
-- Phase plan: [03-catalog-feedback-surface-navigation](../../milestones/active/material-ui-remaining-catalog/phase-plans/03-catalog-feedback-surface-navigation.md).
-- Feature set: [remaining-material-ui-catalog](../../planning/explorations/completed/material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
+- Phase plan: [03-catalog-feedback-surface-navigation](../../milestones/completed/06-material-ui-remaining-catalog/phase-plans/03-catalog-feedback-surface-navigation.md).
+- Feature set: [remaining-material-ui-catalog](../../planning/explorations/completed/06-material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
 

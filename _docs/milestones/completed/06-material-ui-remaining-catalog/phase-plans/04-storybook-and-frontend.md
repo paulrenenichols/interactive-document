@@ -27,5 +27,5 @@ Step-by-step execution plan. Branch from main after phase 03 is merged. Commit/p
 
 ## 4. Progress doc and final step
 
-- Add or update `_docs/progress/material-ui-remaining-catalog/04-storybook-and-frontend.md`. Update project-root README if needed.
+- Add or update `_docs/progress/06-material-ui-remaining-catalog/04-storybook-and-frontend.md`. Update project-root README if needed.
 - On user approval: final commit and push (e.g. "chore(material-ui-remaining-catalog): complete 04-storybook-and-frontend phase").

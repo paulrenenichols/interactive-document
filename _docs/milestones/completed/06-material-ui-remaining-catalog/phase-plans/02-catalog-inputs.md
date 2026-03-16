@@ -20,5 +20,5 @@ Step-by-step execution plan. Branch from main after phase 01 is merged. Commit/p
 
 ## 3. Progress doc and final step
 
-- Add or update `_docs/progress/material-ui-remaining-catalog/02-catalog-inputs.md`. Update project-root README if needed.
+- Add or update `_docs/progress/06-material-ui-remaining-catalog/02-catalog-inputs.md`. Update project-root README if needed.
 - On user approval: final commit and push (e.g. "chore(material-ui-remaining-catalog): complete 02-catalog-inputs phase").

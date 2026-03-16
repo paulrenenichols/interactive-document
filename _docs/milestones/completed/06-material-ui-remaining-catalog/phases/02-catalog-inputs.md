@@ -13,4 +13,4 @@ Implement input components for `libs/material-ui`: Checkbox, Switch, Radio, Slid
 
 ## References
 
-- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
+- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/06-material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).

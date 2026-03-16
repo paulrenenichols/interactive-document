@@ -14,5 +14,5 @@ Implement layout primitives and data-display components for `libs/material-ui`: 
 
 ## References
 
-- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
+- Exploration feature set: [remaining-material-ui-catalog](../../../../planning/explorations/completed/06-material-ui-remaining-catalog/feature-sets/remaining-material-ui-catalog.md).
 - Existing progress: [03-material-component-library](../../../../progress/05-ux-and-stack-overhaul/03-material-component-library.md), [03b-material-ui-catalog-and-polish](../../../../progress/05-ux-and-stack-overhaul/03b-material-ui-catalog-and-polish.md).
