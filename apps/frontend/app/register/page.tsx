@@ -2,6 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import NextLink from 'next/link';
+import {
+  Alert,
+  Box,
+  Button,
+  Link as MuiLink,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from '@/lib/material-ui-shim';
 import { apiUrl } from '@/lib/api';
 import { setToken } from '@/lib/auth';
 
@@ -42,56 +53,55 @@ export default function RegisterPage() {
   }
 
   return (
-    <main
-      style={{
-        padding: '2rem',
-        fontFamily: 'system-ui',
-        maxWidth: 400,
-        margin: '0 auto',
-        color: 'var(--text-primary)',
-      }}
-    >
-      <h1>Create account</h1>
-      <form onSubmit={handleSubmit}>
-        {error && (
-          <p style={{ color: 'var(--error)', marginBottom: '1rem' }}>{error}</p>
-        )}
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: 4 }}>
-            Email
-          </label>
-          <input
+    <Box component="main" sx={{ py: 4 }}>
+      <Paper
+        elevation={1}
+        sx={{
+          maxWidth: 400,
+          mx: 'auto',
+          p: 3,
+        }}
+      >
+        <Stack component="form" spacing={2} onSubmit={handleSubmit}>
+          <Typography variant="h5" component="h1">
+            Create account
+          </Typography>
+          {error && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+          )}
+          <TextField
             id="email"
+            label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="email"
-            style={{ width: '100%', padding: 8 }}
+            fullWidth
           />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: 4 }}>
-            Password (min 8 characters)
-          </label>
-          <input
+          <TextField
             id="password"
+            label="Password (min 8 characters)"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
             autoComplete="new-password"
-            style={{ width: '100%', padding: 8 }}
+            fullWidth
           />
-        </div>
-        <button type="submit" disabled={loading} style={{ padding: '8px 16px' }}>
-          {loading ? 'Creating account…' : 'Create account'}
-        </button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        <a href="/login">Already have an account? Log in</a>
-      </p>
-    </main>
+          <Button type="submit" disabled={loading} variant="filled">
+            {loading ? 'Creating account…' : 'Create account'}
+          </Button>
+          <Typography variant="body2">
+            <MuiLink component={NextLink} href="/login">
+              Already have an account? Log in
+            </MuiLink>
+          </Typography>
+        </Stack>
+      </Paper>
+    </Box>
   );
 }

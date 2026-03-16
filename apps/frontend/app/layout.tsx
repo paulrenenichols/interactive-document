@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Providers } from './providers';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { CSSBaseline, Container, Stack } from '@/lib/material-ui-shim';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -23,15 +24,19 @@ export default function RootLayout({
           }}
         />
         <Providers>
-          <div
-            className="min-h-screen"
-            style={{
-              backgroundColor: 'var(--bg-primary)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            <ThemeToggle />
-            {children}
+          <CSSBaseline />
+          <div className="min-h-screen">
+            <Container maxWidth="lg">
+              <Stack
+                spacing={2}
+                sx={{
+                  py: 2,
+                }}
+              >
+                <ThemeToggle />
+                {children}
+              </Stack>
+            </Container>
           </div>
         </Providers>
       </body>
