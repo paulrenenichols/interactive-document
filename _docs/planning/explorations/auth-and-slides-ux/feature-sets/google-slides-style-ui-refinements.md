@@ -27,6 +27,25 @@ Refine and extend the Google Slides–inspired editor and viewer experience. Thi
 - **Presenter view:** Layout, slide advance, speaker notes, and exit flow. Optional: timer, next-slide preview.
 - **Entry/exit and polish:** Loading states, transitions between edit and view, and any “Slides-like” polish (animations, focus management).
 
+## Storybook-first implementation
+
+For this feature set, treat the Slides editor as a **screen-level Storybook component** and iterate there before wiring to real decks:
+
+- **Screen components:**
+  - `SlidesEditorScreen` — full three-panel layout (toolbar, left drawer with slides, central canvas, right properties).
+  - (Optional) `PresenterViewScreen` — presenter mode layout with next slide, notes, and controls.
+- **Stories should cover at least:**
+  - Empty/first deck state (no slides yet).
+  - Typical deck with a handful of slides (drag-and-drop, selection, keyboard shortcuts).
+  - “Many slides” deck to observe scrollbar behavior, performance, and thumbnail fidelity.
+  - Presenter mode view with sample notes and timer.
+- **Next.js awareness:**
+  - Run stories under a Next.js-aware Storybook config (e.g. `@storybook/nextjs`) so layout and routing integrations match the app.
+  - Mock deck data loading with TanStack Query + MSW (or equivalent) so the editor behaves as if it’s talking to the real API.
+  - Ensure the same theme providers and global CSS used in the app (including the semantic tokens from `theme.md`) are applied in Storybook.
+
+After the Storybook flows feel correct, map `SlidesEditorScreen` into the actual `app/edit/[deckId]/page.tsx` (and related routes), reusing the same structure and interactions.
+
 ## Out of scope
 
 - Re-scoping the core feature set already defined in the 05 exploration; that remains the source of truth for “what Slides patterns we adopt.”
