@@ -48,7 +48,7 @@ The dev stack automatically seeds the database with sample users, decks, slides,
 - **Tests (workspace):** `pnpm test` → Vitest for `api`, `frontend`, and `material-ui` (jsdom + React Testing Library in frontend and material-ui).
 - **CI scope (docs-only guard + Nx affected):**
   - GitHub Actions workflow: `.github/workflows/ci.yml`.
-  - A `Detect changes (docs-only guard)` job computes changed files and decides whether a run is **docs-only** (e.g. `_docs/**`, Markdown-only changes).
+  - A `Detect changes (docs-only guard)` job computes changed files and decides whether a run is **docs-only** (changes limited to `_docs/**` or Markdown files).
   - When docs-only, heavy Nx tasks are skipped; otherwise, CI runs `nx affected` for `lint`, `test`, and `build` against `origin/main...HEAD`.
   - The workflow writes a short **CI scope decision** summary (docs-only vs full Nx affected, plus changed files) to the job summary.
 - **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and `material-ui`, merges them, and deploys to GitHub Pages. Frontend Storybook at `/`, material-ui at `/material-ui/`.
