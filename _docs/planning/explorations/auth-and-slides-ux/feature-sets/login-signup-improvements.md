@@ -33,6 +33,26 @@ Implementations should align with these specs (centered card, clear hierarchy, l
 - **First-time vs returning:** Post-sign-up onboarding vs direct entry to app; returning user landing (e.g. last deck, dashboard). Any welcome or empty-state copy.
 - **Security and UX:** Rate limiting, CAPTCHA, or other abuse prevention only insofar as they affect flow and copy.
 
+## Storybook-first implementation
+
+The primary implementation vehicle for this feature set is **Storybook screen components**, built against the design specs in supporting-docs:
+
+- **Screen components:**
+  - `LoginScreen` — full-screen login experience (centered card, fields, links, loading/error states).
+  - `RegisterScreen` — full-screen sign-up experience (parallel layout and styling to login).
+  - (Optional) `AuthLayout` — shared layout wrapper for background, centering, and theme.
+- **Stories should cover at least:**
+  - Default “happy path” for login and sign-up.
+  - Loading and error states (e.g. invalid credentials, network error).
+  - Light vs dark theme variants (using the shared theme tokens from `theme.md`).
+  - With and without Google OAuth button.
+- **Next.js awareness:**
+  - Use a Next.js-compatible Storybook setup (e.g. `@storybook/nextjs`) so routing, `Link`, and layout wrappers behave like the app.
+  - Mock auth API calls (e.g. via MSW or equivalent) so stories exercise realistic flows without a backend.
+  - Mock navigation/redirect behavior for “success” stories (e.g. stubbing `next/navigation` or router).
+
+Once these stories feel solid (visual polish, copy, flows), wire the same screen components into actual Next.js routes (e.g. `/login`, `/register`) with real API clients.
+
 ## Out of scope (for this feature set)
 
 - Backend auth implementation (tokens, hashing, DB schema) except where it directly affects flow design and error handling.
