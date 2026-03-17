@@ -2,6 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Stack,
+  Typography,
+} from '@/lib/material-ui-shim';
 import { useDecks, useCreateDeck, type Deck } from '@/lib/queries';
 
 export default function EditPage() {
@@ -20,97 +28,107 @@ export default function EditPage() {
 
   if (forbidden) {
     return (
-      <main
-        style={{
-          padding: '2rem',
-          fontFamily: 'system-ui',
-          color: 'var(--text-primary)',
-        }}
-      >
-        <h1>No edit access</h1>
-        <p>You don&apos;t have permission to edit this content.</p>
-        <p>
-          <Link href="/">Go home</Link>
-        </p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Paper
+          elevation={1}
+          sx={{
+            maxWidth: 480,
+            mx: 'auto',
+            p: 3,
+          }}
+        >
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              No edit access
+            </Typography>
+            <Typography>
+              You don&apos;t have permission to edit this content.
+            </Typography>
+            <Typography variant="body2">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                Go home
+              </Link>
+            </Typography>
+          </Stack>
+        </Paper>
+      </Box>
     );
   }
 
   if (isLoading) {
     return (
-      <main
-        style={{
-          padding: '2rem',
-          fontFamily: 'system-ui',
-          color: 'var(--text-primary)',
-        }}
-      >
-        <p>Loading…</p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Typography>Loading…</Typography>
+      </Box>
     );
   }
 
   const decks: Deck[] = data?.decks ?? [];
 
   return (
-    <main
-      style={{
-        padding: '2rem',
-        fontFamily: 'system-ui',
-        color: 'var(--text-primary)',
-      }}
-    >
-      <h1>Edit</h1>
+    <Box component="main" sx={{ py: 4 }}>
+      <Stack spacing={3}>
+        <Typography variant="h4" component="h1">
+          Edit
+        </Typography>
 
-      <section
-        style={{
-          marginBottom: '1.5rem',
-          padding: '1rem',
-          border: '1px solid var(--border-default)',
-          borderRadius: 8,
-          backgroundColor: 'var(--bg-secondary)',
-        }}
-      >
-        <h2 style={{ marginTop: 0, marginBottom: '0.5rem' }}>New document</h2>
-        <button
-          type="button"
-          onClick={() => createDeck.mutate()}
-          disabled={createDeck.isPending}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: createDeck.isPending
-              ? 'var(--text-muted)'
-              : 'var(--accent-primary)',
-            color: 'white',
-            border: 'none',
-            borderRadius: 4,
-            fontSize: '1rem',
-            cursor: createDeck.isPending ? 'wait' : 'pointer',
+        <Paper
+          elevation={1}
+          sx={{
+            p: 2,
           }}
         >
-          {createDeck.isPending ? 'Creating…' : 'Create deck'}
-        </button>
-        {createDeck.isError && (
-          <span style={{ color: 'var(--error)', marginLeft: '0.5rem' }}>
-            {createDeck.error?.message}
-          </span>
-        )}
-      </section>
+          <Stack spacing={2}>
+            <Typography variant="h6" component="h2">
+              New document
+            </Typography>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Button
+                type="button"
+                onClick={() => createDeck.mutate()}
+                disabled={createDeck.isPending}
+                variant="filled"
+              >
+                {createDeck.isPending ? 'Creating…' : 'Create deck'}
+              </Button>
+              {createDeck.isError && (
+                <Alert severity="error">
+                  {createDeck.error?.message}
+                </Alert>
+              )}
+            </Stack>
+          </Stack>
+        </Paper>
 
-      <h2>Your decks</h2>
-      <ul>
-        {decks.length === 0 && <li>No decks yet.</li>}
-        {decks.map((d) => (
-          <li key={d.id}>
-            <Link href={`/edit/${d.id}`}>Deck {d.id.slice(0, 8)}…</Link>
-            {' — '}
-            <Link href={`/view/${d.id}`}>View</Link>
-          </li>
-        ))}
-      </ul>
-      <p>
-        <Link href="/">Home</Link>
-      </p>
-    </main>
+        <Stack spacing={1}>
+          <Typography variant="h6" component="h2">
+            Your decks
+          </Typography>
+          {decks.length === 0 ? (
+            <Typography>No decks yet.</Typography>
+          ) : (
+            <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', pl: 0 }}>
+              {decks.map((d) => (
+                <li key={d.id}>
+                  <Link href={`/edit/${d.id}`} className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                    Deck {d.id.slice(0, 8)}…
+                  </Link>
+                  {' — '}
+                  <Link href={`/view/${d.id}`} className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                    View
+                  </Link>
+                </li>
+              ))}
+            </Stack>
+          )}
+        </Stack>
+
+        <Typography variant="body2">
+          <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+            Home
+          </Link>
+        </Typography>
+      </Stack>
+    </Box>
   );
 }

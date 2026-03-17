@@ -2,6 +2,15 @@
 
 import { Suspense, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Paper,
+  Stack,
+  Typography,
+} from '@/lib/material-ui-shim';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys, type Deck, type Slide, type Block } from '@/lib/queries';
@@ -181,127 +190,166 @@ function ViewDeckContent() {
 
   if (unauthorized) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-        <h1>Sign in required</h1>
-        <p>
-          This deck is restricted.{' '}
-          <Link href={`/login?returnUrl=${encodeURIComponent(`/view/${deckId}${shareToken ? `?token=${shareToken}` : ''}`)}`}>
-            Log in
-          </Link>{' '}
-          or use a share link.
-        </p>
-        <p><Link href="/">Go home</Link></p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Container maxWidth="sm">
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              Sign in required
+            </Typography>
+            <Typography>
+              This deck is restricted.{' '}
+              <Link
+                href={`/login?returnUrl=${encodeURIComponent(`/view/${deckId}${shareToken ? `?token=${shareToken}` : ''}`)}`}
+                className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover"
+              >
+                Log in
+              </Link>{' '}
+              or use a share link.
+            </Typography>
+            <Typography variant="body2">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                Go home
+              </Link>
+            </Typography>
+          </Stack>
+        </Container>
+      </Box>
     );
   }
 
   if (forbidden) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-        <h1>No view access</h1>
-        <p>You don&apos;t have permission to view this deck.</p>
-        <p><Link href="/">Go home</Link></p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Container maxWidth="sm">
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              No view access
+            </Typography>
+            <Typography>
+              You don&apos;t have permission to view this deck.
+            </Typography>
+            <Typography variant="body2">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                Go home
+              </Link>
+            </Typography>
+          </Stack>
+        </Container>
+      </Box>
     );
   }
 
   if (deckQuery.isLoading || !deckId) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-        <p>Loading…</p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Container maxWidth="sm">
+          <Typography>Loading…</Typography>
+        </Container>
+      </Box>
     );
   }
 
   if (deckQuery.isError) {
     return (
-      <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-        <h1>Error</h1>
-        <p>{deckError instanceof Error ? deckError.message : 'Failed to load deck.'}</p>
-        <p><Link href="/">Go home</Link></p>
-      </main>
+      <Box component="main" sx={{ py: 4 }}>
+        <Container maxWidth="sm">
+          <Stack spacing={2}>
+            <Typography variant="h5" component="h1">
+              Error
+            </Typography>
+            <Typography>
+              {deckError instanceof Error ? deckError.message : 'Failed to load deck.'}
+            </Typography>
+            <Typography variant="body2">
+              <Link href="/" className="cursor-pointer text-accent-primary no-underline hover:underline hover:text-accent-primary-hover dark:text-accent-primary dark:hover:text-accent-primary-hover">
+                Go home
+              </Link>
+            </Typography>
+          </Stack>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <main
-      style={{
+    <Box
+      component="main"
+      sx={{
         position: 'fixed',
         inset: 0,
         display: 'flex',
         flexDirection: 'column',
-        fontFamily: 'system-ui',
-        background: '#fff',
-        overflow: 'hidden',
+        bgcolor: 'background.default',
+        color: 'text.primary',
       }}
     >
-      {/* Top bar: progress, Edit link */}
-      <div
-        style={{
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '12px 16px',
-          borderBottom: '1px solid #eee',
-          backgroundColor: '#fafafa',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link href="/" style={{ fontSize: '0.875rem', color: '#0066cc' }}>
-            Home
-          </Link>
-          {deckId && canEdit && (
-            <Link href={`/edit/${deckId}`} style={{ fontSize: '0.875rem', color: '#0066cc' }}>
-              Edit
+      <AppBar position="static" elevation={0}>
+        <Container
+          sx={{
+            py: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Link href="/" className="text-inherit no-underline hover:underline">
+              Home
             </Link>
-          )}
-        </div>
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>
-          {slides.length > 0 ? `${currentIndex + 1} / ${slides.length}` : '—'}
-        </span>
-      </div>
+            {deckId && canEdit && (
+              <Link href={`/edit/${deckId}`} className="text-inherit no-underline hover:underline">
+                Edit
+              </Link>
+            )}
+          </Stack>
+          <Typography variant="body2" color="textSecondary">
+            {slides.length > 0 ? `${currentIndex + 1} / ${slides.length}` : '—'}
+          </Typography>
+        </Container>
+      </AppBar>
 
-      {/* Slide area */}
-      <div
-        style={{
+      <Box
+        sx={{
           flex: 1,
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '24px',
           overflow: 'auto',
+          py: 3,
         }}
       >
-        {!currentSlide ? (
-          <p style={{ color: '#666' }}>No slides in this deck.</p>
-        ) : (
-          <div style={{ width: '100%', maxWidth: 800 }}>
-            {blocks.length === 0 ? (
-              <p style={{ color: '#666' }}>This slide has no content.</p>
-            ) : (
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {blocks.map((b) => {
-                  const chartConfig = b.type === 'chart' ? blockColumnMappingToConfig(b.column_mapping) : null;
+        <Container maxWidth="md">
+          {!currentSlide ? (
+            <Typography color="textSecondary">No slides in this deck.</Typography>
+          ) : (
+            <Stack spacing={2}>
+              {blocks.length === 0 ? (
+                <Typography color="textSecondary">
+                  This slide has no content.
+                </Typography>
+              ) : (
+                blocks.map((b) => {
+                  const chartConfig =
+                    b.type === 'chart'
+                      ? blockColumnMappingToConfig(b.column_mapping)
+                      : null;
                   const chartReady =
                     b.type === 'chart' &&
                     b.data_source_id &&
                     chartConfig?.categoryKey &&
                     chartConfig?.valueKey;
                   return (
-                    <li
+                    <Paper
                       key={b.id}
-                      style={{
-                        marginBottom: '16px',
-                        padding: '16px',
-                        background: '#f9f9f9',
-                        border: '1px solid #eee',
-                        borderRadius: 8,
+                      elevation={1}
+                      sx={{
+                        p: 2,
                       }}
                     >
                       {b.type === 'text' && (
-                        <div style={{ whiteSpace: 'pre-wrap' }}>{b.content || ''}</div>
+                        <Typography sx={{ whiteSpace: 'pre-wrap' }}>
+                          {b.content || ''}
+                        </Typography>
                       )}
                       {b.type === 'chart' &&
                         (chartReady ? (
@@ -313,68 +361,61 @@ function ViewDeckContent() {
                             shareToken
                           )
                         ) : (
-                          <div
-                            style={{
-                              padding: '24px',
-                              background: '#eee',
-                              borderRadius: 8,
-                              color: '#666',
-                              fontSize: '0.875rem',
+                          <Box
+                            sx={{
+                              p: 3,
+                              bgcolor: 'background.paper',
+                              borderRadius: 2,
                             }}
                           >
-                            Chart not configured
-                          </div>
+                            <Typography variant="body2" color="textSecondary">
+                              Chart not configured
+                            </Typography>
+                          </Box>
                         ))}
-                    </li>
+                    </Paper>
                   );
-                })}
-              </ul>
-            )}
-          </div>
-        )}
-      </div>
+                })
+              )}
+            </Stack>
+          )}
+        </Container>
+      </Box>
 
-      {/* Next / Prev */}
-      <div
-        style={{
+      <Box
+        sx={{
           flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '16px',
-          padding: '16px',
-          borderTop: '1px solid #eee',
-          backgroundColor: '#fafafa',
+          borderTop: '1px solid',
+          borderColor: 'divider',
+          py: 2,
         }}
       >
-        <button
-          type="button"
-          onClick={goPrev}
-          disabled={!canGoPrev}
-          style={{
-            padding: '10px 20px',
-            fontSize: '1rem',
-            cursor: canGoPrev ? 'pointer' : 'not-allowed',
-            opacity: canGoPrev ? 1 : 0.5,
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 2,
           }}
         >
-          Previous
-        </button>
-        <button
-          type="button"
-          onClick={goNext}
-          disabled={!canGoNext}
-          style={{
-            padding: '10px 20px',
-            fontSize: '1rem',
-            cursor: canGoNext ? 'pointer' : 'not-allowed',
-            opacity: canGoNext ? 1 : 0.5,
-          }}
-        >
-          Next
-        </button>
-      </div>
-    </main>
+          <Button
+            type="button"
+            onClick={goPrev}
+            disabled={!canGoPrev}
+            variant="outlined"
+          >
+            Previous
+          </Button>
+          <Button
+            type="button"
+            onClick={goNext}
+            disabled={!canGoNext}
+            variant="filled"
+          >
+            Next
+          </Button>
+        </Container>
+      </Box>
+    </Box>
   );
 }
 
@@ -382,9 +423,11 @@ export default function ViewDeckPage() {
   return (
     <Suspense
       fallback={
-        <main style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-          <p>Loading…</p>
-        </main>
+        <Box component="main" sx={{ py: 4 }}>
+          <Container maxWidth="sm">
+            <Typography>Loading…</Typography>
+          </Container>
+        </Box>
       }
     >
       <ViewDeckContent />

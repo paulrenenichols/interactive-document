@@ -13,6 +13,11 @@ import {
   Dialog,
   Menu,
   MenuItem,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  CardMedia,
   Box,
   Stack,
   Typography,
@@ -20,12 +25,56 @@ import {
   IconButton,
   Fade,
   Grow,
+  Slide,
+  Collapse,
   Portal,
   Modal,
   Popover,
   ClickAwayListener,
   useMediaQuery,
   CSSBaseline,
+  Container,
+  Grid,
+  Divider,
+  Avatar,
+  Badge,
+  Chip,
+  Icon,
+  Link,
+  Breadcrumbs,
+  List,
+  ListItem,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Tooltip,
+  Checkbox,
+  Switch,
+  Radio,
+  RadioGroup,
+  Slider,
+  Select,
+  NumberField,
+  ButtonGroup,
+  ToggleButton,
+  ToggleButtonGroup,
+  Rating,
+  Autocomplete,
+  FAB,
+  Skeleton,
+  CircularProgress,
+  LinearProgress,
+  Backdrop,
+  Alert,
+  Snackbar,
+  Drawer,
+  BottomNavigation,
+  NavigationRail,
+  Stepper,
+  Pagination,
+  BottomSheet,
 } from '@interactive-document/material-ui';
 ```
 
@@ -42,7 +91,46 @@ Ensure the consuming app has Tailwind configured and includes the same theme tok
 - **Typography** — Text variants (h1–h6, body1, body2, caption, overline) using theme tokens.
 - **Paper** — Surface with elevated, outlined, or filled variant.
 - **IconButton** — Icon-sized button with small/medium/large.
-- **Transitions** — Fade and Grow (MUI-consistent timeouts: enter 225ms, exit 195ms).
+- **Container** — Max-width layout with optional gutters; breakpoints xs–xl.
+- **Grid** — CSS Grid layout with configurable columns, rows, and spacing.
+- **Divider** — Horizontal or vertical separator (theme border color).
+- **Avatar** — Circular or rounded avatar; image or initials; size prop.
+- **Badge** — Badge overlay (count or dot) on children; default/primary/error.
+- **Chip** — Compact pill (filled/outlined); optional onDelete.
+- **Icon** — Wrapper for SVG icons with size and color (inherit/primary/secondary/muted).
+- **List** / **ListItem** — List layout with optional dense padding.
+- **Table** — Table, TableHead, TableBody, TableRow, TableCell (variant head/body).
+- **Tooltip** — Hover tooltip with Fade; placement and enter/leave delay.
+- **Card** — Surface container (elevated/filled/outlined) with `CardHeader`, `CardContent`, `CardActions`, `CardMedia` for composing content.
+- **Accordion** — Expand/collapse sections using `Collapse`; keyboard and ARIA-friendly summary + details.
+- **AppBar** — Top app bar (small/medium/large, center-aligned) with leading/title/trailing slots.
+- **Checkbox** — Standard and indeterminate; optional label.
+- **Switch** — Toggle with optional label.
+- **Radio** / **RadioGroup** — Radio group with row/column layout.
+- **Slider** — Continuous, discrete, or range; optional value label.
+- **Select** — Dropdown with options (Popover-based).
+- **NumberField** — Numeric input with optional increment/decrement stepper.
+- **ButtonGroup** — Group of buttons with shared styling.
+- **ToggleButton** / **ToggleButtonGroup** — On/off button; exclusive or multiple selection.
+- **Rating** — Star-based rating (standard or half precision).
+- **Autocomplete** — Combobox with search/filter (TextField + Popover).
+- **FAB** — Floating action button (small/medium/large, extended).
+- **Link** — Themed anchor with color and underline behavior.
+- **Breadcrumbs** — Trail of links with separators for navigation hierarchy.
+- **Tabs** — Tab list and indicator for switching between views.
+- **Drawer** — Side navigation panel (temporary or persistent) using `Slide` and `Backdrop`.
+- **BottomNavigation** — Fixed bottom navigation bar with icons and labels.
+- **NavigationRail** — Vertical navigation rail for medium/large layouts.
+- **Stepper** — Horizontal stepper showing progress through a multi-step flow.
+- **Pagination** — Page navigation control with previous/next and numbered pages.
+- **Skeleton** — Loading placeholder in text, rectangular, or circular variants with optional pulse animation.
+- **CircularProgress** — Circular progress indicator (indeterminate or determinate).
+- **LinearProgress** — Bar-based progress (indeterminate, determinate, or buffer).
+- **Backdrop** — Full-screen overlay using the overlay token, optionally with Fade.
+- **Alert** — Inline status messages for success/info/warning/error with optional action/close.
+- **Snackbar** — Temporary messages at screen edge, with auto-dismiss and action support.
+- **BottomSheet** — Slide-up panel from the bottom using `Slide` and `Backdrop`.
+- **Transitions** — Fade, Grow, Slide, and Collapse (MUI-consistent timeouts: enter 225ms, exit 195ms).
 - **Portal** — Render children into `document.body` or optional container.
 - **Modal** — Backdrop (Fade), focus trap, scroll lock, semantic overlay token.
 - **Popover** — Positioned overlay with anchorOrigin, Grow for content.
