@@ -36,3 +36,4 @@ Key details:
   - Mitigation: Validate the graph and dependency edges; start with parallel runs (Nx affected + legacy) if needed.
 - **Risk:** Very broad shared libs may cause many projects to be considered affected.
   - Mitigation: Refine project boundaries or accept that changes to broad, central libs legitimately warrant more CI work.
+

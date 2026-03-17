@@ -1,4 +1,4 @@
-name: CI
+name: CI (nx affected + docs-only planning)
 
 on:
   push:
@@ -13,12 +13,63 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    name: Detect changes (docs-only guard)
+    runs-on: ubuntu-latest
+
+    outputs:
+      docs_only: ${{ steps.detect.outputs.docs_only }}
+      changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          since_last_remote_commit: true
+
+      - name: Decide docs-only
+        id: detect
+        run: |
+          echo "Changed files:"
+          printf '%s\n' "${{ steps.changed-files.outputs.all_changed_files }}"
+
+          docs_only=true
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ ! "$file" =~ ^_docs/ ]] && [[ ! "$file" =~ \.md$ ]]; then
+              docs_only=false
+              break
+            fi
+          done
+
+          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "Docs-only decision: $docs_only"
+
+      - name: Summarize CI scope decision
+        if: always()
+        run: |
+          echo "## CI scope decision" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Docs-only: ${{ steps.detect.outputs.docs_only }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Changed files:" >> "$GITHUB_STEP_SUMMARY"
+          printf '  - %s\n' ${{ steps.changed-files.outputs.all_changed_files }} >> "$GITHUB_STEP_SUMMARY"
+
   build-and-test:
+    name: CI (nx affected)
+    needs: detect-changes
+    if: needs.detect-changes.outputs.docs_only != 'true'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -34,14 +85,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Lint (nx affected)
+        run: pnpm exec nx affected -t lint --base=origin/main --head=HEAD
 
-      - name: Test
-        run: pnpm test
+      - name: Test (nx affected)
+        run: pnpm exec nx affected -t test --base=origin/main --head=HEAD
 
-      - name: Build
-        run: pnpm build
+      - name: Build (nx affected)
+        run: pnpm exec nx affected -t build --base=origin/main --head=HEAD
 
   storybook-pages:
     needs: build-and-test

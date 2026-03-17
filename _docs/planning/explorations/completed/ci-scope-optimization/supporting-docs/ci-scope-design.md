@@ -1,5 +1,7 @@
 # CI scope design: docs-only guard + Nx affected
 
+_This file was moved from `_docs/planning/explorations/ci-scope-optimization/supporting-docs/ci-scope-design.md` when the exploration was converted into the **CI scope optimization** milestone. The content remains the same; links have been updated to point to the completed exploration path._
+
 ## Context
 
 Current CI always runs lint, test, and build, even when a change is clearly non-code (for example, adding or editing `_docs/` explorations). This makes iteration on planning and documentation slower than necessary.
@@ -66,6 +68,7 @@ This scopes work to only the projects that are actually impacted by the change, 
 ### B. Separate “code CI” and “docs CI” workflows
 
 **Description:** Two workflows:
+
 - One for code changes (full Nx CI).
 - One for docs-only changes (or just quick checks).
 
@@ -122,3 +125,4 @@ This scopes work to only the projects that are actually impacted by the change, 
 - **Rollout**
   - Start in a non-blocking workflow or branch?
   - Add logging of detected patterns before enforcing the skip, to validate behavior.
+

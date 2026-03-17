@@ -13,11 +13,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 
 ## Active milestones
 
-_(none)_
+- **[ci-scope-optimization](active/ci-scope-optimization/)** — CI scope optimization via docs-only guard + Nx affected, with clear contributor-facing behavior and rollout.
 
 ## Future milestones
 
-_(none)_
+_(none currently)_
 
 ---
 

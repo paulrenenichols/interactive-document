@@ -13,3 +13,4 @@ Use `nx affected` to scope lint/test/build to only the projects actually impacte
 ## Workflow clarity
 
 Make CI scope rules visible and explainable (job names, logs, and documentation) so contributors understand why their PR did or didn’t run full CI.
+

@@ -31,3 +31,4 @@ If **any** changed file falls outside the allowlist, treat the change as potenti
 
 - Exact patterns to include in the allowlist for this repository.
 - Whether to run any lightweight docs checks on docs-only PRs (and if so, which ones).
+

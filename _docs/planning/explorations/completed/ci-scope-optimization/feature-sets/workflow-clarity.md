@@ -16,7 +16,7 @@ Make the CI scope rules **visible and explainable**:
 
 - **Documentation**
   - Document the behavior in:
-    - `_docs/planning/explorations/ci-scope-optimization/supporting-docs/ci-scope-design.md`
+    - `_docs/planning/explorations/completed/ci-scope-optimization/supporting-docs/ci-scope-design.md`
     - Contributor docs (e.g. CONTRIBUTING or CI README).
   - Explain:
     - What counts as docs-only.
@@ -33,3 +33,4 @@ Make the CI scope rules **visible and explainable**:
   - “This was treated as docs-only, so heavy tasks were skipped.”
   - “This ran Nx affected for these targets because code paths changed.”
 - Reduce confusion and make CI scope decisions auditable.
+
