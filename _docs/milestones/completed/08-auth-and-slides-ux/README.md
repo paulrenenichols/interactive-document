@@ -4,7 +4,7 @@
 
 ## Status
 
-- **Future / Active / Completed:** Active (lives in `_docs/milestones/active/`; will move to `completed/` with a number prefix when finished)
+- **Future / Active / Completed:** Completed (lives in `_docs/milestones/completed/08-auth-and-slides-ux/`; created from the `auth-and-slides-ux` exploration and phases 1–2 work)
 
 ## Phases
 
@@ -18,7 +18,7 @@ Phase files: `_docs/milestones/<bucket>/auth-and-slides-ux/phases/` and `phase-p
 
 ## Progress
 
-- Progress folder: `_docs/progress/auth-and-slides-ux/` (renamed to `_docs/progress/<NN>-auth-and-slides-ux/` when the milestone is completed).
+- Progress folder: `_docs/progress/08-auth-and-slides-ux/`.
 
 ## References
 
