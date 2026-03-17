@@ -2,39 +2,48 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import NextLink from 'next/link';
-import {
-  Alert,
-  Box,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@/lib/material-ui-shim';
 import { apiUrl } from '@/lib/api';
 import { setToken } from '@/lib/auth';
+import type { RegisterScreenState } from '../../components/auth/RegisterScreen';
+import { RegisterScreen } from '../../components/auth/RegisterScreen';
 
-export default function RegisterPage() {
+function RegisterScreenContainer() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState<RegisterScreenState>({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    loading: false,
+    error: undefined,
+  });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  function update(partial: Partial<RegisterScreenState>) {
+    setState((prev) => ({ ...prev, ...partial }));
+  }
+
+  async function handleSubmit() {
+    if (state.password.length < 8) {
+      update({ error: 'Password must be at least 8 characters' });
+      return;
+    }
+    if (state.password !== state.confirmPassword) {
+      update({ error: 'Passwords do not match' });
+      return;
+    }
+
+    update({ error: undefined, loading: true });
     try {
       const res = await fetch(`${apiUrl()}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({
+          email: state.email.trim(),
+          password: state.password,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(data.error ?? 'Registration failed');
+        update({ error: data.error ?? 'Registration failed' });
         return;
       }
       if (data.token) {
@@ -45,67 +54,25 @@ export default function RegisterPage() {
       }
       router.refresh();
     } catch {
-      setError('Network error');
+      update({ error: 'Network error' });
     } finally {
-      setLoading(false);
+      update({ loading: false });
     }
   }
 
   return (
-    <Box component="main" sx={{ py: 4 }}>
-      <Paper
-        elevation={1}
-        sx={{
-          maxWidth: 400,
-          mx: 'auto',
-          p: 3,
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <Typography variant="h5" component="h1">
-              Create account
-            </Typography>
-            {error && (
-              <Alert severity="error">
-                {error}
-              </Alert>
-            )}
-            <TextField
-              id="email"
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              fullWidth
-            />
-            <TextField
-              id="password"
-              label="Password (min 8 characters)"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={8}
-              autoComplete="new-password"
-              fullWidth
-            />
-            <Button type="submit" disabled={loading} variant="filled">
-              {loading ? 'Creating account…' : 'Create account'}
-            </Button>
-            <Typography variant="body2">
-              <NextLink
-                href="/login"
-                className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 dark:text-accent-primary dark:hover:text-accent-primary-hover"
-              >
-                Already have an account? Log in
-              </NextLink>
-            </Typography>
-          </Stack>
-        </form>
-      </Paper>
-    </Box>
+    <RegisterScreen
+      state={state}
+      callbacks={{
+        onChangeEmail: (email) => update({ email }),
+        onChangePassword: (password) => update({ password }),
+        onChangeConfirmPassword: (confirmPassword) => update({ confirmPassword }),
+        onSubmit: handleSubmit,
+      }}
+    />
   );
+}
+
+export default function RegisterPage() {
+  return <RegisterScreenContainer />;
 }
