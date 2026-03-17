@@ -8,11 +8,15 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@/lib/material-ui-shim';
+} from '../../lib/material-ui-shim';
 
 export type LoginScreenState = {
   email: string;
   password: string;
+  /**
+   * Whether the \"Remember me\" checkbox is selected.
+   */
+  rememberMe?: boolean;
   loading: boolean;
   error?: string;
 };
@@ -20,6 +24,7 @@ export type LoginScreenState = {
 export type LoginScreenCallbacks = {
   onChangeEmail?: (value: string) => void;
   onChangePassword?: (value: string) => void;
+  onToggleRememberMe?: (value: boolean) => void;
   onSubmit?: () => void;
   onForgotPassword?: () => void;
   onGoogleSignIn?: () => void;
@@ -32,7 +37,7 @@ export type LoginScreenProps = {
 };
 
 export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) {
-  const { email, password, loading, error } = state;
+  const { email, password, rememberMe, loading, error } = state;
 
   return (
     <Box
@@ -91,6 +96,14 @@ export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) 
             fullWidth
           />
           <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <label className="inline-flex items-center gap-2 text-sm text-accent-foreground/80">
+              <input
+                type="checkbox"
+                checked={!!rememberMe}
+                onChange={(e) => callbacks?.onToggleRememberMe?.(e.target.checked)}
+              />
+              <span>Remember me on this device</span>
+            </label>
             <Button
               type="button"
               variant="text"
@@ -99,14 +112,14 @@ export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) 
             >
               Forgot password?
             </Button>
-            <Button
-              type="submit"
-              disabled={loading}
-              variant="filled"
-            >
-              {loading ? 'Signing in…' : 'Sign in'}
-            </Button>
           </Stack>
+          <Button
+            type="submit"
+            disabled={loading}
+            variant="filled"
+          >
+            {loading ? 'Signing in…' : 'Sign in'}
+          </Button>
           <Button
             type="button"
             variant="outlined"

@@ -8,7 +8,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@/lib/material-ui-shim';
+} from '../../lib/material-ui-shim';
 
 export type RegisterScreenState = {
   email: string;

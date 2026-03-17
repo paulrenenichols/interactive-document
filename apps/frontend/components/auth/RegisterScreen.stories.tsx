@@ -50,3 +50,20 @@ export const WithValidationError: Story = {
   },
 };
 
+export const FirstTimeSignup: Story = {
+  args: {
+    state: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      loading: false,
+      error: undefined,
+    },
+    footerSlot: (
+      <p className="text-xs text-accent-foreground/70">
+        Use a work email if you&apos;re setting up Interactive Document for a team.
+      </p>
+    ),
+  },
+};
+
