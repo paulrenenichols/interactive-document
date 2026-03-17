@@ -10,10 +10,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 - **[04-developer-experience](completed/04-developer-experience/)** — Dev Docker with live reload, DB UI, seed data; API docs and log level; Storybook; Cursor rules and skills.
 - **[05-ux-and-stack-overhaul](completed/05-ux-and-stack-overhaul/)** — Lint/test/CI, Tailwind 4 and theming, Material component library, data layers (zod/zustand/sql.js), WYSIWYG deck editor and Google Slides–inspired UX.
 - **[06-material-ui-remaining-catalog](completed/06-material-ui-remaining-catalog/)** — Complete the material-ui component catalog (layout, data display, inputs, feedback, surface, navigation), Storybook base path for /material-ui/, and frontend migration to library components.
+- **[07-ci-scope-optimization](completed/07-ci-scope-optimization/)** — CI scope optimization via docs-only guard + Nx affected, with clear contributor-facing behavior, rollout, and validation docs.
 
 ## Active milestones
 
-- **[ci-scope-optimization](active/ci-scope-optimization/)** — CI scope optimization via docs-only guard + Nx affected, with clear contributor-facing behavior and rollout.
+_(none)_
 
 ## Future milestones
 

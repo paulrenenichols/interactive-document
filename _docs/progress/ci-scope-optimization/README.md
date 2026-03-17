@@ -12,6 +12,6 @@ Use this folder to track work on the **CI scope optimization** milestone.
 
 ## Links
 
-- Milestone: `_docs/milestones/active/ci-scope-optimization/README.md`
-- Exploration (completed): `_docs/planning/explorations/completed/ci-scope-optimization/README.md`
+- Milestone: `_docs/milestones/completed/07-ci-scope-optimization/README.md`
+- Exploration (completed): `_docs/planning/explorations/completed/07-ci-scope-optimization/README.md`
 

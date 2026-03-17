@@ -41,9 +41,9 @@
 ## Status
 
 - Created with the **docs-driven-dev** skill (v2.0.0).  
-- Evaluated and converted into the **CI scope optimization** milestone in `_docs/milestones/future/ci-scope-optimization/`.
+- Evaluated and converted into the **CI scope optimization** milestone (completed as `07-ci-scope-optimization`).
 
 ---
 
-Use `_docs/planning/explorations/completed/ci-scope-optimization/feature-sets/` for per–feature-set markdown and `supporting-docs/` for design and research artifacts.
+Use `_docs/planning/explorations/completed/07-ci-scope-optimization/feature-sets/` for per–feature-set markdown and `supporting-docs/` for design and research artifacts.
 
