@@ -4,14 +4,15 @@
 
 Use `nx affected` as the primary mechanism for deciding what to run on non-docs-only changes in CI, with sensible base/head configuration and parallelism.
 
-## Planned chunks
+## Changes in this phase
 
-1. **Chunk 1: Base Nx affected wiring**
-   - Add CI steps that run `nx affected -t lint`, `nx affected -t test`, and `nx affected -t build` when the docs-only guard reports `docs_only = false`.
-2. **Chunk 2: Base/head and parallelism**
-   - Confirm base/head strategy (default `origin/main...HEAD`) and tune `--parallel` / `--maxParallel` and optional `--configuration=ci` for this repo.
-3. **Chunk 3: Safety and validation**
-   - Document assumptions about the Nx project graph, and outline any temporary toggles or fallback strategies if we see surprising affected sets.
+- **Chunk 1: Base Nx affected wiring**
+  - CI now runs `nx affected -t lint`, `nx affected -t test`, and `nx affected -t build` in the main `CI (nx affected)` job whenever the docs-only guard reports `docs_only = false`.
+- **Chunk 2: Base/head and parallelism**
+  - Base/head are configured as `--base=origin/main --head=HEAD`, matching the intended `origin/main...HEAD` comparison.
+  - Added `--parallel=3` to Nx affected commands to balance speed and load in CI.
+- **Chunk 3: Safety and validation**
+  - See `phase-2-validation-notes.md` in this folder for assumptions about the Nx project graph and guidance on how to react if affected sets look surprising.
 
 ## Notes
 

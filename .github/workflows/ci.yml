@@ -86,13 +86,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint (nx affected)
-        run: pnpm exec nx affected -t lint --base=origin/main --head=HEAD
+        run: pnpm exec nx affected -t lint --base=origin/main --head=HEAD --parallel=3
 
       - name: Test (nx affected)
-        run: pnpm exec nx affected -t test --base=origin/main --head=HEAD
+        run: pnpm exec nx affected -t test --base=origin/main --head=HEAD --parallel=3
 
       - name: Build (nx affected)
-        run: pnpm exec nx affected -t build --base=origin/main --head=HEAD
+        run: pnpm exec nx affected -t build --base=origin/main --head=HEAD --parallel=3
 
   storybook-pages:
     needs: build-and-test
