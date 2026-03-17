@@ -41,10 +41,19 @@ jobs:
 
           docs_only=true
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ ! "$file" =~ ^_docs/ ]] && [[ ! "$file" =~ \.md$ ]]; then
-              docs_only=false
-              break
+            # Treat _docs/** as docs-only.
+            if [[ "$file" =~ ^_docs/ ]]; then
+              continue
             fi
+
+            # Treat Markdown-only changes as docs-only.
+            if [[ "$file" =~ \.md$ ]]; then
+              continue
+            fi
+
+            # Everything else is treated as code-impacting.
+            docs_only=false
+            break
           done
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
