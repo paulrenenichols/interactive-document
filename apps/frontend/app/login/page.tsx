@@ -2,41 +2,43 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import NextLink from 'next/link';
-import {
-  Alert,
-  Box,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@/lib/material-ui-shim';
 import { apiUrl } from '@/lib/api';
 import { setToken } from '@/lib/auth';
+import type { LoginScreenState } from '../../components/auth/LoginScreen';
+import { LoginScreen } from '../../components/auth/LoginScreen';
 
-function LoginForm() {
+function LoginScreenContainer() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl = searchParams.get('returnUrl') ?? '/';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  const [state, setState] = useState<LoginScreenState>({
+    email: '',
+    password: '',
+    rememberMe: false,
+    loading: false,
+    error: undefined,
+  });
+
+  function update(partial: Partial<LoginScreenState>) {
+    setState((prev) => ({ ...prev, ...partial }));
+  }
+
+  async function handleSubmit() {
+    update({ error: undefined, loading: true });
     try {
       const res = await fetch(`${apiUrl()}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({
+          email: state.email.trim(),
+          password: state.password,
+          rememberMe: state.rememberMe,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(data.error ?? 'Login failed');
+        update({ error: data.error ?? 'Login failed' });
         return;
       }
       if (data.token) {
@@ -45,74 +47,35 @@ function LoginForm() {
       router.push(returnUrl);
       router.refresh();
     } catch {
-      setError('Network error');
+      update({ error: 'Network error' });
     } finally {
-      setLoading(false);
+      update({ loading: false });
     }
   }
 
   return (
-    <Box component="main" sx={{ py: 4 }}>
-      <Paper
-        elevation={1}
-        sx={{
-          maxWidth: 400,
-          mx: 'auto',
-          p: 3,
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <Typography variant="h5" component="h1">
-              Log in
-            </Typography>
-            {error && (
-              <Alert severity="error">
-                {error}
-              </Alert>
-            )}
-            <TextField
-              id="email"
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              fullWidth
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              fullWidth
-            />
-            <Button type="submit" disabled={loading} variant="filled">
-              {loading ? 'Signing in…' : 'Sign in'}
-            </Button>
-            <Typography variant="body2">
-              <NextLink
-                href="/register"
-                className="cursor-pointer text-accent-primary no-underline hover:underline transition-colors duration-[150ms] hover:text-accent-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 dark:text-accent-primary dark:hover:text-accent-primary-hover"
-              >
-                Create an account
-              </NextLink>
-            </Typography>
-          </Stack>
-        </form>
-      </Paper>
-    </Box>
+    <LoginScreen
+      state={state}
+      callbacks={{
+        onChangeEmail: (email) => update({ email }),
+        onChangePassword: (password) => update({ password }),
+        onToggleRememberMe: (rememberMe) => update({ rememberMe }),
+        onSubmit: handleSubmit,
+        onForgotPassword: () => {
+          // Placeholder: could route to a dedicated forgot-password page later.
+        },
+        onGoogleSignIn: () => {
+          // Placeholder: hook up to OAuth flow in a later phase if desired.
+        },
+      }}
+    />
   );
 }
 
 export default function LoginPage() {
   return (
     <Suspense fallback={<main style={{ padding: '2rem' }}>Loading…</main>}>
-      <LoginForm />
+      <LoginScreenContainer />
     </Suspense>
   );
 }
