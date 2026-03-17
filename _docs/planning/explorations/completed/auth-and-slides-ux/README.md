@@ -1,8 +1,8 @@
 # Auth and Google Slides–style UX
 
-Created with the **docs-driven-dev** skill (v1.5.0).
+Created with the **docs-driven-dev** skill (v1.5.0). Evaluated and turned into a milestone; see `_docs/milestones/future/auth-and-slides-ux/` and `_docs/progress/auth-and-slides-ux/`.
 
-This exploration scopes **login/sign-up improvements** and **Google Slides–style UI** work. It builds on the existing [Google Slides–inspired UX](../completed/05-ux-and-stack-overhaul/feature-sets/google-slides-ux.md) from the ux-and-stack-overhaul milestone and adds a focus on authentication flows and entry experience.
+This exploration scopes **login/sign-up improvements** and **Google Slides–style UI** work. It builds on the existing [Google Slides–inspired UX](../05-ux-and-stack-overhaul/feature-sets/google-slides-ux.md) from the ux-and-stack-overhaul milestone and adds a focus on authentication flows and entry experience.
 
 **Goals:**
 
@@ -11,7 +11,7 @@ This exploration scopes **login/sign-up improvements** and **Google Slides–sty
 
 Both of these areas will be driven **Storybook-first**: build full-screen UI **screen components** (auth and Slides editor) in Storybook, iterate interactively on states and theming, then wire them to real data/routes in the Next.js app.
 
-Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate this exploration or turn it into a milestone.
+Use [exploration-lifecycle.md](../../../setup/exploration-lifecycle.md) to evaluate this exploration or revisit it if scope changes.
 
 ## Structure
 
@@ -39,3 +39,4 @@ For this exploration, Storybook work is anchored in the existing frontend app:
 - **Mocking/data strategy:** Use Storybook-level mocks (e.g. MSW or simple in-memory mocks) to simulate auth and deck APIs so stories exercise realistic flows without depending on the backend.
 
 See the feature-set docs for detailed scope, dependencies, and open questions.
+

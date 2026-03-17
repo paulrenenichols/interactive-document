@@ -18,7 +18,7 @@ _(none)_
 
 ## Future milestones
 
-_(none currently)_
+- **[auth-and-slides-ux](future/auth-and-slides-ux/)** — Auth login/sign-up UX improvements and Google Slides–style editor/viewer refinements, implemented Storybook-first and then wired into the Next.js app.
 
 ---
 
