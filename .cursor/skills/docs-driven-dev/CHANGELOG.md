@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.0.0] - 2026-03-16
+
+### Added
+- **Plan-first mode:** Setup, convert, upgrade, create/update exploration, and create milestone now build a draft in memory first; no disk writes until user says "go", "apply", or "execute". Agent prompts: "Plan ready—review/add docs. Say 'go' to apply." and "Updates detected—refine, or 'go'?"
+- **Phase execution (chunk-level):** "Implement phase" / "go" (with active milestone) runs phase-plan per chunk: generate → lint → test → commit ("phase X - chunk Y") → push; end of phase: build → PR → merge (confirm). Last phase: auto-complete milestone after merge. Config: "Build after every chunk?" (default no).
+- **Unified branch pattern:** `docs/<milestone-or-exploration>-<name>` with collision suffix (-2, -3). Phase branches: `docs/<milestone>-phase-<phase_number>`. Fetch origin before checks.
+- **Validation:** On every trigger, quick "validate state" (version, _docs, git, drift). Report "All good" or "Fixes needed: …". Optional triggers: "validate", "validate state", "validate docs".
+- **Rollback:** "rollback phase" (revert last phase commits) and "rollback chunk" (revert last chunk commit), with confirmation.
+- **Watchdog:** Background state checker on create/implement/upgrade/merge: prompts "Milestone complete—finish now?", "Docs stale—validate?", "Phase open—continue or rollback?" (half-done phase ~30 min). See `setup/watchdog-rules.md`.
+- **Upgrade from GitHub:** "Upgrade docs" fetches latest from skill repo, compares version/content; "Overwrite skill files? Yes/No". If yes, copy files then "evaluate project" (scan _docs for outdated structures → "Project needs: … Apply? Yes/No"). Binary overwrite or skip.
+- **Templates and setup layout:** Explicit `templates/` (phase-plan-template, exploration-template, milestone-template, readme-docs-section, progress-sync-template) and `setup/` (project-lifecycle, exploration-lifecycle, milestone-lifecycle, watchdog-rules). Phase plans use phase-plan-template.md (Logical Chunks, Execution Rules). Setup includes watchdog-rules.md.
+- **Trigger table:** "make active" short form; implement phase, rollback, validate triggers; apply-plan triggers (go, apply, execute) documented.
+
+### Changed
+- Git: auto-init prompt if no repo ("No repo—init now?"). Dead branches: after merge, list "These look dead: … Delete any? (y/n per branch)" — no auto-delete.
+- Make milestone active: branch options (a) activation only `docs/milestone-<name>-activate`, (b) start first phase `docs/<milestone>-phase-1`.
+- Setup (section 1) and convert (section 2) now copy `watchdog-rules.md` to _docs/planning/setup/.
+- Lifecycle docs updated for v2: branch names, plan-first/go, phase-plan template, progress structure, link to watchdog-rules.md.
+- README template (readme-docs-section.md): plan-first step, "go" to apply, implement phase, rollback, validate.
+
 ## [1.5.0] - 2026-03-15
 
 ### Added

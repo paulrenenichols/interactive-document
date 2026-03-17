@@ -30,13 +30,8 @@ Milestones live under `_docs/milestones/` in one of three folders:
 
 3. **Create phase and phase-plan files**
    - In `phases/`: one markdown file per phase (e.g. `01-infra.md`, `02-caching.md`).
-   - In `phase-plans/`: same filenames, execution plans. Each must:
-     - **First step:** Create and check out branch `<milestone>/<phase>` (e.g. `developer-experience/01-infra`).
-     - **During:** Add, commit, push at logical points.
-     - **README step:** Add/update project-root and per-app READMEs on completion.
-     - **Progress doc:** Add/update `_docs/progress/<milestone>/<phase>.md`.
-     - **Final step:** On user approval, add, commit, push final changes.
-   - **Last phase only:** When this phase is the milestone's final phase, after the PR is merged the milestone must be moved from `active/` to `completed/` with a number prefix; the `progress/<name>/` and `planning/explorations/completed/<name>/` folders (if present) must be renamed with the same prefix; and `milestones/README.md` updated (see "Mark milestone completed" in the docs-driven-dev skill).
+   - In `phase-plans/`: same filenames. Use the skill's **phase-plan-template.md** (Logical Chunks, Execution Rules). Branch: `docs/<milestone>-phase-<phase_number>` (e.g. `docs/developer-experience-phase-1`). Per chunk: generate → lint → test → commit → push; end of phase: build → PR → merge. Say "go" or "implement phase" to run. Progress doc: `_docs/progress/<milestone>/<phase>.md`.
+   - **Last phase only:** When this phase is the milestone's final phase, after the PR is merged the milestone must be moved from `active/` to `completed/` with a number prefix; the `progress/<name>/` and `planning/explorations/completed/<name>/` folders (if present) must be renamed with the same prefix; and `milestones/README.md` updated (see "Mark milestone completed" in the docs-driven-dev skill). The watchdog will prompt: "Milestone complete—finish now?" (see [watchdog-rules.md](watchdog-rules.md)).
    - **Pause for review.**
 
 4. **Progress folder**

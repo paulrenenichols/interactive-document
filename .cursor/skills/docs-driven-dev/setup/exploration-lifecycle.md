@@ -29,6 +29,7 @@ If the user asks to turn the exploration into a milestone:
 
 ## Creating and updating explorations
 
-Use the docs-driven-dev skill's exploration workflows:
-- **Create:** "create exploration" — discussion, draft README, approval, create feature-sets/ and supporting-docs/.
-- **Update:** "update exploration" — review contents, discuss unmentioned files, apply updates, set "Updated with" version.
+Use the docs-driven-dev skill's exploration workflows (plan-first: say "go" to apply):
+- **Create:** "create exploration" — plan from exploration-template, then "go" to create README, feature-sets/, supporting-docs/.
+- **Update:** "update exploration" — plan updates, then "go" to apply; set "Updated with" version.
+- See [watchdog-rules.md](watchdog-rules.md) for state checks after create/update.

@@ -1,195 +1,266 @@
 ---
 name: docs-driven-dev
-version: "1.5.0"
-description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
+version: "2.0.0"
+description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Plan-first (say 'go' to apply). Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
 ---
 
 # docs-driven-dev
 
-Docs-driven development: planning, milestones, explorations, and documentation workflows. Consolidates setup, conversion, upgrade, exploration creation/update, and milestone lifecycle management.
+Docs-driven development: planning, milestones, explorations, and documentation workflows. Plan-first by default—draft in memory, no disk writes until you say "go". Consolidates setup, conversion, upgrade, exploration creation/update, milestone lifecycle, phase execution (per-chunk lint/test/commit), validation, rollback, and watchdog.
 
 ## When to use
 
-**First step:** Determine which workflow the user wants from their message or context. Accept both "docs" and "_docs" — "setup docs" and "setup _docs" both trigger setup. If multiple could apply, ask the user to clarify.
+**First step:** Determine which workflow the user wants from their message or context. Accept both "docs" and "_docs". If multiple could apply, ask the user to clarify.
+
+### Workflow triggers (plan-first unless noted)
 
 | Workflow | Trigger phrases |
-|----------|-----------------|
+|----------|------------------|
 | **Setup docs** | "setup docs", "setup _docs", "scaffold docs", "scaffold _docs", "create docs", "create _docs", "init docs", "docs-driven setup", "new project with docs" |
 | **Convert project** | "convert to docs", "convert to _docs", "add docs to project", "add _docs to project", "convert existing project", "docs-driven convert", "add docs to codebase" |
-| **Upgrade docs** | "upgrade docs", "upgrade _docs", "upgrade docs project", "update docs structure", "update _docs structure", "docs-driven upgrade", "bring docs up to date" |
+| **Upgrade docs** | "upgrade docs", "upgrade _docs", "update docs structure", "update _docs structure", "docs-driven upgrade", "bring docs up to date" |
 | **Create exploration** | "create exploration", "add exploration", "new exploration", "scaffold exploration" |
 | **Update exploration** | "update exploration", "add feature sets to exploration" |
 | **Create milestone from exploration** | "turn exploration into milestone", "create milestone from exploration", "exploration to milestone", "evaluate exploration and create milestone" |
-| **Make milestone active** | "make milestone active", "start milestone", "activate milestone", "move to active", "begin work on" |
+| **Make milestone active** | "make milestone active", "make active", "start milestone", "activate milestone", "move to active", "begin work on" |
 | **Mark milestone completed** | "mark milestone completed", "finish milestone", "complete milestone", "move to completed"; also prompted when the last phase of an active milestone is merged |
+| **Implement phase** | "implement phase", "go" (in active-milestone context) — run phase execution (chunks, lint, test, commit, push) |
+| **Rollback** | "rollback phase" (revert last phase commits), "rollback chunk" (revert last chunk commit) |
+| **Validate** | "validate", "validate state", "validate docs" — run validation only, report "All good" or "Fixes needed: …" |
 | **Help** | "what can you do", "help", "what capabilities", "docs-driven-dev help" |
+
+### Apply-plan triggers (v2)
+
+After you show a plan and *"Plan ready—review/add docs. Say 'go' to apply."*:
+
+- **Apply the plan (write to disk):** "go", "apply", "execute"
+
+If the user edits or adds files after seeing the plan, say *"Updates detected—refine, or 'go'?"* — same apply triggers apply.
 
 ---
 
-## Help / What this skill can do
+## Plan-first mode (default for setup, convert, upgrade, create exploration, update exploration, create milestone)
 
-When the user asks "what can you do?", "help", "what capabilities", or similar, respond with this summary:
+For the workflows above (except Implement phase, Rollback, Validate, Help):
 
-- **Setup docs** — Create _docs in an empty folder (planning, milestones, progress, setup)
-- **Convert project** — Add _docs to an existing codebase (00-initial-milestones with inferred docs; no milestones)
-- **Upgrade docs** — Update an existing docs project to the current skill version and structure
-- **Create exploration** — New exploration folder with feature-sets and supporting-docs
-- **Update exploration** — Update an existing exploration (add feature sets, align to standards)
-- **Create milestone from exploration** — Turn an exploration into a milestone in `milestones/future/` and move the exploration to `explorations/completed/`
-- **Make milestone active** — Move a future milestone to `active/` and verify phases/phase-plans
-- **Mark milestone completed** — Move an active milestone to `completed/` and add number prefix to the milestone folder, the corresponding `progress/` folder, and the exploration in `planning/explorations/completed/` (do when the last phase is merged; skill prompts for this)
+1. **Build draft in memory/temp:** Folder structure, md skeletons, branch name suggestion. Do not write to disk.
+2. **Prompt:** *"Plan ready—review/add docs. Say 'go' to apply."*
+3. If the user adds or edits files: *"Updates detected—refine, or 'go'?"*
+4. **No disk writes until** the user says "go", "apply", or "execute". Then perform the steps for that workflow (sections 1–8 below).
+
+---
+
+## Validation (every trigger)
+
+On every workflow trigger, run a quick **validate state** check:
+
+- Skill version match? _docs present and expected structure? Git healthy? Drift (e.g. progress folders out of sync, old branches)?
+- Report: *"All good"* or *"Fixes needed: …"* with concrete items. If fixes needed, still proceed unless the user asks to fix first.
+
+User can also run validation only by saying "validate", "validate state", or "validate docs".
 
 ---
 
 ## Git and branching
 
-**Before any branch or commit step:** Check if the project is a git repository (`git rev-parse --is-inside-work-tree`). If no git repo: inform the user; ask (a) Initialize git and create the branch, or (b) Proceed without git. If (b): skip all branch creation and commit/push steps; still perform file changes.
+**Before any branch or commit step:** Check if the project is a git repository. If no git repo: *"No repo—init now?"* — if yes, run `git init` and create an initial commit; then proceed. If no: skip all branch creation and commit/push steps; still perform file changes.
 
-**Branch patterns:**
+**Branch pattern (v2):** `docs/<milestone-or-exploration>-<name>`. Check collision; if branch exists, append `-2`, `-3`, etc. **Fetch origin** before any branch check.
 
 | Operation | Branch |
 |-----------|--------|
 | Setup | `docs/setup` |
 | Convert | `docs/convert` |
 | Upgrade | `docs/upgrade` |
-| Create exploration | `explore/create/<name>` |
-| Update exploration | `explore/update/<name>` |
-| Create milestone | `milestone/create/<name>` |
-| Make milestone active (activation only) | `milestone/activate/<name>` |
-| Make milestone active (start first phase) | `<milestone>/<phase>` (e.g. `developer-experience/01-dev-stack`) |
-| Mark milestone completed | `milestone/complete/<name>` |
+| Create exploration | `docs/exploration-<name>` |
+| Update exploration | `docs/exploration-<name>-update` |
+| Create milestone | `docs/milestone-<name>` |
+| Phase work (make active / implement phase) | `docs/<milestone>-phase-<phase_number>` (e.g. `docs/developer-experience-phase-1`) |
+| Mark milestone completed | `docs/milestone-<name>-complete` |
 
-Ask user about branch (current vs new from main) per scaffold-exploration pattern. Check if branch name exists; use `-2`, `-3` suffix if needed.
+**Activation:** On "make active", switch to or create the phase branch (e.g. `docs/<milestone>-phase-1`).
+
+**Dead branches:** After a merge, scan for branches that look dead (SHA on main, no open PR; squash-aware). List: *"These look dead: <branches>. Delete any? (y/n per branch)"* — do not auto-delete.
 
 ---
 
-## Phase execution workflow
+## Phase execution (after "go" in active milestone)
 
-When executing milestone phases:
+Triggered by "implement phase" or "go" when an active milestone exists.
 
-1. **One phase at a time:** Complete one phase fully, then STOP
-2. **User testing:** Inform user phase is complete and ready for testing
-3. **PR and merge:** User creates PR, tests, and merges to main
-4. **Next phase:** User explicitly asks to start next phase — or, if this was the **last phase** of the milestone, prompt to **mark milestone completed** (see section 8): move folder from `active/<name>/` to `completed/`, add number prefix, update `milestones/README.md`, branch `milestone/complete/<name>`
-5. **Branch from main:** Each phase branches from main AFTER previous phase is merged
+1. Load the active milestone's phase-plan (current phase from phase-plans/).
+2. Break work into **logical chunks** (if the phase-plan is flat, suggest a chunk breakdown).
+3. **Per chunk:**
+   - Generate code/files.
+   - Run `npm run lint` (or equivalent; if no script, skip and note).
+   - Run `npm test` (skip if missing).
+   - If lint/test pass: `git add . && git commit -m "phase <N> - <chunk title>" && git push`.
+   - If fail: Pause → *"Lint/test broke on chunk <current>. Fix? Or rollback?"*
+4. **End of phase:**
+   - Run `npm run build` (if script exists; else skip).
+   - Create PR: "Phase <N>: <phase name>" → merge (confirm with user).
+   - If last phase: after merge, **auto-complete milestone** (section 8).
+5. **Config (ask once at plan time):** "Build after every chunk? (slower)" — default: no.
 
-Do NOT automatically continue to the next phase. The user must explicitly request it after merging the previous phase. When the phase just merged was the milestone's final phase, do not leave the milestone in active — complete the milestone (section 8) as part of closing out that phase.
+Phase-plan template CTA: *"Ready? Say 'go' to start chunk 1."*
+
+---
+
+## Rollback
+
+- **"rollback phase"**: Revert last commit(s) for the current phase (e.g. `git reset --hard HEAD~n`). Warn first: *"Revert last N commit(s)? y/n"*.
+- **"rollback chunk"**: Same, but single chunk/commit. Warn first.
+
+---
+
+## Watchdog (background state checker)
+
+Runs on triggers (create, implement, upgrade, etc.) or after merge/PR. See `setup/watchdog-rules.md` for what the watchdog checks and prompts.
+
+- Active milestone done? (last phase merged, no open PRs) → *"Milestone complete—finish now?"*
+- Drift? (progress folders out of sync, old branches, version mismatch) → *"Docs stale—validate?"*
+- Half-done phase? (no commits in ~30 min) → next command nudge: *"Phase open—continue or rollback?"*
+
+---
+
+## Upgrade docs (v2)
+
+Trigger: "upgrade docs" (and variants above).
+
+1. **Fetch latest** from GitHub (skill repo). No local clone check.
+2. **Compare** versions and content (SKILL.md + key files hash).
+3. If same: *"You're current—no upgrade needed."* Exit.
+4. If newer: Show what's new (e.g. auto-checkpoints, watchdog). *"Your version: X."* → *"Overwrite skill files? Yes/No."*
+5. **If Yes:** Copy new skill files into project `.cursor/skills/docs-driven-dev/`. Then **evaluate project:** Scan _docs for outdated structures (e.g. phase-plans without Execution Rules, old branch names in README). List: *"Project needs: <list>. Apply? Yes/No."* If Yes, apply migrations (add Execution Rules to phase-plans, align branch names in README, etc.). If No, skip project changes.
+6. **If No:** *"Upgrade skipped—staying current."*
+
+Binary: full overwrite of skill files or nothing. No partial upgrade.
+
+---
+
+## Help / What this skill can do
+
+When the user asks "what can you do?", "help", or similar, respond with:
+
+- **Setup docs** — Create _docs in an empty folder (plan-first; say "go" to apply).
+- **Convert project** — Add _docs to an existing codebase (plan-first; say "go" to apply).
+- **Upgrade docs** — Update _docs to latest skill version; fetch from GitHub, overwrite or skip.
+- **Create exploration** — New exploration folder with feature-sets and supporting-docs (plan-first).
+- **Update exploration** — Update an existing exploration (plan-first).
+- **Create milestone from exploration** — Turn exploration into milestone in milestones/future/; move exploration to explorations/completed/ (plan-first).
+- **Make milestone active** — Move future milestone to active/; switch/create phase branch.
+- **Mark milestone completed** — Move active to completed/, add number prefix, align progress and exploration folders (prompted when last phase merges).
+- **Implement phase** — Run phase execution (chunks, lint, test, commit, push; PR at end).
+- **Rollback** — "rollback phase" or "rollback chunk" to revert commits.
+- **Validate** — "validate" or "validate docs" to run state check only.
 
 ---
 
 ## 1. Setup docs (empty folder)
 
-1. Check git; ask about branch. Create branch `docs/setup` from main if user wants new branch.
-2. Create `_docs/` structure: `README.md`, `planning/setup/`, `planning/milestones/00-initial-milestones/`, `planning/explorations/`, `planning/explorations/completed/`, `milestones/completed/`, `milestones/active/`, `milestones/future/`, `progress/`, `progress/miscellaneous/`
-3. Copy setup files from this skill's `setup/` to `_docs/planning/setup/`: `project-lifecycle.md`, `milestone-lifecycle.md`, `exploration-lifecycle.md`
-4. Add `Created with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md` (read version from this SKILL.md frontmatter)
-5. **Embed skill:** Copy this skill folder to project `.cursor/skills/docs-driven-dev/`
-6. **Project README:** Add or update project root `README.md` with the full "Docs-driven development" section from `templates/readme-docs-section.md` (including the **How to use the skill** subsection with trigger phrases and steps)
-7. Run discussion → draft 00-initial-milestones README → run project-lifecycle flow from `_docs/planning/setup/project-lifecycle.md`
-8. Milestones go in `milestones/future/` with no number prefix until completed. Create `milestones/README.md` with Completed / Active / Future sections.
-9. Commit with message "chore: add docs-driven-dev _docs structure" (if git)
+**Plan-first:** Build draft (folder structure, skeletons, branch `docs/setup`). Prompt *"Plan ready—review/add docs. Say 'go' to apply."* No disk writes until "go"/"apply"/"execute".
+
+**On apply:**
+
+1. Create branch `docs/setup` from main (after fetch). Collision → append `-2` etc.
+2. Create `_docs/` structure: `README.md`, `planning/setup/`, `planning/milestones/00-initial-milestones/`, `planning/explorations/`, `planning/explorations/completed/`, `milestones/completed/`, `milestones/active/`, `milestones/future/`, `progress/`, `progress/miscellaneous/`.
+3. Copy setup files from this skill's `setup/` to `_docs/planning/setup/`: `project-lifecycle.md`, `milestone-lifecycle.md`, `exploration-lifecycle.md`, `watchdog-rules.md`.
+4. Add `Created with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md` (read version from this SKILL.md frontmatter).
+5. **Embed skill:** Copy this skill folder to project `.cursor/skills/docs-driven-dev/`.
+6. **Project README:** Add or update project root `README.md` with the full "Docs-driven development" section from `templates/readme-docs-section.md` (including **How to use the skill** with trigger phrases).
+7. Run discussion → draft 00-initial-milestones README → run project-lifecycle flow from `_docs/planning/setup/project-lifecycle.md`.
+8. Create `milestones/README.md` with Completed / Active / Future sections.
+9. Commit: "chore: add docs-driven-dev _docs structure" (if git).
 
 ---
 
 ## 2. Convert existing project
 
-1. Check git; ask about branch. Create branch `docs/convert` from main if user wants new branch.
-2. Create full `_docs/` structure (same as setup): `milestones/` (completed/, active/, future/), `progress/`, `progress/miscellaneous/`
-3. Copy setup files to `_docs/planning/setup/`
-4. Create `_docs/planning/milestones/00-initial-milestones/` with **inferred docs**: README.md (project overview from codebase), definition docs (user-flow, auth, tech-stack, ui-rules, theme-rules, project-rules). If something is missing (e.g. no auth), leave it out. If project has non-standard aspects, create appropriately named docs.
-5. Create empty `milestones/` and `progress/` structure. No milestone content — user adds later via project-lifecycle.
-6. **Embed skill:** Copy to `.cursor/skills/docs-driven-dev/`
-7. **Project README:** Add or update project root `README.md` with the full "Docs-driven development" section from `templates/readme-docs-section.md` (including **How to use the skill**)
-8. Add `Converted with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md`
-9. Commit (if git)
+**Plan-first:** Draft structure, branch `docs/convert`. No disk until "go".
+
+**On apply:**
+
+1. Create branch `docs/convert` from main (fetch first).
+2. Create full `_docs/` structure (same as setup).
+3. Copy setup files to `_docs/planning/setup/` (including `watchdog-rules.md`).
+4. Create `_docs/planning/milestones/00-initial-milestones/` with **inferred docs**: README.md, definition docs (user-flow, auth, tech-stack, ui-rules, theme-rules, project-rules). Omit what doesn't apply; add non-standard docs as needed.
+5. Empty `milestones/` and `progress/` structure. No milestone content yet.
+6. **Embed skill** to `.cursor/skills/docs-driven-dev/`.
+7. **Project README** from `templates/readme-docs-section.md`.
+8. Add `Converted with the **docs-driven-dev** skill (vX.Y.Z).` to `_docs/README.md`.
+9. Commit (if git).
 
 ---
 
 ## 3. Upgrade docs project
 
-1. Check git; ask about branch. Create branch `docs/upgrade` from main if user wants new branch.
-2. Read current skill version from this SKILL.md frontmatter
-3. Update all READMEs/docs with attribution to `Updated with the **docs-driven-dev** skill (vX.Y.Z).`
-4. **Migrate progress structure** (v1.1.0): flatten `progress/completed/`, `progress/active/`, `progress/future/` to `progress/<milestone>/`:
-   - Move contents of `progress/completed/<milestone>/` to `progress/<milestone>/`
-   - Move contents of `progress/active/<milestone>/` to `progress/<milestone>/`
-   - Move contents of `progress/future/<milestone>/` to `progress/<milestone>/`
-   - Keep `progress/miscellaneous/` as-is
-   - Delete empty `completed/`, `active/`, `future/` folders
-5. **Align progress folder prefixes** (v1.4.0): For each completed milestone in `milestones/completed/` (e.g. `04-developer-experience`), if `progress/` has a folder with the same base name but no number prefix (e.g. `progress/developer-experience/`), rename it to the prefixed form (e.g. `progress/04-developer-experience/`). Skip `progress/miscellaneous/`. This fixes progress folders that were completed before the skill added progress prefixing.
-6. Align milestones structure: ensure `milestones/` has `completed/`, `active/`, `future/`
-7. Ensure `milestones/README.md` has Completed / Active / Future sections
-8. Ensure setup files match skill's canonical copies
-9. Ensure `_docs/planning/explorations/completed/` exists
-10. Update exploration READMEs to current standards
-11. Preserve prior attribution in parentheses where useful
-12. **Embed skill:** Copy current skill to `.cursor/skills/docs-driven-dev/` (overwrite)
-13. **Project README:** Add or update the "Docs-driven development" section using full content from `templates/readme-docs-section.md` (including **How to use the skill**)
-14. Commit (if git)
+See **Upgrade docs (v2)** above. Branch for upgrade work: `docs/upgrade`. After overwriting skill files, run "evaluate project" and optionally apply migrations (phase-plan Execution Rules, README branch names, etc.).
+
+Existing migration steps (v1.x) still apply when evaluating: progress structure flattening, progress folder prefixes, milestones structure, setup files, explorations/completed/, exploration READMEs. Preserve prior attribution where useful.
 
 ---
 
 ## 4. Create exploration
 
-Follow scaffold-exploration create flow. Branch: `explore/create/<name>`. Use docs-driven-dev attribution and version. Structure: `_docs/planning/explorations/<name>/README.md`, `feature-sets/`, `supporting-docs/`.
+**Plan-first:** Draft from `templates/exploration-template.md`; branch `docs/exploration-<name>`. No disk until "go".
+
+**On apply:** Create `_docs/planning/explorations/<name>/` with README.md (from template), `feature-sets/`, `supporting-docs/`. Use docs-driven-dev attribution and version. Commit (if git).
 
 ---
 
 ## 5. Update exploration
 
-Follow scaffold-exploration update flow. Branch: `explore/update/<name>`. Use docs-driven-dev attribution and version.
+**Plan-first:** Draft updates; branch `docs/exploration-<name>-update`. No disk until "go".
+
+**On apply:** Follow scaffold-exploration update flow. Attribution and version.
 
 ---
 
 ## 6. Create milestone from exploration
 
-1. Run evaluation per `exploration-lifecycle.md`
-2. Follow `milestone-lifecycle.md` to create milestone in `_docs/milestones/future/<name>/` (no number prefix)
-3. Create `_docs/progress/<name>/` folder with README.md
-4. Move the exploration from `_docs/planning/explorations/<name>/` to `_docs/planning/explorations/completed/<name>/` (create `completed/` if it doesn't exist). Update any relative links in the moved exploration's READMEs that pointed to `../../setup/` (now `../../../setup/`).
-5. Branch: `milestone/create/<name>`
+**Plan-first:** Draft milestone from exploration; branch `docs/milestone-<name>`. No disk until "go".
+
+**On apply:**
+
+1. Run evaluation per `exploration-lifecycle.md`.
+2. Follow `milestone-lifecycle.md`: create milestone in `_docs/milestones/future/<name>/` (no number prefix). Use `templates/phase-plan-template.md` per phase in `phase-plans/`.
+3. Create `_docs/progress/<name>/` with README.md.
+4. Move exploration from `_docs/planning/explorations/<name>/` to `_docs/planning/explorations/completed/<name>/`. Update relative links (e.g. `../../setup/` → `../../../setup/`).
+5. Commit (if git).
 
 ---
 
 ## 7. Make milestone active
 
-**Ask user which approach:**
+**Ask user:** (a) Activation only (branch `docs/milestone-<name>-activate`, move to active, update index; no phase work), or (b) Start first phase (create `docs/<milestone>-phase-1`, move to active, then begin phase execution).
 
-- **(a) Activation only:** Create `milestone/activate/<name>` branch, do activation, commit/push. Useful for planning-only review.
-- **(b) Start first phase (recommended):** Create first phase branch (e.g. `<milestone>/01-<phase>`), do activation as first commit, then begin phase work.
+**If (a):** Create branch, move folder future → active, update path refs in phase-plans, update `milestones/README.md`, accuracy pass, commit "chore: activate <name> milestone".
 
-**If (a) — Activation only:**
-
-1. Create and checkout branch `milestone/activate/<name>`
-2. Move folder from `milestones/future/<name>/` to `milestones/active/<name>/`
-3. Update path references in phase-plans (future → active)
-4. Update `milestones/README.md` index
-5. Run **accuracy pass**: quick scan of phases/phase-plans; if problematic, full scan of codebase and update
-6. Commit: "chore: activate <name> milestone"
-
-**If (b) — Start first phase:**
-
-1. Identify first phase from `milestones/future/<name>/phase-plans/` (e.g. `01-dev-stack.md`)
-2. Create and checkout branch `<name>/<first-phase>` (e.g. `developer-experience/01-dev-stack`)
-3. Move folder from `milestones/future/<name>/` to `milestones/active/<name>/`
-4. Update path references in phase-plans (future → active)
-5. Update `milestones/README.md` index
-6. Run **accuracy pass**: quick scan of phases/phase-plans; if problematic, full scan of codebase and update
-7. Commit: "chore: activate <name> milestone"
-8. Begin phase work per phase-plan (follow Phase execution workflow)
+**If (b):** Create branch `docs/<milestone>-phase-1`, move folder to active, update path refs and README, accuracy pass, commit "chore: activate <name> milestone", then run **phase execution** (Phase execution section above).
 
 ---
 
 ## 8. Mark milestone completed
 
-Do this when the milestone's **last phase** is finished (PR merged). It is part of closing out the final phase — do not leave the milestone in active after the last phase is done.
+Do this when the milestone's **last phase** is finished (PR merged). Prompt at that time; do not leave milestone in active.
 
-1. Move folder from `milestones/active/<name>/` to `milestones/completed/`
-2. Add number prefix = max(completed numbers) + 1 (e.g. `04-<name>`)
-3. **Rename progress folder:** If `progress/<name>/` exists, rename it to `progress/<NN>-<name>/` using the same number prefix (e.g. `progress/developer-experience/` → `progress/04-developer-experience/`). This keeps progress folder names aligned with completed milestone numbering.
-4. **Rename exploration folder:** If `planning/explorations/completed/<name>/` exists, rename it to `planning/explorations/completed/<NN>-<name>/` using the same number prefix. Update any links in _docs that point to the exploration (e.g. progress READMEs, milestone README, exploration README relative links) to use the new path.
-5. Update `milestones/README.md` index
-6. Branch: `milestone/complete/<name>`
+1. Move folder from `milestones/active/<name>/` to `milestones/completed/`.
+2. Add number prefix = max(completed numbers) + 1 (e.g. `04-<name>`).
+3. **Rename progress folder:** `progress/<name>/` → `progress/<NN>-<name>/` (same prefix).
+4. **Rename exploration folder:** `planning/explorations/completed/<name>/` → `planning/explorations/completed/<NN>-<name>/`. Update links in _docs.
+5. Update `milestones/README.md`. Use `templates/progress-sync-template.md` if updating project README progress table.
+6. Branch: `docs/milestone-<name>-complete`. Commit (if git).
+
+---
+
+## Templates and structure
+
+All generation uses this skill's **templates/** and **setup/**:
+
+- **templates/** — `phase-plan-template.md`, `exploration-template.md`, `milestone-template.md`, `readme-docs-section.md`, `progress-sync-template.md`. Phase plans are created from `phase-plan-template.md` (chunks, Execution Rules). README updates use `readme-docs-section.md` and `progress-sync-template.md`.
+- **setup/** — `project-lifecycle.md`, `exploration-lifecycle.md`, `milestone-lifecycle.md`, `watchdog-rules.md`. Copied to `_docs/planning/setup/` on setup, convert, or upgrade.
+
+On upgrade, re-apply templates to migrate old files (e.g. add Execution Rules to existing phase-plans).
 
 ---
 

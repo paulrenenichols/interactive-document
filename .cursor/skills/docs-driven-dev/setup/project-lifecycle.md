@@ -16,7 +16,7 @@ New milestones from this flow go in `milestones/future/`. Create `_docs/mileston
 
 ## Progress structure
 
-`_docs/progress/` mirrors milestones: `progress/completed/`, `progress/active/`, `progress/future/`. Each contains milestone-named subfolders with phase progress files (e.g. `progress/completed/01-setup/01-scaffold.md`).
+`_docs/progress/` has one folder per milestone: `progress/<name>/` (e.g. `progress/developer-experience/`). When a milestone is completed, the folder is renamed to `progress/<NN>-<name>/` (e.g. `progress/04-developer-experience/`). Use `progress/miscellaneous/` for one-off docs. See also [watchdog-rules.md](watchdog-rules.md) for drift checks.
 
 ---
 
@@ -40,12 +40,7 @@ New milestones from this flow go in `milestones/future/`. Create `_docs/mileston
    - **phases/** — Number-prefixed files (e.g. `01-auth.md`) with scope and goals.
    - **phase-plans/** — Same filenames, detailed execution plans.
 
-Phase plan conventions:
-- **First step:** Create and check out branch `<milestone>/<phase>` (e.g. `01-setup/01-scaffold`).
-- **During:** Add, commit, push at logical points.
-- **Final step:** On user approval, add, commit, push final changes.
-- **README step:** Add/update project-root and per-app READMEs when phase completes.
-- **Progress doc:** Add/update `_docs/progress/<bucket>/<milestone>/<phase>.md` (bucket = completed, active, or future) with summary; final pass after user approval.
+Phase plan conventions (v2): Use the skill's `phase-plan-template.md`. Branch: `docs/<milestone>-phase-<phase_number>` (e.g. `docs/developer-experience-phase-1`). Per chunk: generate → lint → test → commit → push; end of phase: build → PR → merge. Say "go" to apply plans; "implement phase" or "go" (with active milestone) to run phase execution. Progress doc: `_docs/progress/<milestone>/<phase>.md`. See [milestone-lifecycle.md](milestone-lifecycle.md) and [watchdog-rules.md](watchdog-rules.md).
 
 9. **Project README** — Update project root README with overview, links to _docs, run/build instructions.
 
@@ -59,7 +54,7 @@ Phase plan conventions:
 4. Update tech-stack.md with best practices, limitations, conventions.
 5. Use README + user-flow + tech-stack to create ui-rules.md and theme-rules.md.
 6. Use all definition docs to create project-rules.md (structure, naming, conventions).
-7. Use definition docs to create milestones. **Place in `_docs/milestones/future/`** with **no number prefix** (e.g. `setup`, `mvp`, `post-mvp` — not `01-setup`). Each milestone folder has `phases/` and `phase-plans/` with number-prefixed files. Create `_docs/milestones/README.md` with Completed / Active / Future sections. Progress docs: `_docs/progress/future/<milestone>/<phase>.md`.
+7. Use definition docs to create milestones. **Place in `_docs/milestones/future/`** with **no number prefix** (e.g. `setup`, `mvp`, `post-mvp` — not `01-setup`). Each milestone folder has `phases/` and `phase-plans/` (use skill's phase-plan-template). Create `_docs/milestones/README.md` with Completed / Active / Future sections. Progress: `_docs/progress/<milestone>/<phase>.md`.
 8. Update project root README.md.
 
 For the milestone creation prompt, specify: milestones go in `_docs/milestones/future/`; names like `setup`, `mvp`, `post-mvp` (no number prefix — numbers are added when milestone is completed); create `_docs/milestones/README.md` with Completed / Active / Future sections.
