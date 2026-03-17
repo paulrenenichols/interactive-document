@@ -4,7 +4,7 @@
 
 ## Status
 
-- **Future / Active / Completed:** Future (lives in `_docs/milestones/future/`; will move to `active/` when started and `completed/` with a number prefix when finished)
+- **Future / Active / Completed:** Active (lives in `_docs/milestones/active/`; will move to `completed/` with a number prefix when finished)
 
 ## Phases
 
