@@ -1,0 +1,95 @@
+{
+  "projectId": "5312792385999048975",
+  "stitchProjectTitle": "Interactive Document",
+  "fetchedAt": "2026-03-26T20:15:00.000Z",
+  "screens": [
+    {
+      "screenId": "310c094908a74b1682aefe54d9ae0578",
+      "title": "Landing Page",
+      "variant": "light",
+      "width": "2560",
+      "height": "4386",
+      "html": "html/landing-page-310c0949.html",
+      "screenshot": "screenshots/landing-page-310c0949.jpg"
+    },
+    {
+      "screenId": "f3070218b75345c2abf34f96ac4e3572",
+      "title": "Landing Page (Dark)",
+      "variant": "dark",
+      "width": "2560",
+      "height": "7334",
+      "html": "html/landing-page-dark-f3070218.html",
+      "screenshot": "screenshots/landing-page-dark-f3070218.jpg"
+    },
+    {
+      "screenId": "e75e0dc0f678447fa67b6470fbf7b381",
+      "title": "Authentication",
+      "variant": "light",
+      "html": "html/authentication-e75e0dc0.html",
+      "screenshot": "screenshots/authentication-e75e0dc0.jpg"
+    },
+    {
+      "screenId": "322e3192fa2d4a1cbdf0e4142957c02d",
+      "title": "Authentication (Dark)",
+      "variant": "dark",
+      "html": "html/authentication-dark-322e3192.html",
+      "screenshot": "screenshots/authentication-dark-322e3192.jpg"
+    },
+    {
+      "screenId": "6f568556a4e2444ab9e04d0f881b26d9",
+      "title": "Editor Canvas",
+      "variant": "light",
+      "html": "html/editor-canvas-6f568556.html",
+      "screenshot": "screenshots/editor-canvas-6f568556.jpg"
+    },
+    {
+      "screenId": "ccfc48b5f6e7423d83e95eb3a0075fda",
+      "title": "Editor Canvas (Dark)",
+      "variant": "dark",
+      "html": "html/editor-canvas-dark-ccfc48b5.html",
+      "screenshot": "screenshots/editor-canvas-dark-ccfc48b5.jpg"
+    },
+    {
+      "screenId": "54f081aa29214beeb3043d45382be97b",
+      "title": "Presentation Mode",
+      "variant": "light",
+      "html": "html/presentation-mode-54f081aa.html",
+      "screenshot": "screenshots/presentation-mode-54f081aa.jpg"
+    },
+    {
+      "screenId": "8b471b8a9cf24835957eee0f23e9e4b1",
+      "title": "Presentation Mode (Dark)",
+      "variant": "dark",
+      "html": "html/presentation-mode-dark-8b471b8a.html",
+      "screenshot": "screenshots/presentation-mode-dark-8b471b8a.jpg"
+    },
+    {
+      "screenId": "67f3b99416fb43009ccd01dcccbc8958",
+      "title": "Data Properties Panel",
+      "variant": "light",
+      "html": "html/data-properties-panel-67f3b994.html",
+      "screenshot": "screenshots/data-properties-panel-67f3b994.jpg"
+    },
+    {
+      "screenId": "701738ba0e5d48daae7dba5d39faf4f7",
+      "title": "Data Properties Panel (Dark Mode)",
+      "variant": "dark",
+      "html": "html/data-properties-panel-dark-mode-701738ba.html",
+      "screenshot": "screenshots/data-properties-panel-dark-mode-701738ba.jpg"
+    },
+    {
+      "screenId": "04272151e1df4b5487c5f54d07fc34f1",
+      "title": "Updated Data Properties Panel",
+      "variant": "light",
+      "html": "html/updated-data-properties-panel-04272151.html",
+      "screenshot": "screenshots/updated-data-properties-panel-04272151.jpg"
+    },
+    {
+      "screenId": "654261a0c4fa430e8ba068ba189d25a7",
+      "title": "Enterprise Clean Presentation Builder - PRD",
+      "variant": "document",
+      "html": "html/enterprise-clean-presentation-builder-prd-654261a0.html",
+      "screenshot": null
+    }
+  ]
+}
