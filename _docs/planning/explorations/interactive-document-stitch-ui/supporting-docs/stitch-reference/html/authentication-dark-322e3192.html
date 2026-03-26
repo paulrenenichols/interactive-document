@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Presenter | Sign In</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary-container": "#0f62fe",
+                "primary-fixed-dim": "#b4c5ff",
+                "error-container": "#93000a",
+                "on-primary-container": "#f3f3ff",
+                "surface-container-highest": "#313539",
+                "surface-container": "#1c2023",
+                "tertiary-fixed": "#ffdbd0",
+                "inverse-on-surface": "#2d3134",
+                "secondary-fixed": "#dbe1ff",
+                "on-tertiary-fixed": "#390c00",
+                "tertiary-fixed-dim": "#ffb59d",
+                "on-secondary-fixed-variant": "#2a4387",
+                "error": "#ffb4ab",
+                "tertiary-container": "#c84000",
+                "surface-bright": "#363a3d",
+                "surface-tint": "#b4c5ff",
+                "surface": "#101417",
+                "surface-container-high": "#262a2e",
+                "primary-fixed": "#dbe1ff",
+                "on-tertiary-fixed-variant": "#832700",
+                "tertiary": "#ffb59d",
+                "on-surface": "#e0e3e7",
+                "surface-dim": "#101417",
+                "on-surface-variant": "#c3c6d8",
+                "primary": "#b4c5ff",
+                "surface-container-low": "#181c1f",
+                "on-secondary-fixed": "#00174c",
+                "secondary-container": "#2d458a",
+                "surface-variant": "#313539",
+                "on-primary": "#002979",
+                "on-secondary": "#0e2b6f",
+                "outline-variant": "#424656",
+                "on-tertiary": "#5d1900",
+                "on-secondary-container": "#a0b6ff",
+                "on-primary-fixed": "#00174c",
+                "on-primary-fixed-variant": "#003da9",
+                "on-error": "#690005",
+                "background": "#101417",
+                "on-tertiary-container": "#fff1ed",
+                "secondary-fixed-dim": "#b4c5ff",
+                "secondary": "#b4c5ff",
+                "on-error-container": "#ffdad6",
+                "inverse-primary": "#0052dd",
+                "on-background": "#e0e3e7",
+                "inverse-surface": "#e0e3e7",
+                "outline": "#8c90a2",
+                "surface-container-lowest": "#0b0f12"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .lithium-glow {
+            background: linear-gradient(135deg, #0f62fe 0%, #0e2b6f 100%);
+        }
+        .glass-panel {
+            background: rgba(38, 42, 46, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .tinted-shadow {
+            box-shadow: 0 64px 64px -12px rgba(11, 15, 18, 0.4);
+        }
+      </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- Background Decoration: Architectural Elements -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-container opacity-[0.03] blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-secondary-container opacity-[0.03] blur-[100px] rounded-full"></div>
+<div class="absolute inset-0 opacity-[0.02]" style="background-image: radial-gradient(#e0e3e7 0.5px, transparent 0.5px); background-size: 40px 40px;"></div>
+</div>
+<!-- Main Content Container -->
+<main class="relative z-10 flex-grow flex items-center justify-center p-6 sm:p-12">
+<div class="w-full max-w-[1100px] grid lg:grid-cols-2 gap-0 overflow-hidden rounded-xl border border-outline-variant/10 tinted-shadow bg-surface-container-low">
+<!-- Branding/Visual Side -->
+<div class="hidden lg:flex flex-col justify-between p-12 bg-surface">
+<div>
+<div class="flex items-center gap-2 mb-12">
+<div class="w-8 h-8 lithium-glow rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-xl" style="font-variation-settings: 'FILL' 1;">layers</span>
+</div>
+<span class="font-headline text-xl font-bold tracking-tighter text-on-surface">Obsidian Presenter</span>
+</div>
+<h1 class="font-headline text-5xl font-extrabold tracking-tight text-on-surface leading-[1.1] mb-6">
+                        Architecting the <br/>Future of <span class="text-primary">Data Storytelling.</span>
+</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md">
+                        Join the enterprise-grade presentation platform designed for precision, speed, and cinematic clarity.
+                    </p>
+</div>
+<div class="space-y-8">
+<div class="grid grid-cols-2 gap-6">
+<div class="p-4 rounded-lg bg-surface-container border border-outline-variant/10">
+<span class="block text-2xl font-bold font-headline text-primary mb-1">99.9%</span>
+<span class="text-xs font-medium uppercase tracking-widest text-on-surface-variant opacity-60">Uptime SLA</span>
+</div>
+<div class="p-4 rounded-lg bg-surface-container border border-outline-variant/10">
+<span class="block text-2xl font-bold font-headline text-primary mb-1">256-bit</span>
+<span class="text-xs font-medium uppercase tracking-widest text-on-surface-variant opacity-60">Encryption</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<img alt="User 1" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="portrait of a professional woman with a soft smile in a bright corporate setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsZCp2OdAr7PefWNAqXDYI9aBOu1-yWK64UfOl3kziPo5Gc4kaI8i9CF90eKe3UPVPEvPTTlfXJGkPxdqdu-Ywi3W0vEYjLo7oUReX5W7pkuwXjM826Z2iaVVJHrzEcEGi9nA_YTyb2YxTp33zfntmsXXYL_vF5KlDToWg4h0B5sJAmKSU09NkQGjC64eYMHC8yHx0VsSC2V8-gazkGkyqyYHB-HgQMwbBSoanB0QDu2xL09UoV7jIUmFd8x6g2fmE2ToAn7N0gLw"/>
+<img alt="User 2" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="professional man in a grey suit looking forward with a neutral expression in an office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjgc0OU2bP5lVqVVmpDHcdcWoVfWLmTjqgudAMxrhDe5dEZMFajk5zGXILDHMnsxWmSQWippT9teSDCLcdKZGm6MXxeDr29chjLF9lfeg7-vJ_P30xio7u2a4pAiFKEhiyJP9jEDIaK1RbMF-fVF4GKTcLaZfHQv99CqHeIwOBsTzF5ImJA_oyj2d12wI2IItV2lXAKd2FR0g2U2HDnIyCScyM5scsPBfNNZopFR0JOeFG4YZ3rSKTkBr90IlI3YvMYpBHvkTZFpM"/>
+<img alt="User 3" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="businesswoman in professional attire smiling confidently against a neutral blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZOe7HYh5P_AqbIboGwpMbozUIbr6b2LjEa65KmZUAxM9DzUzseJIuuMgMr72ualRlKbsjKIRHOVp9ijumiNYkB4ugFhOgNvsjS-ltqiI7bqf08tMII4_MkQjWSXj1Mir320MwfOkK9MNULXD7QQXPlklItin0smUfKFFDwgVXakKQaW8fOH5WfIvABeEYX5VRksuyl2jGdVb9Pk_W6u_-jDcAgkyyU-GmL1-X9YZAS2OyK8Mo14aEPusdPZDUx_BJfVOaC9I9H9M"/>
+</div>
+<span class="text-sm text-on-surface-variant font-medium">Trusted by 10k+ architects</span>
+</div>
+</div>
+</div>
+<!-- Authentication Form Side -->
+<div class="p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-surface-container">
+<div class="lg:hidden mb-12 flex items-center gap-2">
+<div class="w-6 h-6 lithium-glow rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">layers</span>
+</div>
+<span class="font-headline text-lg font-bold tracking-tighter text-on-surface">Obsidian Presenter</span>
+</div>
+<div class="max-w-md mx-auto w-full">
+<header class="mb-10">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-on-surface mb-2">Welcome Back</h2>
+<p class="text-on-surface-variant">Sign in to your architectural workspace.</p>
+</header>
+<!-- Social Login -->
+<button class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container-lowest border border-outline-variant/20 hover:bg-surface-container-high transition-colors duration-200 group">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-semibold text-on-surface">Continue with Google</span>
+</button>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/10"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase tracking-widest font-medium">
+<span class="bg-surface-container px-4 text-on-surface-variant opacity-40">or use email</span>
+</div>
+</div>
+<!-- Manual Form -->
+<form class="space-y-6" onsubmit="return false;">
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant opacity-60 ml-1" for="email">Work Email</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline/50 focus:ring-0 focus:bg-surface-container-high transition-all duration-200 border-b border-transparent focus:border-primary-container" id="email" name="email" placeholder="architect@firm.com" type="email"/>
+<div class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-container scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center ml-1">
+<label class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant opacity-60" for="password">Password</label>
+<a class="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-primary-fixed-dim transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline/50 focus:ring-0 focus:bg-surface-container-high transition-all duration-200 border-b border-transparent focus:border-primary-container" id="password" name="password" placeholder="••••••••" type="password"/>
+<div class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-container scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300"></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 rounded-sm bg-surface-container-lowest border-outline-variant/30 text-primary-container focus:ring-offset-surface-container" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant select-none" for="remember">Remember this device</label>
+</div>
+<button class="w-full lithium-glow text-on-primary-container py-4 rounded-lg font-headline font-bold text-sm tracking-wide uppercase hover:opacity-90 transition-all active:scale-[0.98] tinted-shadow" type="submit">
+                            Sign In to Obsidian
+                        </button>
+</form>
+<footer class="mt-10 text-center">
+<p class="text-sm text-on-surface-variant">
+                            Don't have an account? 
+                            <a class="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30 transition-all" href="#">Create an Identity</a>
+</p>
+</footer>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative z-10 w-full bg-surface py-8 border-t border-outline-variant/5">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-6">
+<span class="font-headline font-bold text-on-surface opacity-80">Obsidian Architect UI</span>
+<span class="hidden md:block w-1 h-1 rounded-full bg-outline-variant/30"></span>
+<p class="font-body text-xs text-on-surface opacity-50">© 2024 Obsidian Architect UI. All rights reserved.</p>
+</div>
+<nav class="flex items-center gap-6">
+<a class="font-body text-xs text-on-surface opacity-50 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Privacy Policy</a>
+<a class="font-body text-xs text-on-surface opacity-50 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Terms of Service</a>
+<a class="font-body text-xs text-on-surface opacity-50 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Enterprise Licensing</a>
+<a class="font-body text-xs text-on-surface opacity-50 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Contact Support</a>
+</nav>
+</div>
+</footer>
+</body></html>

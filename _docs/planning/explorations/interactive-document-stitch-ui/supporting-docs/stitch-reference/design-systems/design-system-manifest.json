@@ -1,0 +1,30 @@
+{
+  "projectId": "5312792385999048975",
+  "stitchProjectTitle": "Interactive Document",
+  "fetchedAt": "2026-03-26T20:00:00.000Z",
+  "source": "Stitch MCP list_design_systems",
+  "assets": [
+    {
+      "name": "assets/5f390537afc848a5bfbb4d1b9e2db319",
+      "displayName": "Structure & Logic",
+      "version": "1",
+      "colorMode": "LIGHT",
+      "dtcgPath": null,
+      "themePath": "theme-5f390537afc848a5bfbb4d1b9e2db319.json",
+      "designMdPath": "design-md-5f390537afc848a5bfbb4d1b9e2db319-light.md",
+      "guidelinesPath": null,
+      "notes": "No designTokens string in API response at fetch time."
+    },
+    {
+      "name": "assets/49c7f87088fb4385a90ab547b9d465e7",
+      "displayName": "Enterprise Midnight",
+      "version": "1",
+      "colorMode": "DARK",
+      "dtcgPath": null,
+      "themePath": "theme-49c7f87088fb4385a90ab547b9d465e7.json",
+      "designMdPath": "design-md-49c7f87088fb4385a90ab547b9d465e7-dark.md",
+      "guidelinesPath": null,
+      "notes": "No designTokens string in API response at fetch time."
+    }
+  ]
+}

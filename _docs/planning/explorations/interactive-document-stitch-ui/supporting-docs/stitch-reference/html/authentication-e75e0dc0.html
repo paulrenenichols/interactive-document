@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Clean Presentation Builder - Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1b1bf3",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"],
+                        "ui": ["IBM Plex Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    boxShadow: {
+                        'elevation': '0 4px 12px rgba(0,0,0,0.08)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: #F4F7F9; /* Fallback */
+        }
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 antialiased min-h-screen flex items-center justify-center p-4">
+<!-- Auth Modal Container -->
+<div class="w-full max-w-[400px] bg-white rounded-xl shadow-elevation p-8 border border-slate-100 relative">
+<!-- Logo / Brand -->
+<div class="flex justify-center mb-6">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="insert_chart">insert_chart</span>
+</div>
+</div>
+<!-- Header -->
+<div class="text-center mb-8">
+<h1 class="font-display text-2xl font-bold text-slate-900 mb-2">Welcome back</h1>
+<p class="text-sm text-slate-500">Sign in to your account to continue</p>
+</div>
+<!-- Google Auth Button (Styled as per PRD but structural equivalent to shared component logic) -->
+<button class="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded h-10 px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 mb-6" type="button">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a96,96,0,1,1-21.95-61.09,8,8,0,1,1-12.33,10.18A80,80,0,1,0,207.6,136H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128Z"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- Divider -->
+<div class="relative flex items-center py-2 mb-6">
+<div class="flex-grow border-t border-slate-200"></div>
+<span class="flex-shrink-0 mx-4 text-xs text-slate-400 uppercase tracking-wider">Or continue with email</span>
+<div class="flex-grow border-t border-slate-200"></div>
+</div>
+<!-- Form -->
+<form class="space-y-4">
+<!-- Email Input -->
+<div>
+<label class="block text-sm font-medium text-slate-700 mb-1" for="email">Email address</label>
+<input class="w-full h-10 px-3 border border-slate-300 rounded text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<!-- Password Input (Error State Example) -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block text-sm font-medium text-slate-700" for="password">Password</label>
+<a class="text-xs font-medium text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<!-- Simulating an error state on this input -->
+<input class="w-full h-10 px-3 border border-[#DA1E28] rounded text-sm placeholder-slate-400 focus:outline-none focus:border-[#DA1E28] focus:ring-1 focus:ring-[#DA1E28] transition-colors" id="password" name="password" placeholder="••••••••" required="" type="password" value="wrongpassword"/>
+<p class="mt-1 text-xs text-[#DA1E28]">Incorrect password. Please try again.</p>
+</div>
+<!-- Submit Button (Loading state example commented out) -->
+<div class="pt-2">
+<button class="w-full h-10 bg-primary hover:bg-blue-700 text-white font-display font-semibold text-sm rounded transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center justify-center" type="submit">
+                    Sign In
+                    <!-- Example Loading Spinner: -->
+<!-- <span class="material-symbols-outlined animate-spin text-lg" data-icon="progress_activity">progress_activity</span> -->
+</button>
+</div>
+</form>
+<!-- Footer -->
+<div class="mt-8 text-center text-sm text-slate-500">
+            Don't have an account? <a class="font-medium text-primary hover:underline" href="#">Sign up</a>
+</div>
+</div>
+</body></html>

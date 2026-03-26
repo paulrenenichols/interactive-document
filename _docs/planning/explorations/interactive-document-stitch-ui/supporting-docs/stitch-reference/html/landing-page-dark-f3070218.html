@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Presenter - Build Live Data Presentations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#0f62fe",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#f3f3ff",
+                        "surface-container-highest": "#313539",
+                        "surface-container": "#1c2023",
+                        "tertiary-fixed": "#ffdbd0",
+                        "inverse-on-surface": "#2d3134",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed": "#390c00",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "on-secondary-fixed-variant": "#2a4387",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#c84000",
+                        "surface-bright": "#363a3d",
+                        "surface-tint": "#b4c5ff",
+                        "surface": "#101417",
+                        "surface-container-high": "#262a2e",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#832700",
+                        "tertiary": "#ffb59d",
+                        "on-surface": "#e0e3e7",
+                        "surface-dim": "#101417",
+                        "on-surface-variant": "#c3c6d8",
+                        "primary": "#b4c5ff",
+                        "surface-container-low": "#181c1f",
+                        "on-secondary-fixed": "#00174c",
+                        "secondary-container": "#2d458a",
+                        "surface-variant": "#313539",
+                        "on-primary": "#002979",
+                        "on-secondary": "#0e2b6f",
+                        "outline-variant": "#424656",
+                        "on-tertiary": "#5d1900",
+                        "on-secondary-container": "#a0b6ff",
+                        "on-primary-fixed": "#00174c",
+                        "on-primary-fixed-variant": "#003da9",
+                        "on-error": "#690005",
+                        "background": "#101417",
+                        "on-tertiary-container": "#fff1ed",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "secondary": "#b4c5ff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#0052dd",
+                        "on-background": "#e0e3e7",
+                        "inverse-surface": "#e0e3e7",
+                        "outline": "#8c90a2",
+                        "surface-container-lowest": "#0b0f12"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .lithium-glow {
+            background: linear-gradient(135deg, #0f62fe 0%, #0e2b6f 100%);
+        }
+        .glass-nav {
+            background-color: rgba(24, 28, 31, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .ghost-border {
+            outline: 1px solid rgba(66, 70, 86, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="flex justify-between items-center px-6 h-14 w-full z-50 fixed top-0 glass-nav bg-[#101417]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-[#e0e3e7] font-headline">Obsidian Presenter</span>
+<div class="hidden md:flex items-center gap-6 font-headline tracking-tight font-bold text-sm">
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">File</a>
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">Insert</a>
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">Design</a>
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">Transitions</a>
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">Animations</a>
+<a class="text-[#e0e3e7] opacity-70 hover:bg-[#1c2023] transition-colors px-2 py-1 rounded" href="#">Slide Show</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4">
+<button class="px-4 py-1.5 text-sm font-bold text-[#e0e3e7] opacity-70 hover:opacity-100 transition-opacity">Share</button>
+<button class="px-5 py-1.5 text-sm font-bold bg-[#0F62FE] text-white rounded-md lithium-glow transform active:scale-95 transition-all">Present</button>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant/20 pl-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</nav>
+<main class="pt-14">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex flex-col justify-center px-6 md:px-24 overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-l from-primary-container/30 to-transparent"></div>
+<img alt="Data visualization" class="w-full h-full object-cover grayscale mix-blend-overlay" data-alt="Abstract futuristic dashboard with glowing blue data points and architectural wireframes on a dark slate background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXe8mB_CQP1rqiNIfdfaqPjDR5RBduYqR64VUfX2LwSEswVlWE-b4LFmAieK898MP9QLei1HvHxDcvnc7AqimGbiUrAI9arAivlMPe-VAkPZpgU3AQbrchAKuFVoEqXO8-54Of_ZxtPb24SJ_iTVezKDRyS8TmdzVOMhf9SstDamj3UsBtK73tsm44J5xk8x7o0sarmLcWnUjWmayhEfDRItulV0ZHA19zxA9JTFRe0Iq5YF-eWCUDf0m1BKFQFkUZTL9gFORxX84"/>
+</div>
+<div class="relative z-10 max-w-4xl">
+<div class="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high ghost-border">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="text-[10px] uppercase tracking-widest font-bold text-primary-fixed-dim">Enterprise Edition v4.0</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-headline font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
+                    Build live data <br/> presentations.
+                </h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-xl mb-12 font-body leading-relaxed">
+                    Stop screenshots. Start streaming. Obsidian Architect enables real-time data synchronization directly into your executive decks with surgical precision.
+                </p>
+<div class="flex flex-wrap gap-6">
+<button class="px-8 py-4 lithium-glow text-on-primary-container font-headline font-bold text-lg rounded-md shadow-2xl shadow-primary-container/20 flex items-center gap-3 group">
+                        Get Started Free
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="px-8 py-4 bg-transparent ghost-border text-on-surface font-headline font-bold text-lg rounded-md hover:bg-surface-container transition-colors">
+                        Book a Demo
+                    </button>
+</div>
+</div>
+<!-- Bottom Anchor for Scroll -->
+<div class="absolute bottom-12 left-6 md:left-24 flex items-center gap-4 text-xs font-headline tracking-[0.2em] uppercase text-on-surface-variant/50">
+<span class="w-12 h-[1px] bg-outline-variant/30"></span>
+                Scroll to Explore
+            </div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="py-24 px-6 md:px-24 bg-surface-container-low">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Main Feature Card -->
+<div class="md:col-span-8 bg-surface-container p-10 rounded-xl relative overflow-hidden group">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" data-icon="database">database</span>
+<h3 class="text-3xl font-headline font-bold mb-4">Direct SQL Integration</h3>
+<p class="text-on-surface-variant max-w-md leading-relaxed">Connect your slides directly to BigQuery, Snowflake, or Postgres. Updates happen in milliseconds, not meetings.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-2/3 h-2/3 opacity-40 translate-x-1/4 translate-y-1/4 group-hover:scale-110 transition-transform duration-700">
+<img alt="Database connection UI" class="rounded-tl-2xl shadow-2xl" data-alt="Close-up of a high-tech server interface with neon blue circuit lines and data transmission symbols on a matte black background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDne7v5znqmOVAd3cHp-Z0aZBnmvVwb5awvHEYx3nhyvwQexO3cAOJS3hRJnVUz2I-E_nKOd2xBTxZ24Gi6hV05x-f3WY7kfdu9i8xhL2T4SRxFRj34gCb90eLoAup-Ydvh1Px4czGlIS666RFtFnZlsVv4DgLbKsNeXRRBS9yj8OFGYck8fIpMapb85yaS2xTMNgMQH2s6v_6LWcz9vm0xV_g0Md0PkQ1jzDzMy1QbwA96LBbDrvvXXI52Gvy3iYzyRQsuoJgtUog"/>
+</div>
+</div>
+<!-- Secondary Card -->
+<div class="md:col-span-4 bg-surface-container-high p-10 rounded-xl flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" data-icon="security">security</span>
+<h3 class="text-2xl font-headline font-bold mb-4">SOC2 Compliant</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Enterprise-grade security protocols with end-to-end encryption for all data pipes.</p>
+</div>
+<a class="mt-8 text-primary font-bold text-sm flex items-center gap-2 hover:gap-4 transition-all" href="#">
+                        Security Overview <span class="material-symbols-outlined text-sm" data-icon="north_east">north_east</span>
+</a>
+</div>
+<!-- Third Card -->
+<div class="md:col-span-4 bg-surface p-10 rounded-xl ghost-border">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="text-2xl font-headline font-bold mb-4">AI Layouts</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Describe your slide, and our Obsidian engine carves the perfect layout from the dark.</p>
+</div>
+<!-- Fourth Card (Wide) -->
+<div class="md:col-span-8 bg-surface-container p-10 rounded-xl flex items-center justify-between group cursor-pointer">
+<div class="max-w-md">
+<h3 class="text-3xl font-headline font-bold mb-4">Collaborative Logic</h3>
+<p class="text-on-surface-variant leading-relaxed">Multiplayer editing with granular permission controls for large organizational structures.</p>
+</div>
+<div class="hidden lg:flex gap-2">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-xs font-bold border-2 border-surface">JD</div>
+<div class="w-10 h-10 rounded-full bg-on-secondary-fixed-variant flex items-center justify-center text-xs font-bold border-2 border-surface">SK</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-xs font-bold border-2 border-surface">+4</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Preview Section -->
+<section class="py-32 px-6 md:px-24">
+<div class="max-w-7xl mx-auto flex flex-col items-center">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-headline font-bold mb-6 tracking-tight">The Architect's Canvas</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">A monolithic editor designed for focus. Every tool is exactly where you expect it, and out of the way when you don't.</p>
+</div>
+<div class="w-full bg-surface-container-low rounded-2xl p-4 ghost-border shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]">
+<div class="bg-surface rounded-xl overflow-hidden aspect-video relative">
+<img alt="Editor Interface" class="w-full h-full object-cover" data-alt="Screenshot of a professional dark mode presentation editor with a sleek minimalist sidebar and a glowing blue data chart centered on a slide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-oBy7eLLANIukmJF3CirqlPh_nH3U-b6n5zlhi2wKntNLkUxAlpLAfYsZqZ1QMJj8ouPW7Z1q1GXslOAM5cLUNcZLOW43w82p3e2Gn46DX3jAaC4fGH_BGPBgpxndtxzs43eY0BI1s5IbR7SmXNcVhoC-qF9MRaEfpUCTu_oM91S-DVyHDVDuMT9dWqPaMiOLtqjehQbmEmU-eGuIJtJvw0tA5N0BG7TriZHfGimD6vk2hYsxBISiMU_rE8Z6c9P9NltVrITpYqI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+<div class="bg-surface-container-highest/80 backdrop-blur-md p-6 rounded-lg ghost-border max-w-xs">
+<span class="text-[10px] text-primary-fixed-dim font-bold tracking-widest uppercase mb-2 block">Live Feed</span>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold font-headline">$4.2M</span>
+<span class="text-xs text-green-400 flex items-center"><span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> 12%</span>
+</div>
+<div class="w-full h-1 bg-outline-variant/20 mt-4 rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-3/4"></div>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center cursor-pointer shadow-lg transform hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="play_arrow" data-weight="fill" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-6 md:px-24">
+<div class="bg-gradient-to-br from-surface-container-high to-surface-container-low rounded-3xl p-12 md:p-24 text-center border border-outline-variant/10 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-50"></div>
+<h2 class="text-4xl md:text-6xl font-headline font-extrabold mb-8 tracking-tighter">Ready to architect your data?</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto mb-12 text-lg">Join 500+ enterprises who have abandoned static slides for the obsidian edge.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<input class="px-6 py-4 rounded-md bg-surface-container-lowest border-none ring-1 ring-outline-variant/20 focus:ring-primary-container transition-all w-full sm:w-80 text-on-surface" placeholder="work@company.com" type="email"/>
+<button class="px-10 py-4 lithium-glow text-white font-bold rounded-md whitespace-nowrap">Start Free Trial</button>
+</div>
+<p class="mt-8 text-xs text-on-surface-variant/40 font-headline tracking-widest uppercase">No credit card required • 14-day full access</p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#101417] border-t border-[#424656]/15 pt-12 pb-12">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="text-lg font-bold text-[#e0e3e7] font-headline tracking-tighter">Obsidian Architect UI</span>
+<span class="font-['Inter'] text-xs text-[#e0e3e7] opacity-50">© 2024 Obsidian Architect UI. All rights reserved.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-['Inter'] text-xs text-[#e0e3e7] opacity-50 hover:text-[#0F62FE] transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs text-[#e0e3e7] opacity-50 hover:text-[#0F62FE] transition-colors underline-offset-4 hover:underline" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs text-[#e0e3e7] opacity-50 hover:text-[#0F62FE] transition-colors underline-offset-4 hover:underline" href="#">Enterprise Licensing</a>
+<a class="font-['Inter'] text-xs text-[#e0e3e7] opacity-50 hover:text-[#0F62FE] transition-colors underline-offset-4 hover:underline" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,178 @@
+# Enterprise Clean Presentation Builder
+
+## Product Overview
+
+**The Pitch:** A professional, data-first presentation builder that integrates live data sources directly into slide decks. It bridges the gap between static presentation tools and complex BI dashboards, allowing teams to present dynamic data with confidence.
+
+**For:** Enterprise analysts, product managers, and executives who need to present live, accurate data without manually updating charts before every meeting.
+
+**Device:** desktop
+
+**Design Direction:** A highly professional, trustworthy SaaS interface using crisp white surfaces, sophisticated drop shadows, and a classic soft blue brand color, providing a familiar yet elevated Material-inspired layout.
+
+**Inspired by:** Retool, Google Looker Studio
+
+---
+
+## Screens
+
+- **Landing Page:** High-converting SaaS entry point highlighting value props
+- **Authentication:** Streamlined login and registration modal workflows
+- **Editor Canvas:** Main workspace for slide creation and content arrangement
+- **Data Properties Panel:** Deep-dive configuration for chart data sources and series mapping
+- **Presentation Mode:** Distraction-free, full-screen slide viewing experience
+
+---
+
+## Key Flows
+
+**Create Data-Driven Slide:** User adds a live chart to a presentation
+
+1. User is on Editor Canvas -> sees blank slide and top toolbar
+2. User clicks **Add Chart** -> defaults to Vertical Bar Cluster on canvas
+3. User selects chart -> Right Properties Panel opens showing data tabs
+4. User selects SQLite tab, drags 'Revenue' pill to Y-axis -> Chart updates with live data
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#0F62FE` - Buttons, active states, key data series
+- **Background:** `#F4F7F9` - App workspace background, left sidebar
+- **Surface:** `#FFFFFF` - Slide canvas, top toolbar, right properties panel, modals
+- **Text:** `#121619` - Primary headings, slide content
+- **Muted:** `#525C67` - Secondary text, axis labels, borders
+- **Accent:** `#24A148` - Success states, secondary data series
+
+## Typography
+
+- **Headings:** `Plus Jakarta Sans`, 700, 24-32px
+- **Body:** `IBM Plex Sans`, 400, 14px
+- **Small text:** `IBM Plex Sans`, 400, 12px
+- **Buttons:** `Plus Jakarta Sans`, 600, 14px
+
+**Style notes:** 4px border radius on components, crisp 0px 4px 12px rgba(0,0,0,0.08) drop shadows on surfaces, structured grid alignments, distinct separation between gray workspaces and pure white actionable areas.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #0F62FE;
+  --color-background: #F4F7F9;
+  --color-surface: #FFFFFF;
+  --color-text: #121619;
+  --color-muted: #525C67;
+  --color-accent: #24A148;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-ui: 'IBM Plex Sans', sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-elevation: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-canvas: 0 8px 24px rgba(0,0,0,0.12);
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Landing Page
+
+**Purpose:** Convert visitors to registered users by showcasing the core "live data" value proposition.
+
+**Layout:** Standard SaaS layout. Fixed 64px top nav, centered hero section, feature grid below fold.
+
+**Key Elements:**
+- **Hero Title:** `Plus Jakarta Sans`, 700, 48px, `#121619`, "Build live data presentations"
+- **Primary CTA:** `#0F62FE` background, pure white text, 48px height, 4px radius, "Start Building Free"
+- **App Preview Image:** Large centered image showcasing the editor with a `--shadow-canvas` drop shadow
+
+**States:**
+- **Logged in:** Top nav buttons change from 'Login'/'Register' to 'Go to App'
+
+### Authentication
+
+**Purpose:** Secure user entry via email or single sign-on.
+
+**Layout:** Screen-filling `#F4F7F9` background, centered 400px wide white modal card.
+
+**Key Elements:**
+- **Auth Card:** `#FFFFFF` surface, 8px radius, `--shadow-elevation`, 32px internal padding
+- **Google Auth Button:** Full width, 40px height, 1px solid `#E0E0E0`, Google logo left, text "Continue with Google"
+- **Inputs:** 40px height, 1px solid `#D1D5DB`, 4px radius, floating label style
+
+**States:**
+- **Loading:** Spinner replaces text inside CTA button
+- **Error:** Red (`#DA1E28`) 12px text below input, border turns red
+
+### Editor Canvas
+
+**Purpose:** Main workspace for assembling slides and charts.
+
+**Layout:** 56px top toolbar, 200px left sidebar (thumbnails), fluid center canvas area, optional 300px right sidebar (properties).
+
+**Key Elements:**
+- **Top Toolbar:** `#FFFFFF` background, bottom border 1px solid `#E0E0E0`. Contains MUI icons for Text, Image, and a distinct `#0F62FE` "Add Chart" button.
+- **Left Sidebar:** `#F4F7F9` background. Reorderable slide thumbnails (160x90px) with 2px transparent borders (turns `#0F62FE` on select).
+- **Center Canvas:** 16:9 aspect ratio pure `#FFFFFF` rectangle, centered in workspace, `--shadow-canvas`.
+
+**States:**
+- **Empty:** "Click 'Add Chart' or 'Add Text' to start" helper text on slide 1
+- **Chart Selected:** Canvas highlights chart with 1px `#0F62FE` outline and 8px resize handles
+
+### Data Properties Panel
+
+**Purpose:** Configure selected charts, map data sources, and format axes.
+
+**Layout:** 300px fixed width, anchors to right edge. Tabbed interface at the top.
+
+**Key Elements:**
+- **Data Source Tabs:** "CSV" | "SQLite" | "Manual". Active tab has 2px `#0F62FE` bottom border.
+- **Chart Type Dropdown:** Select from Vertical Bar Cluster, Stacked, Line, Scatter, Bubble, Pie, Donut.
+- **Data Mapping Dropzones:** "X-Axis", "Y-Axis", "Bubble Size". `#F4F7F9` background, 4px dashed border. Accepts dragged data pills.
+- **Fake Comp Data Bubble Preview:** Rendered inside a bubble chart preview: `#0F62FE` circle, 40px diameter, label `Engineering $150k`.
+
+**States:**
+- **Empty:** Displays "Select a chart on the canvas to edit properties"
+- **Dragging:** Dropzones turn pale blue (`#EDF5FF`) when a data pill is hovered
+
+### Presentation Mode
+
+**Purpose:** Full-screen viewing of the completed slide deck.
+
+**Layout:** Distraction-free 100vw/100vh `#000000` background, centered 16:9 slide scaled to fit.
+
+**Key Elements:**
+- **Slide Content:** Fully rendered charts displaying mapped data.
+- **Navigation Arrows:** Subtle `#FFFFFF` chevrons at 50% opacity, 48px width, appearing on left/right screen edges on mouse move.
+- **Slide Counter:** Bottom left, `IBM Plex Sans`, 12px, `#FFFFFF`, e.g., "3 / 12".
+
+**Interactions:**
+- **Click Arrow:** Transitions to next/prev slide (crossfade 200ms)
+- **Keypress [Right/Space]:** Next slide
+- **Keypress [Esc]:** Exits full screen back to Editor Canvas
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** React, TypeScript, Tailwind CSS v3, Recharts (for charts), dnd-kit (for drag and drop)
+
+**Build Order:**
+1. **Landing & Auth** - Establishes base typography, color variables, and basic routing.
+2. **Editor Canvas Shell** - Implement the fixed layout (toolbar, left sidebar, center stage).
+3. **Slide Rendering & Selection** - Build the 16:9 canvas scaling logic and element selection state.
+4. **Data Properties Panel** - Implement tabs and UI inputs for chart configuration.
+5. **Chart Engine & DnD** - Integrate Recharts, connect fake data payload, and wire up dnd-kit for axis mapping.
+6. **Presentation Mode** - Add full-screen wrapper and keyboard event listeners.
+
+</details>

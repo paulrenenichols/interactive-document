@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Properties Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1b1bf3",
+                        "primary-hover": "#edf5ff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                        "surface": "#ffffff",
+                        "text-main": "#121619",
+                        "text-muted": "#525C67",
+                        "border-color": "#e0e0e0"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "sm": "0.25rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    boxShadow: {
+                        "elevation": "0 4px 12px rgba(0,0,0,0.08)"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f5f5f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<!-- Main Container representing the Editor Canvas and the Right Panel -->
+<div class="flex w-full h-screen overflow-hidden">
+<!-- Editor Canvas Placeholder -->
+<div class="flex-1 flex items-center justify-center p-8 bg-background-light">
+<div class="w-full max-w-4xl aspect-video bg-surface shadow-elevation rounded-sm flex items-center justify-center border border-primary relative">
+<span class="absolute top-[-1px] left-[-1px] w-2 h-2 bg-surface border border-primary"></span>
+<span class="absolute top-[-1px] right-[-1px] w-2 h-2 bg-surface border border-primary"></span>
+<span class="absolute bottom-[-1px] left-[-1px] w-2 h-2 bg-surface border border-primary"></span>
+<span class="absolute bottom-[-1px] right-[-1px] w-2 h-2 bg-surface border border-primary"></span>
+<!-- Mock Chart -->
+<div class="w-3/4 h-2/3 border-l border-b border-text-muted flex items-end justify-around pb-1">
+<div class="w-12 h-1/3 bg-primary rounded-t-sm"></div>
+<div class="w-12 h-2/3 bg-primary rounded-t-sm"></div>
+<div class="w-12 h-1/2 bg-primary rounded-t-sm"></div>
+<div class="w-12 h-full bg-primary rounded-t-sm"></div>
+</div>
+</div>
+</div>
+<!-- Data Properties Panel -->
+<aside class="w-[300px] bg-surface h-full flex flex-col border-l border-border-color shadow-elevation z-10 font-display">
+<!-- Header -->
+<div class="px-4 pt-5 pb-3 border-b border-border-color shrink-0">
+<h2 class="text-text-main text-lg font-bold leading-tight">Data Properties</h2>
+</div>
+<!-- Tabs -->
+<div class="px-4 pt-2 pb-5 border-b border-border-color shrink-0 flex flex-col gap-2">
+<label class="text-text-main text-sm font-semibold">Select Data Source</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-border-color text-text-main text-sm rounded-sm px-3 py-2.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer pr-8">
+<option>SQLite (Active)</option>
+<option>CSV File</option>
+<option>Manual Entry</option>
+<option>Google Sheets</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none text-xl">
+            expand_more
+        </span>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Chart Type Selector -->
+<div class="flex flex-col gap-2">
+<label class="text-text-main text-sm font-semibold">Chart Type</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-border-color text-text-main text-sm rounded-sm px-3 py-2.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer pr-8">
+<option>Vertical Bar Cluster</option>
+<option>Stacked Bar</option>
+<option>Line Chart</option>
+<option>Scatter Plot</option>
+<option>Bubble Chart</option>
+<option>Pie Chart</option>
+<option>Donut Chart</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none text-xl">
+                            expand_more
+                        </span>
+</div>
+</div>
+<!-- Available Data (Draggable Pills) -->
+<div class="flex flex-col gap-2 border-t border-border-color pt-4">
+<label class="text-text-main text-sm font-semibold flex items-center justify-between">
+                        Available Data
+                        <span class="material-symbols-outlined text-text-muted text-sm cursor-help" title="Drag these pills to map your data">info</span>
+</label>
+<div class="flex flex-wrap gap-2 mt-1">
+<!-- Draggable Pill 1 -->
+<div class="inline-flex items-center gap-1 bg-background-light border border-border-color px-2.5 py-1.5 rounded-sm cursor-grab hover:border-primary hover:bg-surface transition-colors group">
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary">drag_indicator</span>
+<span class="text-text-main text-xs font-medium">Revenue</span>
+<span class="text-text-muted text-[10px] ml-1 bg-surface px-1 rounded-sm border border-border-color">NUM</span>
+</div>
+<!-- Draggable Pill 2 -->
+<div class="inline-flex items-center gap-1 bg-background-light border border-border-color px-2.5 py-1.5 rounded-sm cursor-grab hover:border-primary hover:bg-surface transition-colors group">
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary">drag_indicator</span>
+<span class="text-text-main text-xs font-medium">Cost</span>
+<span class="text-text-muted text-[10px] ml-1 bg-surface px-1 rounded-sm border border-border-color">NUM</span>
+</div>
+<!-- Draggable Pill 3 -->
+<div class="inline-flex items-center gap-1 bg-background-light border border-border-color px-2.5 py-1.5 rounded-sm cursor-grab hover:border-primary hover:bg-surface transition-colors group">
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary">drag_indicator</span>
+<span class="text-text-main text-xs font-medium">Department</span>
+<span class="text-text-muted text-[10px] ml-1 bg-surface px-1 rounded-sm border border-border-color">TXT</span>
+</div>
+</div>
+</div>
+<!-- Mapping Dropzones -->
+<div class="flex flex-col gap-4 border-t border-border-color pt-4">
+<h3 class="text-text-main text-sm font-semibold mb-1">Data Mapping</h3>
+<!-- X-Axis Dropzone (Populated) -->
+<div class="flex flex-col gap-1.5">
+<label class="text-text-muted text-xs font-medium">X-Axis</label>
+<div class="min-h-[44px] bg-background-light border border-dashed border-border-color rounded-sm p-2 flex items-center gap-2 transition-colors hover:bg-primary-hover hover:border-primary">
+<!-- Dropped Pill -->
+<div class="inline-flex items-center gap-1 bg-primary text-surface px-2.5 py-1.5 rounded-sm cursor-pointer shadow-sm w-full group relative">
+<span class="material-symbols-outlined text-surface text-[16px] opacity-70">data_array</span>
+<span class="text-xs font-medium flex-1">Department</span>
+<button class="w-4 h-4 rounded-sm flex items-center justify-center hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Y-Axis Dropzone (Empty, hovering state example) -->
+<div class="flex flex-col gap-1.5">
+<label class="text-text-muted text-xs font-medium">Y-Axis</label>
+<div class="min-h-[44px] bg-primary-hover border border-dashed border-primary rounded-sm p-2 flex items-center justify-center transition-colors">
+<span class="text-primary text-xs font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> Drop data here
+                            </span>
+</div>
+</div>
+<!-- Series / Legend Dropzone (Empty) -->
+<div class="flex flex-col gap-1.5">
+<label class="text-text-muted text-xs font-medium">Series (Legend)</label>
+<div class="min-h-[44px] bg-background-light border border-dashed border-border-color rounded-sm p-2 flex items-center justify-center transition-colors hover:bg-primary-hover hover:border-primary">
+<span class="text-text-muted text-xs">Optional</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

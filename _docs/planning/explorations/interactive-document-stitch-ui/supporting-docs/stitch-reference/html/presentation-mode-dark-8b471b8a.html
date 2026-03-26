@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-container": "#0f62fe",
+            "primary-fixed-dim": "#b4c5ff",
+            "error-container": "#93000a",
+            "on-primary-container": "#f3f3ff",
+            "surface-container-highest": "#313539",
+            "surface-container": "#1c2023",
+            "tertiary-fixed": "#ffdbd0",
+            "inverse-on-surface": "#2d3134",
+            "secondary-fixed": "#dbe1ff",
+            "on-tertiary-fixed": "#390c00",
+            "tertiary-fixed-dim": "#ffb59d",
+            "on-secondary-fixed-variant": "#2a4387",
+            "error": "#ffb4ab",
+            "tertiary-container": "#c84000",
+            "surface-bright": "#363a3d",
+            "surface-tint": "#b4c5ff",
+            "surface": "#101417",
+            "surface-container-high": "#262a2e",
+            "primary-fixed": "#dbe1ff",
+            "on-tertiary-fixed-variant": "#832700",
+            "tertiary": "#ffb59d",
+            "on-surface": "#e0e3e7",
+            "surface-dim": "#101417",
+            "on-surface-variant": "#c3c6d8",
+            "primary": "#b4c5ff",
+            "surface-container-low": "#181c1f",
+            "on-secondary-fixed": "#00174c",
+            "secondary-container": "#2d458a",
+            "surface-variant": "#313539",
+            "on-primary": "#002979",
+            "on-secondary": "#0e2b6f",
+            "outline-variant": "#424656",
+            "on-tertiary": "#5d1900",
+            "on-secondary-container": "#a0b6ff",
+            "on-primary-fixed": "#00174c",
+            "on-primary-fixed-variant": "#003da9",
+            "on-error": "#690005",
+            "background": "#101417",
+            "on-tertiary-container": "#fff1ed",
+            "secondary-fixed-dim": "#b4c5ff",
+            "secondary": "#b4c5ff",
+            "on-error-container": "#ffdad6",
+            "inverse-primary": "#0052dd",
+            "on-background": "#e0e3e7",
+            "inverse-surface": "#e0e3e7",
+            "outline": "#8c90a2",
+            "surface-container-lowest": "#0b0f12"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    .slide-shadow {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+    .glass-control {
+      background: rgba(49, 53, 57, 0.4);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container overflow-hidden h-screen flex flex-col">
+<!-- Suppression of TopNavBar and SideNavBar for focused Presentation Mode -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-16 pointer-events-none">
+<div class="flex items-center gap-4 pointer-events-auto">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-highest/20 hover:bg-surface-container-highest/60 text-on-surface transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-sm tracking-tight opacity-90 uppercase">Project Alpha</span>
+<span class="font-label text-[10px] tracking-widest opacity-50 uppercase">Q4 Strategic Overview</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pointer-events-auto">
+<div class="px-4 py-1.5 rounded-full glass-control border border-outline-variant/10 text-[11px] font-label font-medium tracking-widest uppercase text-on-surface/70">
+        Presentation Mode
+      </div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center relative p-12 bg-surface-dim">
+<!-- Left Navigation Zone -->
+<div class="absolute left-4 top-1/2 -translate-y-1/2 group">
+<button class="w-14 h-32 flex items-center justify-center rounded-xl bg-transparent hover:bg-surface-container-highest/10 text-on-surface/20 hover:text-on-surface transition-all duration-300">
+<span class="material-symbols-outlined text-4xl" data-icon="chevron_left">chevron_left</span>
+</button>
+</div>
+<!-- Main Slide Canvas (16:9 Aspect Ratio) -->
+<div class="w-full max-w-[1400px] aspect-video bg-white slide-shadow rounded-sm relative overflow-hidden flex flex-col">
+<!-- High-End Editorial Content inside the slide -->
+<div class="flex-grow flex flex-col p-20 text-[#101417]">
+<div class="flex justify-between items-start mb-16">
+<div class="h-1 w-24 bg-[#0F62FE]"></div>
+<span class="font-headline font-extrabold text-xl tracking-tighter opacity-20">01</span>
+</div>
+<h1 class="font-headline font-extrabold text-7xl tracking-tighter leading-none mb-10 max-w-4xl">
+          Architectural Integrity <br/>in Digital Ecosystems.
+        </h1>
+<div class="grid grid-cols-12 gap-12 mt-auto">
+<div class="col-span-4">
+<p class="font-body text-xl font-medium leading-relaxed opacity-80">
+              The shift from interface to environment requires a new vocabulary of depth, light, and materiality.
+            </p>
+</div>
+<div class="col-span-8 overflow-hidden rounded-lg">
+<img alt="Modern architectural building with sharp angles and dramatic slate textures in grayscale" class="w-full h-64 object-cover grayscale brightness-110" data-alt="Monochromatic architectural photography of a minimalist skyscraper with sharp geometric shadows and high contrast textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXgOBBTzJSHuula81bOTK3FW51mKwjqHSPMdBDB_4OJhnPaVA0hjfKc-EfQ-wuJqWkF33Wx-8bXa--i2XbLvoeO-F3ehzHAZLwm_uGnR1b8mRMs9j5rwg3K6V9kvWJd7UyxPvaIWhEr3JKZkfkgH8r8MaHVKIB6_VrH9hj9h_kVq4J9Mc_1-iAzUdanyrfMfCIUtXS-Oeo8vH6CWz26MhfSbL8-5GgeYFzB4OdXYShiEKkjBofMc7h7IpdWpneT4e12nEi0VGp2wY"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Navigation Zone -->
+<div class="absolute right-4 top-1/2 -translate-y-1/2 group">
+<button class="w-14 h-32 flex items-center justify-center rounded-xl bg-transparent hover:bg-surface-container-highest/10 text-on-surface/20 hover:text-on-surface transition-all duration-300">
+<span class="material-symbols-outlined text-4xl" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Bottom Floating HUD -->
+<footer class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+<div class="glass-control rounded-full px-6 h-14 flex items-center gap-8 border border-outline-variant/15 shadow-2xl">
+<!-- Slide Counter -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-label tracking-widest font-bold text-primary-fixed-dim">01</span>
+<div class="w-8 h-px bg-outline-variant/30"></div>
+<span class="text-xs font-label tracking-widest opacity-40">12</span>
+</div>
+<div class="w-px h-6 bg-outline-variant/20"></div>
+<!-- Controls -->
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="list">list</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="draw">draw</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="zoom_in">zoom_in</span>
+</button>
+</div>
+<div class="w-px h-6 bg-outline-variant/20"></div>
+<!-- Laser/Pointer Toggle -->
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-container/10 text-primary-fixed-dim hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="auto_awesome" data-weight="fill" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest">Laser</span>
+</button>
+<!-- Settings -->
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</footer>
+<!-- Subtle Keyboard Shortcuts Hint -->
+<div class="fixed bottom-8 right-8 pointer-events-none opacity-20 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-3">
+<div class="px-2 py-1 rounded bg-surface-container-highest text-[10px] font-label font-bold">ESC</div>
+<span class="text-[10px] font-label tracking-wider uppercase">to exit</span>
+</div>
+</div>
+</body></html>

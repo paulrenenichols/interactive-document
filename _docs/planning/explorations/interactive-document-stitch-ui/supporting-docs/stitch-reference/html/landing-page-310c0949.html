@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Clean Presentation Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1b1bf3",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem", 
+                        "sm": "0.25rem", // Maps to 4px
+                        "md": "0.5rem",  // Maps to 8px
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'elevation': '0 4px 12px rgba(0,0,0,0.08)',
+                        'canvas': '0 8px 24px rgba(0,0,0,0.12)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F4F7F9; /* App workspace background from PRD */
+            color: #121619; /* Primary text from PRD */
+        }
+        .text-muted {
+            color: #525C67;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col group/design-root">
+<!-- Shared TopAppBar -->
+<div class="relative flex h-auto w-full flex-col bg-white overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-0">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f0f5] py-3 h-[64px] bg-white z-50 fixed top-0 w-full max-w-[1200px]">
+<div class="flex items-center gap-4 text-[#111118]">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#121619] text-xl font-bold leading-tight tracking-[-0.015em] font-display">DataDeck</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-[#121619] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Features</a>
+<a class="text-[#121619] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-[#121619] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Login</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-sm h-10 px-6 bg-primary text-white text-sm font-semibold leading-normal tracking-[0.015em] hover:bg-blue-700 transition-colors shadow-sm">
+<span class="truncate">Register</span>
+</button>
+</div>
+</header>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center w-full mt-[64px]">
+<!-- Hero Section -->
+<section class="w-full max-w-[1200px] px-4 md:px-10 lg:px-40 py-20 flex flex-col items-center text-center gap-8">
+<div class="max-w-[800px] flex flex-col gap-6 items-center">
+<h1 class="text-[#121619] text-[40px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.02em] font-display">
+                    Build live data presentations
+                </h1>
+<p class="text-muted text-lg md:text-xl font-normal leading-relaxed max-w-[600px]">
+                    Integrate live data sources directly into your slide decks. Bridge the gap between static presentation tools and complex BI dashboards.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto justify-center">
+<button class="flex items-center justify-center rounded-sm h-[48px] px-8 bg-primary text-white text-base font-semibold transition-colors hover:bg-blue-700 shadow-md w-full sm:w-auto">
+                        Start Building Free
+                    </button>
+<button class="flex items-center justify-center rounded-sm h-[48px] px-8 bg-white text-[#121619] border border-[#E0E0E0] text-base font-semibold hover:bg-gray-50 transition-colors shadow-sm w-full sm:w-auto">
+                        Book a Demo
+                    </button>
+</div>
+</div>
+<!-- App Preview Image -->
+<div class="w-full mt-12 relative rounded-md overflow-hidden shadow-canvas bg-white border border-[#E0E0E0]">
+<!-- Browser-like top bar -->
+<div class="h-8 bg-[#F4F7F9] border-b border-[#E0E0E0] flex items-center px-4 gap-2">
+<div class="w-3 h-3 rounded-full bg-[#E0E0E0]"></div>
+<div class="w-3 h-3 rounded-full bg-[#E0E0E0]"></div>
+<div class="w-3 h-3 rounded-full bg-[#E0E0E0]"></div>
+</div>
+<img alt="App preview showing a dashboard with charts and data" class="w-full object-cover max-h-[600px]" data-alt="Modern SaaS dashboard interface showing colorful bar charts, line graphs, and data tables on a crisp white background with a left sidebar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDSJE1LZvcdJeLtHAoEsz3EcrQ1K-P4uPuIUENIFjgiLbJQp0WW_R2MvKcLvg4xfn6Wc_2oLpOtswSk2T2jDnODakMjYZSLKJBF92oy7iamAm3omv-zU36rsj9ZJoJuR9oiQ5R9mMq599lgN9zoA-nVaIVKhKBwzNL6Gy-qCeLwRlZttpgDSxLlcXJpi-vT-erIqapTB5dE6aIiBOgY7YTzHHRI4yLeMEteSbSUo_vF1-Tw-G_clsCvYu1sZ3tjRQWQbxKjqP26Rc"/>
+</div>
+</section>
+<!-- Feature Grid Section -->
+<section class="w-full bg-white py-20 border-t border-[#E0E0E0]">
+<div class="max-w-[1200px] mx-auto px-4 md:px-10 lg:px-40 flex flex-col gap-12">
+<div class="flex flex-col gap-4 text-center md:text-left items-center md:items-start">
+<h2 class="text-[#121619] text-[32px] font-bold leading-tight font-display">
+                        Everything you need to present data
+                    </h2>
+<p class="text-muted text-base max-w-[600px]">
+                        Stop copying and pasting screenshots. Connect your data once and always have the most up-to-date slides for your next meeting.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Feature 1 -->
+<div class="flex flex-col gap-4 p-6 rounded-md bg-[#F4F7F9] border border-[#E0E0E0] hover:shadow-elevation transition-shadow">
+<div class="w-12 h-12 rounded-sm bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">database</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#121619] text-lg font-bold font-display">Live Data Connections</h3>
+<p class="text-muted text-sm leading-relaxed">
+                                Connect securely to PostgreSQL, MySQL, Snowflake, or simply upload a CSV. Your charts update automatically when the data changes.
+                            </p>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="flex flex-col gap-4 p-6 rounded-md bg-[#F4F7F9] border border-[#E0E0E0] hover:shadow-elevation transition-shadow">
+<div class="w-12 h-12 rounded-sm bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">bar_chart</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#121619] text-lg font-bold font-display">Drag-and-Drop Editor</h3>
+<p class="text-muted text-sm leading-relaxed">
+                                A familiar presentation canvas. Easily place text, images, and map data fields to axes visually without writing SQL.
+                            </p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="flex flex-col gap-4 p-6 rounded-md bg-[#F4F7F9] border border-[#E0E0E0] hover:shadow-elevation transition-shadow">
+<div class="w-12 h-12 rounded-sm bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">present_to_all</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-[#121619] text-lg font-bold font-display">Presentation Mode</h3>
+<p class="text-muted text-sm leading-relaxed">
+                                Enter a distraction-free, full-screen view. Deliver your deck confidently knowing every number is perfectly accurate.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom CTA -->
+<section class="w-full bg-[#F4F7F9] py-24">
+<div class="max-w-[800px] mx-auto px-4 text-center flex flex-col items-center gap-8">
+<h2 class="text-[#121619] text-[32px] font-bold leading-tight font-display">
+                    Ready to elevate your presentations?
+                </h2>
+<button class="flex items-center justify-center rounded-sm h-[48px] px-8 bg-primary text-white text-base font-semibold transition-colors hover:bg-blue-700 shadow-md">
+                    Start Building Free
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-white border-t border-[#E0E0E0] py-12">
+<div class="max-w-[1200px] mx-auto px-4 md:px-10 lg:px-40 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-[#121619]">
+<div class="size-5 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="font-bold text-sm">DataDeck Inc.</span>
+</div>
+<div class="flex gap-6 text-sm text-muted">
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>

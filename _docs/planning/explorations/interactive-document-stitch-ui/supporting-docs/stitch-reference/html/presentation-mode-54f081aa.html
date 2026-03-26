@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Presentation Mode - Enterprise Clean Presentation Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1b1bf3",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["IBM Plex Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem", "sm": "4px", "md": "8px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling in presentation mode */
+            color: white;
+        }
+        
+        /* Subtle hover reveal for navigation */
+        .nav-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .presentation-container:hover .nav-overlay {
+            opacity: 1;
+        }
+
+        .slide-aspect {
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+<body>
+<!-- Main Full-Screen Presentation Container -->
+<div class="presentation-container relative w-screen h-screen flex items-center justify-center bg-black">
+<!-- Left Navigation Arrow (Overlay) -->
+<button aria-label="Previous Slide" class="nav-overlay absolute left-0 top-0 bottom-0 w-24 flex items-center justify-center z-50 cursor-pointer hover:bg-white/5 transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-white/50 text-5xl hover:text-white transition-colors" data-icon="chevron_left">chevron_left</span>
+</button>
+<!-- Right Navigation Arrow (Overlay) -->
+<button aria-label="Next Slide" class="nav-overlay absolute right-0 top-0 bottom-0 w-24 flex items-center justify-center z-50 cursor-pointer hover:bg-white/5 transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-white/50 text-5xl hover:text-white transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Slide Counter (Overlay) -->
+<div class="nav-overlay absolute bottom-6 left-8 z-50 font-body text-white/70 text-sm tracking-wide">
+            3 / 12
+        </div>
+<!-- Exit Hint (Overlay) -->
+<div class="nav-overlay absolute top-6 right-8 z-50 font-body text-white/50 text-xs uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
+            Press ESC to exit
+        </div>
+<!-- The 16:9 Slide Canvas -->
+<!-- Scaled to fit within the viewport while maintaining aspect ratio -->
+<div class="slide-aspect w-full max-w-[95vw] max-h-[972px] bg-white rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden relative flex flex-col items-center justify-center" style="max-width: calc(95vh * 16/9);">
+<!-- Inner Slide Content Area (Scaled up for presentation viewing) -->
+<div class="w-full h-full p-12 md:p-20 flex flex-col justify-between text-[#121619]">
+<!-- Slide Header -->
+<div class="mb-10">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tight text-[#121619] mb-4">Q3 Engineering Revenue Breakdown</h1>
+<div class="flex items-baseline gap-4">
+<span class="text-5xl md:text-6xl font-extrabold text-[#121619] tracking-tight">$150k</span>
+<span class="text-xl text-[#525C67] font-medium">Total Q3 Revenue</span>
+</div>
+</div>
+<!-- Main Chart Area -->
+<div class="flex-grow w-full flex flex-col justify-end relative mt-8">
+<!-- Y-Axis Grid Lines & Labels -->
+<div class="absolute inset-0 flex flex-col justify-between pb-8 pointer-events-none">
+<div class="w-full border-b border-[#E0E0E0] border-dashed flex items-end">
+<span class="absolute -left-12 text-[#525C67] text-sm font-body transform -translate-y-1/2">100k</span>
+</div>
+<div class="w-full border-b border-[#E0E0E0] border-dashed flex items-end">
+<span class="absolute -left-12 text-[#525C67] text-sm font-body transform -translate-y-1/2">75k</span>
+</div>
+<div class="w-full border-b border-[#E0E0E0] border-dashed flex items-end">
+<span class="absolute -left-12 text-[#525C67] text-sm font-body transform -translate-y-1/2">50k</span>
+</div>
+<div class="w-full border-b border-[#E0E0E0] border-dashed flex items-end">
+<span class="absolute -left-12 text-[#525C67] text-sm font-body transform -translate-y-1/2">25k</span>
+</div>
+<div class="w-full border-b-2 border-[#121619] flex items-end">
+<span class="absolute -left-12 text-[#525C67] text-sm font-body transform -translate-y-1/2">0</span>
+</div>
+</div>
+<!-- Bars Container -->
+<div class="relative h-full w-full flex items-end justify-around pb-8 z-10 pl-8 pr-4">
+<!-- July Group -->
+<div class="flex flex-col items-center h-full justify-end group cursor-default">
+<div class="flex items-end gap-2 h-full">
+<!-- Series 1 -->
+<div class="w-16 md:w-24 bg-primary rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 45%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$45k</div>
+</div>
+<!-- Series 2 (Accent) -->
+<div class="w-16 md:w-24 bg-[#24A148] rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 20%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$20k</div>
+</div>
+</div>
+<span class="mt-4 text-[#525C67] font-semibold text-lg tracking-wide">July</span>
+</div>
+<!-- August Group -->
+<div class="flex flex-col items-center h-full justify-end group cursor-default">
+<div class="flex items-end gap-2 h-full">
+<!-- Series 1 -->
+<div class="w-16 md:w-24 bg-primary rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 65%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$65k</div>
+</div>
+<!-- Series 2 (Accent) -->
+<div class="w-16 md:w-24 bg-[#24A148] rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 35%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$35k</div>
+</div>
+</div>
+<span class="mt-4 text-[#525C67] font-semibold text-lg tracking-wide">August</span>
+</div>
+<!-- September Group -->
+<div class="flex flex-col items-center h-full justify-end group cursor-default">
+<div class="flex items-end gap-2 h-full">
+<!-- Series 1 -->
+<div class="w-16 md:w-24 bg-primary rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 40%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$40k</div>
+</div>
+<!-- Series 2 (Accent) -->
+<div class="w-16 md:w-24 bg-[#24A148] rounded-t-sm relative transition-all duration-300 hover:opacity-90" style="height: 25%;">
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#121619] text-white text-xs py-1 px-2 rounded-sm font-body whitespace-nowrap">$25k</div>
+</div>
+</div>
+<span class="mt-4 text-[#525C67] font-semibold text-lg tracking-wide">September</span>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-6 flex items-center justify-center gap-8 border-t border-[#E0E0E0] pt-6">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-primary rounded-sm"></div>
+<span class="text-[#121619] font-medium text-sm">Frontend Engineering</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-[#24A148] rounded-sm"></div>
+<span class="text-[#121619] font-medium text-sm">Backend Engineering</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
