@@ -3,35 +3,29 @@
 /* Class-based dark mode (add .dark on <html> to toggle) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Tailwind theme tokens (v4 @theme) – map to utility classes */
+/* Tailwind theme tokens (v4 @theme) — alias :root / .dark vars so utilities update with .dark on <html> */
 @theme {
-  /* Backgrounds — Stitch light workspace */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f4f7f9;
-  --color-bg-slide: #ffffff;
-  /* Text */
-  --color-text-primary: #121619;
-  --color-text-secondary: #525c67;
-  --color-text-muted: #6f6f6f;
-  /* Borders */
-  --color-border-default: #e0e0e0;
-  --color-border-focus: #0f62fe;
-  /* Accents — IBM-style primary */
-  --color-accent-primary: #0f62fe;
-  --color-accent-primary-hover: #0353e9;
-  --color-accent-primary-active: #0043ce;
-  --color-accent-destructive: #cc3333;
-  /* Chart series */
-  --color-chart-1: #2563eb;
-  --color-chart-2: #059669;
-  --color-chart-3: #d97706;
-  --color-chart-4: #dc2626;
-  --color-chart-5: #7c3aed;
-  --color-chart-6: #0891b2;
-  /* Status */
-  --color-success: #16a34a;
-  --color-warning: #ca8a04;
-  --color-error: #dc2626;
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-slide: var(--bg-slide);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border-default: var(--border-default);
+  --color-border-focus: var(--border-focus);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-primary-hover: var(--accent-primary-hover);
+  --color-accent-primary-active: var(--accent-primary-active);
+  --color-accent-destructive: var(--accent-destructive);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
 }
 
 /* Base page uses theme variables so toggling .dark on <html> changes the page */
