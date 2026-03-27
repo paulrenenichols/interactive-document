@@ -37,15 +37,7 @@ export function RegisterScreen({ state, callbacks, footerSlot }: RegisterScreenP
   return (
     <Box
       component="main"
-      className="bg-bg-secondary"
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        px: 2,
-        py: 4,
-      }}
+      className="flex min-h-screen w-full items-center justify-center bg-bg-secondary px-4 py-8"
     >
       <Paper
         variant="outlined"
