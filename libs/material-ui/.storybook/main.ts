@@ -9,8 +9,10 @@ const config: StorybookConfig = {
   },
   async viteFinal(config) {
     const { mergeConfig } = await import('vite');
+    // Relative base: GH Pages serves this app under .../interactive-document/material-ui/;
+    // `/material-ui/` made the iframe load assets from the domain root (404).
     return mergeConfig(config, {
-      base: '/material-ui/',
+      base: './',
     });
   },
 };
