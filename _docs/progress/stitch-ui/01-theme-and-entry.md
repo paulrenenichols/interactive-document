@@ -22,7 +22,9 @@
 
 ## Chunk 2 — Marketing landing
 
-_(Implementation: `LandingPage` + root layout full-bleed.)_
+- **Components:** `apps/frontend/components/marketing/LandingPage.tsx` — hero, feature grid (stepped surfaces + shadow, no heavy section rules), pricing teaser, footer CTA; fixed marketing nav via `AppBar`.
+- **Layout:** Root `layout.tsx` — full-bleed (removed global `Container`); **Plus Jakarta Sans** via `next/font/google` to align with Stitch reference typography; `ThemeToggle` remains fixed.
+- **Route:** `app/page.tsx` renders `LandingPage`.
 
 ## Chunk 3 — Authentication
 
