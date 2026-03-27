@@ -2,7 +2,9 @@
 
 **Purpose:** Reconcile Stitch **Interactive Document** screens (light + dark) with this repo’s **Tailwind** token layer (`libs/material-ui/src/theme.css`) and **Material UI** components (`@interactive-document/material-ui`). Light exports are the **canonical layout** reference; dark exports inform **tokens and atmosphere**, not a second layout truth when they diverge.
 
-Use [exploration-lifecycle.md](../../setup/exploration-lifecycle.md) to evaluate or promote to a milestone.
+Use [exploration-lifecycle.md](../../../setup/exploration-lifecycle.md) to evaluate or promote to a milestone.
+
+**Promoted:** Milestone [stitch-ui](../../../../milestones/future/stitch-ui/) (future).
 
 ## Feature sets
 
