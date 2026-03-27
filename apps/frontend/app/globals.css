@@ -5,21 +5,21 @@
 
 /* Tailwind theme tokens (v4 @theme) – map to utility classes */
 @theme {
-  /* Backgrounds */
+  /* Backgrounds — Stitch light workspace */
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f5f5f5;
+  --color-bg-secondary: #f4f7f9;
   --color-bg-slide: #ffffff;
   /* Text */
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #666666;
-  --color-text-muted: #999999;
+  --color-text-primary: #121619;
+  --color-text-secondary: #525c67;
+  --color-text-muted: #6f6f6f;
   /* Borders */
   --color-border-default: #e0e0e0;
-  --color-border-focus: #0066cc;
-  /* Accents */
-  --color-accent-primary: #0066cc;
-  --color-accent-primary-hover: #0052a3;
-  --color-accent-primary-active: #003d7a;
+  --color-border-focus: #0f62fe;
+  /* Accents — IBM-style primary */
+  --color-accent-primary: #0f62fe;
+  --color-accent-primary-hover: #0353e9;
+  --color-accent-primary-active: #0043ce;
   --color-accent-destructive: #cc3333;
   /* Chart series */
   --color-chart-1: #2563eb;
@@ -44,16 +44,16 @@ body {
 :root {
   /* Theme tokens for charts and UI (light default) – keep for var() usage */
   --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
+  --bg-secondary: #f4f7f9;
   --bg-slide: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --text-muted: #999999;
+  --text-primary: #121619;
+  --text-secondary: #525c67;
+  --text-muted: #6f6f6f;
   --border-default: #e0e0e0;
-  --border-focus: #0066cc;
-  --accent-primary: #0066cc;
-  --accent-primary-hover: #0052a3;
-  --accent-primary-active: #003d7a;
+  --border-focus: #0f62fe;
+  --accent-primary: #0f62fe;
+  --accent-primary-hover: #0353e9;
+  --accent-primary-active: #0043ce;
   --accent-destructive: #cc3333;
   /* Chart 8-color palette (light-optimized) */
   --chart-1: #2563eb;
@@ -78,17 +78,17 @@ body {
 
 /* Dark mode: M3-style tokens and chart palette (dark-optimized) */
 .dark {
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-slide: #1a1a1a;
-  --text-primary: #e5e5e5;
-  --text-secondary: #a3a3a3;
-  --text-muted: #737373;
-  --border-default: #404040;
-  --border-focus: #3b82f6;
-  --accent-primary: #3b82f6;
-  --accent-primary-hover: #2563eb;
-  --accent-primary-active: #1d4ed8;
+  --bg-primary: #101022;
+  --bg-secondary: #1b1b35;
+  --bg-slide: #101022;
+  --text-primary: #f4f4f8;
+  --text-secondary: #a8a8c8;
+  --text-muted: #8787a8;
+  --border-default: #3d3d5c;
+  --border-focus: #4589ff;
+  --accent-primary: #4589ff;
+  --accent-primary-hover: #6ea8ff;
+  --accent-primary-active: #78a9ff;
   --accent-destructive: #ef4444;
   /* Chart 8-color palette (dark-optimized, higher saturation/luminance) */
   --chart-1: #60a5fa;
