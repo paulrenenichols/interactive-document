@@ -4,7 +4,7 @@
 
 Use [exploration-lifecycle.md](../../../setup/exploration-lifecycle.md) to evaluate or promote to a milestone.
 
-**Promoted:** Milestone [stitch-ui](../../../../milestones/future/stitch-ui/) (future).
+**Promoted:** Milestone [stitch-ui](../../../../milestones/active/stitch-ui/) (active).
 
 ## Feature sets
 

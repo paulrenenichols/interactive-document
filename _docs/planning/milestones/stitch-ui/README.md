@@ -1,6 +1,6 @@
 # Planning — Stitch UI (MUI / Tailwind ↔ Stitch)
 
-**Milestone:** [stitch-ui](../../../milestones/future/stitch-ui/) (`_docs/milestones/future/stitch-ui/`)
+**Milestone:** [stitch-ui](../../../milestones/active/stitch-ui/) (`_docs/milestones/active/stitch-ui/`)
 
 ## Summary
 

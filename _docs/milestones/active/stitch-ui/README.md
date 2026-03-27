@@ -2,7 +2,7 @@
 
 **Summary:** Reconcile product surfaces with Stitch **Interactive Document** screens using light layouts as source of truth, dark exports for palette/surfaces, and the shared material-ui token layer plus MUI components.
 
-**Status:** Future (`_docs/milestones/future/stitch-ui/`)
+**Status:** Active (`_docs/milestones/active/stitch-ui/`)
 
 **Source:** Exploration [stitch-ui](../../../planning/explorations/completed/stitch-ui/)
 
