@@ -28,4 +28,5 @@
 
 ## Chunk 3 — Authentication
 
-_(Implementation: auth shell backdrop + card polish on `LoginScreen` / `RegisterScreen`.)_
+- **Surfaces:** `LoginScreen` / `RegisterScreen` use `bg-bg-secondary` page shell and outlined `Paper` with `shadow-lg` for Stitch-style centered card.
+- **Copy:** Short subtitles under headings for context; behavior unchanged (same routes and API).

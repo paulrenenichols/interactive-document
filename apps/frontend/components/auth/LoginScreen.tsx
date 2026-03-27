@@ -42,6 +42,7 @@ export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) 
   return (
     <Box
       component="main"
+      className="bg-bg-secondary"
       sx={{
         minHeight: '100vh',
         display: 'flex',
@@ -52,12 +53,8 @@ export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) 
       }}
     >
       <Paper
-        elevation={1}
-        sx={{
-          width: '100%',
-          maxWidth: 420,
-          p: 3,
-        }}
+        variant="outlined"
+        className="w-full max-w-[420px] p-6 shadow-lg"
       >
         <Stack
           component="form"
@@ -67,9 +64,14 @@ export function LoginScreen({ state, callbacks, footerSlot }: LoginScreenProps) 
             callbacks?.onSubmit?.();
           }}
         >
-          <Typography variant="h5" component="h1">
-            Log in
-          </Typography>
+          <Stack spacing={0.5}>
+            <Typography variant="h5" component="h1">
+              Log in
+            </Typography>
+            <Typography variant="body2" className="text-text-secondary">
+              Sign in to continue to your presentations
+            </Typography>
+          </Stack>
           {error && (
             <Alert severity="error">
               {error}
