@@ -19,7 +19,7 @@ _(none currently)_
 
 ## Future milestones
 
-_(none currently)_
+- **[stitch-ui](future/stitch-ui/)** — Align MUI/Tailwind with Stitch **Interactive Document** (light layout canon, dark tokens); landing, auth, editor, inspector, presentation mode. Source: [completed exploration](../planning/explorations/completed/stitch-ui/).
 
 ---
 

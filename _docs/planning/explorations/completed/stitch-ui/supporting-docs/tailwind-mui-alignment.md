@@ -1,6 +1,6 @@
 # Tailwind + MUI alignment (Stitch → interactive-document)
 
-Compare vendored Stitch reference (`stitch-reference/`) with the shared library theme in [`libs/material-ui/src/theme.css`](../../../../libs/material-ui/src/theme.css) and components from `@interactive-document/material-ui`.
+Compare vendored Stitch reference (`stitch-reference/`) with the shared library theme in [`libs/material-ui/src/theme.css`](../../../../../../libs/material-ui/src/theme.css) and components from `@interactive-document/material-ui`.
 
 ## Product tokens today
 
