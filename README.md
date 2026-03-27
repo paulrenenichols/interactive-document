@@ -51,15 +51,27 @@ The dev stack automatically seeds the database with sample users, decks, slides,
   - A `Detect changes (docs-only guard)` job computes changed files and decides whether a run is **docs-only** (changes limited to `_docs/**` or Markdown files).
   - When docs-only, heavy Nx tasks are skipped; otherwise, CI runs `nx affected` for `lint`, `test`, and `build` against `origin/main...HEAD`.
   - The workflow writes a short **CI scope decision** summary (docs-only vs full Nx affected, plus changed files) to the job summary.
-- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and `material-ui`, merges them, and deploys to GitHub Pages. Frontend Storybook at `/`, material-ui at `/material-ui/`.
+- **Storybook deploy:** On pushes to `main`, the `storybook-pages` job builds Storybook for `frontend` and `material-ui`, merges them, and deploys to GitHub Pages. Frontend Storybook at `/`, material-ui at `/material-ui/`. **Live URLs:** see [Links → Deployed Storybook (GitHub Pages)](#deployed-storybook-github-pages).
 
 ## Links
+
+### Deployed Storybook (GitHub Pages)
+
+These sites update after changes merge to **`main`** and CI completes (including `build-and-test`); pull requests do not deploy until merged.
+
+- **Frontend (app UI):** [https://paulrenenichols.github.io/interactive-document/](https://paulrenenichols.github.io/interactive-document/)
+- **Material UI library:** [https://paulrenenichols.github.io/interactive-document/material-ui/](https://paulrenenichols.github.io/interactive-document/material-ui/)
+
+### Documentation and local tools
 
 - [API README](apps/api/README.md) — setup, routes, migrations
 - [Frontend README](apps/frontend/README.md) — setup, run, structure
 - **API Docs:** http://localhost:3001/docs (Swagger UI, available when running)
-- **Storybook (frontend):** `pnpm storybook` — http://localhost:6006
-- **Storybook (material-ui):** `nx storybook material-ui` — http://localhost:6007
+
+### Local Storybook
+
+- **Frontend:** `pnpm storybook` — http://localhost:6006
+- **Material UI:** `nx storybook material-ui` — http://localhost:6007
 
 ## Docs-driven development
 
