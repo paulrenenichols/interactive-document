@@ -1,12 +1,12 @@
 ---
 name: docs-driven-dev
-version: "2.0.0"
-description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Plan-first (say 'go' to apply). Accepts both "docs" and "_docs". Ask "help" or "what can you do?" for capabilities.
+version: "2.1.0"
+description: Docs-driven development. Use when setting up docs, converting projects, upgrading, creating explorations, or managing milestones. Plan-first (say 'go' to apply). Accepts both "docs" and "_docs". Phase execution includes conditional Storybook stories when the workspace has Storybook. Ask "help" or "what can you do?" for capabilities.
 ---
 
 # docs-driven-dev
 
-Docs-driven development: planning, milestones, explorations, and documentation workflows. Plan-first by default—draft in memory, no disk writes until you say "go". Consolidates setup, conversion, upgrade, exploration creation/update, milestone lifecycle, phase execution (per-chunk lint/test/commit), validation, rollback, and watchdog.
+Docs-driven development: planning, milestones, explorations, and documentation workflows. Plan-first by default—draft in memory, no disk writes until you say "go". Consolidates setup, conversion, upgrade, exploration creation/update, milestone lifecycle, phase execution (per-chunk Storybook when applicable, lint/test/commit), validation, rollback, and watchdog.
 
 ## When to use
 
@@ -92,12 +92,14 @@ Triggered by "implement phase" or "go" when an active milestone exists.
 2. Break work into **logical chunks** (if the phase-plan is flat, suggest a chunk breakdown).
 3. **Per chunk:**
    - Generate code/files.
+   - **Storybook (when the workspace has Storybook):** If the chunk adds or materially changes user-facing UI, add or update colocated `*.stories.tsx` (or the repo pattern) in the **same project where the code lives** (`apps/<app>/`, `libs/<lib>/`, etc.). Prefer the **composed component** a framework page renders; skip helpers, API-only work, generated files, trivial re-exports, or non-isolatable UI. **Detection:** `.storybook/` under the app or lib you touched, `nx show project <name> --json` has a `storybook` target for that project, or package scripts document Storybook for it. If not applicable, skip and note.
    - Run `npm run lint` (or equivalent; if no script, skip and note).
    - Run `npm test` (skip if missing).
    - If lint/test pass: `git add . && git commit -m "phase <N> - <chunk title>" && git push`.
    - If fail: Pause → *"Lint/test broke on chunk <current>. Fix? Or rollback?"*
 4. **End of phase:**
    - Run `npm run build` (if script exists; else skip).
+   - Optional: Spot-check Storybook (`nx storybook <project>` or manual) for project(s) where UI changed.
    - Create PR: "Phase <N>: <phase name>" → merge (confirm with user).
    - If last phase: after merge, **auto-complete milestone** (section 8).
 5. **Config (ask once at plan time):** "Build after every chunk? (slower)" — default: no.
@@ -150,7 +152,7 @@ When the user asks "what can you do?", "help", or similar, respond with:
 - **Create milestone from exploration** — Turn exploration into milestone in milestones/future/; move exploration to explorations/completed/ (plan-first).
 - **Make milestone active** — Move future milestone to active/; switch/create phase branch.
 - **Mark milestone completed** — Move active to completed/, add number prefix, align progress and exploration folders (prompted when last phase merges).
-- **Implement phase** — Run phase execution (chunks, lint, test, commit, push; PR at end).
+- **Implement phase** — Run phase execution (chunks; Storybook when workspace has it; lint, test, commit, push; PR at end).
 - **Rollback** — "rollback phase" or "rollback chunk" to revert commits.
 - **Validate** — "validate" or "validate docs" to run state check only.
 
@@ -257,7 +259,7 @@ Do this when the milestone's **last phase** is finished (PR merged). Prompt at t
 
 All generation uses this skill's **templates/** and **setup/**:
 
-- **templates/** — `phase-plan-template.md`, `exploration-template.md`, `milestone-template.md`, `readme-docs-section.md`, `progress-sync-template.md`. Phase plans are created from `phase-plan-template.md` (chunks, Execution Rules). README updates use `readme-docs-section.md` and `progress-sync-template.md`.
+- **templates/** — `phase-plan-template.md`, `exploration-template.md`, `milestone-template.md`, `readme-docs-section.md`, `progress-sync-template.md`. Phase plans are created from `phase-plan-template.md` (chunks, Execution Rules, conditional Storybook). README updates use `readme-docs-section.md` and `progress-sync-template.md`.
 - **setup/** — `project-lifecycle.md`, `exploration-lifecycle.md`, `milestone-lifecycle.md`, `watchdog-rules.md`. Copied to `_docs/planning/setup/` on setup, convert, or upgrade.
 
 On upgrade, re-apply templates to migrate old files (e.g. add Execution Rules to existing phase-plans).

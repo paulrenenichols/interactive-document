@@ -2,6 +2,7 @@
 export { CSSBaseline } from '../../../libs/material-ui/src/CSSBaseline';
 
 export { Container } from '../../../libs/material-ui/src/Container';
+export { Grid } from '../../../libs/material-ui/src/Grid';
 export { Stack } from '../../../libs/material-ui/src/Stack';
 export { Box } from '../../../libs/material-ui/src/Box';
 export { Paper } from '../../../libs/material-ui/src/Paper';

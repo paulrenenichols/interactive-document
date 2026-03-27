@@ -1,27 +1,21 @@
 import type { Preview } from '@storybook/react';
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import '../app/globals.css';
 
-/** Syncs Storybook theme toolbar with our app's .dark class so charts (and any var() usage) respond to dark mode. */
+/** Syncs Storybook theme toolbar with `html.dark` so `globals.css` tokens and Tailwind utilities both track. */
 function ThemeDecorator(
   Story: React.ComponentType,
   context: { globals?: { theme?: string } }
 ) {
-  const theme = context.globals?.theme;
-  const isDark =
-    theme === 'dark' ||
-    (theme !== 'light' &&
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const theme = context.globals?.theme ?? 'light';
+  const isDark = theme === 'dark';
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    return () => root.classList.remove('dark');
+    root.classList.toggle('dark', isDark);
+    return () => {
+      root.classList.toggle('dark', false);
+    };
   }, [isDark]);
 
   return (

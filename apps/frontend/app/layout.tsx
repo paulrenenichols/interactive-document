@@ -1,8 +1,15 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Providers } from './providers';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { CSSBaseline, Container, Stack } from '@/lib/material-ui-shim';
+import { CSSBaseline } from '@/lib/material-ui-shim';
 import './globals.css';
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Interactive Presentation',
@@ -16,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={`${plusJakarta.className} antialiased`}>
         {/* Set theme from localStorage before React hydrates to avoid flash and ensure class is applied */}
         <script
           dangerouslySetInnerHTML={{
@@ -25,19 +32,8 @@ export default function RootLayout({
         />
         <Providers>
           <CSSBaseline />
-          <div className="min-h-screen">
-            <Container maxWidth="lg">
-              <Stack
-                spacing={2}
-                sx={{
-                  py: 2,
-                }}
-              >
-                <ThemeToggle />
-                {children}
-              </Stack>
-            </Container>
-          </div>
+          <ThemeToggle />
+          <div className="min-h-screen">{children}</div>
         </Providers>
       </body>
     </html>

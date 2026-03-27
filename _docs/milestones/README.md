@@ -15,11 +15,11 @@ Milestones are organized into **completed**, **active**, and **future**. Only co
 
 ## Active milestones
 
-_(none currently)_
+- **[stitch-ui](active/stitch-ui/)** — Align MUI/Tailwind with Stitch **Interactive Document** (light layout canon, dark tokens); landing, auth, editor, inspector, presentation mode. Source: [completed exploration](../planning/explorations/completed/stitch-ui/).
 
 ## Future milestones
 
-- **[stitch-ui](future/stitch-ui/)** — Align MUI/Tailwind with Stitch **Interactive Document** (light layout canon, dark tokens); landing, auth, editor, inspector, presentation mode. Source: [completed exploration](../planning/explorations/completed/stitch-ui/).
+_(none currently)_
 
 ---
 

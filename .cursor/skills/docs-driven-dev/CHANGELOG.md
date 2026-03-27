@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.0] - 2026-03-27
+
+### Added
+- **Phase execution + phase plans:** Conditional **Storybook** step per chunk when the target workspace has Storybook (detect via `.storybook/` on app/lib, Nx `storybook` target, or documented scripts). Add/update `*.stories.tsx` **where the code lives**; prefer composed components over duplicating full route files. Optional Storybook spot-check at end of phase.
+- **phase-plan-template.md** (and `_docs/v2` copy): Execution Rules now include the Storybook step, detection text, Notes for theming alignment, and renumbered per-chunk / end-of-phase steps.
+
+### Changed
+- **SKILL.md** Phase execution and Help: document Storybook alongside lint/test/commit.
+- **setup/milestone-lifecycle.md** step 3: Phase plans should retain Storybook clause when the project uses Storybook; per-chunk flow mentions Storybook between generate and lint.
+
 ## [2.0.0] - 2026-03-16
 
 ### Added
