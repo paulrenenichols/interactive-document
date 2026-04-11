@@ -1,0 +1,34 @@
+[
+    {
+        "id": "a1b2c3d4-e5f6-4789-a012-3456789abcde",
+        "display_name": "HRIS — Acme Technologies",
+        "provenance_kind": "flat_file",
+        "file_format": "csv",
+        "file_display_name": "hris-acme-technologies.csv",
+        "sheet_name": "__csv_default__",
+        "row_count": 796,
+        "field_count": 31,
+        "estimated_memory_kb": 312
+    },
+    {
+        "id": "f0e1d2c3-b4a5-4678-9012-34567890abcd",
+        "display_name": "Executive compensation workbook",
+        "provenance_kind": "flat_file",
+        "file_format": "xlsx",
+        "file_display_name": "exec-comp-fy26.xlsx",
+        "sheet_name": "FY26 Active",
+        "row_count": 428,
+        "field_count": 24,
+        "estimated_memory_kb": 186
+    },
+    {
+        "id": "9f8e7d6c-5b4a-3210-fedc-ba9876543210",
+        "display_name": "Warehouse headcount snapshot",
+        "provenance_kind": "external_sql",
+        "connection_label": "Analytics warehouse",
+        "query_label": "headcount_daily_snapshot",
+        "row_count": 14250,
+        "field_count": 18,
+        "estimated_memory_kb": 2840
+    }
+]

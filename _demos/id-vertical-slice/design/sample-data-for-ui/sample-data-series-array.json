@@ -1,0 +1,62 @@
+[
+    {
+        "name":"Job Family",
+        "value_type":"text",
+        "length":796,
+        "origin_kind":"imported",
+        "role_kind":"none"
+    },
+    {
+        "name":"Base Salary",
+        "value_type":"numeric",
+        "length":796,
+        "origin_kind":"imported",
+        "role_kind":"none"
+    },
+    {
+        "name":"Tenure in Role",
+        "value_type":"numeric",
+        "length":796,
+        "origin_kind":"imported",
+        "role_kind":"none"
+    },
+    {
+        "name":"Median Salary by Job Family",
+        "value_type":"numeric",
+        "length":19,
+        "origin_kind":"formula",
+        "role_kind":"none"
+    },
+    {
+        "name":"idx.Job Family",
+        "value_type":"numeric",
+        "length":19,
+        "origin_kind":"formula",
+        "NOTE":"derived indexes are 'formula' origin because they can recalculate unique values of source on re-import",
+        "role_kind":"index",
+        "index_source_series_name":"Job Family"
+    },
+    {
+        "name":"Variance_Hgram_LowBound",
+        "value_type":"numeric",
+        "length":20,
+        "origin_kind":"manual",
+        "role_kind":"none"
+    },
+    {
+        "name":"Variance_Hgram_HighBound",
+        "value_type":"numeric",
+        "length":20,
+        "origin_kind":"manual",
+        "role_kind":"none"
+    },
+    {
+        "name":"mask.Is Technology?",
+        "value_type":"numeric",
+        "length":796,
+        "origin_kind":"formula",
+        "NOTE":"1 = [Tech Designation]==\"T\", else 0; row-aligned with HRIS CSV import",
+        "role_kind":"mask"
+    }
+
+]
