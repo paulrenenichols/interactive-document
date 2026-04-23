@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "sourceFile": "hris-acme-technologies.csv",
+  "derivedSeries": [
+    {
+      "name": "idx.Job Family",
+      "value_type": "numeric",
+      "origin_kind": "formula",
+      "role_kind": "index",
+      "sourceColumns": ["Job Family"],
+      "recipeKind": "unique_index"
+    },
+    {
+      "name": "Median Salary by Job Family",
+      "value_type": "numeric",
+      "origin_kind": "formula",
+      "role_kind": "none",
+      "sourceColumns": ["Base Salary (Local Currency)", "Job Family"],
+      "recipeKind": "stub"
+    }
+  ],
+  "charts": []
+}

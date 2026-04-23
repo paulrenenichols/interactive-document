@@ -1,0 +1,18 @@
+---
+description: Keep Series Grid / formula authoring responsive by avoiding full-grid state updates on every keystroke
+globs:
+  - src/components/dataModel/SeriesGridEditor.tsx
+  - src/components/dataModel/SeriesFormulaEditor.tsx
+  - src/components/dataModel/SeriesIndexProperties.tsx
+  - src/components/authoring/DataModelWorkspaceCanvas.tsx
+---
+
+# Grid and formula editor performance
+
+1. **Do not lift every keystroke** into parent state that drives a large tree (`setColumns` over all grid columns, full `SeriesGridEditor` body, etc.). Prefer **local draft state** in the editor, then **debounce**, **blur**, or **explicit Save** to commit to the parent — mirror the formula textarea pattern in [`SeriesFormulaEditor`](src/components/dataModel/SeriesFormulaEditor.tsx).
+
+2. **Batch related field updates** into a **single** `setColumns` / `setState` map when you must touch parent state (e.g. `draftName` + `displayNameSource` together), not back-to-back updates that each re-render the whole grid.
+
+3. **Do not wrap** parent updates that must be read **synchronously on the next line** (e.g. before `saveColumn` snapshot) in `startTransition` — see JSDoc on `updateDraftRawFormula` in [`SeriesGridEditor`](src/components/dataModel/SeriesGridEditor.tsx). Use `flushSync` only where the product explicitly requires it.
+
+4. Prefer **memo** and stable props for heavy subtrees; split “ledger” vs “slide-up editor” state where practical. Use React Profiler when unsure what is re-rendering.

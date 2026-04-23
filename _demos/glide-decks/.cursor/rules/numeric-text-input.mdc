@@ -1,0 +1,14 @@
+---
+description: Numeric text fields with negatives, empty drafts, and debounced model updates
+alwaysApply: true
+---
+
+# Numeric text inputs (MUI / forms)
+
+1. **Do not** implement bounded integers with `TextField` `type="number"`, `value={number}`, and `onChange` that does `const n = Number(e.target.value); if (Number.isNaN(n)) return`. That blocks intermediate values such as `"-"` (needed for negative angles) and fights an empty field (`""` vs `0`).
+
+2. For persisted integers (especially **signed**, **empty while typing**, or **debounced chart/document preview**), use **`DebouncedNumericTextField`** from [`src/components/common/DebouncedNumericTextField.tsx`](src/components/common/DebouncedNumericTextField.tsx) or **`useDebouncedNumericDraft`** from [`src/hooks/useDebouncedNumericDraft.ts`](src/hooks/useDebouncedNumericDraft.ts) with helpers from [`src/utils/parseNumericDraft.ts`](src/utils/parseNumericDraft.ts).
+
+3. **Behavior contract:** keep a **string draft** while focused; run **debounced** `onCommit` when the draft is a **complete** integer in `[min, max]`; on **blur**, **clamp** and apply **default** for empty/invalid drafts. Use `type="text"` with `inputMode` (`numeric` unsigned, `text` when `allowNegative`).
+
+4. Optional: set `aria-valuemin` / `aria-valuemax` / `aria-valuenow` on the input when exposing sliders-like semantics (the shared component sets these).

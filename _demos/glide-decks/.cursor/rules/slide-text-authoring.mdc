@@ -1,0 +1,12 @@
+---
+description: Slide text box rich text — use TextBoxSpec and theme bullet_config
+alwaysApply: true
+---
+
+# Slide text authoring
+
+1. **Data model:** Paragraphs, runs, and `ParagraphStyle` live in [`src/types/slideDeck/text.ts`](src/types/slideDeck/text.ts) (`TextBoxSpec`). Do not duplicate list/indent semantics in ad hoc component state beyond what the spec allows.
+
+2. **Bullets and indents:** Horizontal list layout comes from `SlideDeckTheme.bullet_config` and `ParagraphStyle.indent_level` (0–3). Do not hardcode bullet offsets in random components—use shared helpers that read the theme (see `slide-deck-spec` §4.4).
+
+3. **Statistics:** `uniformLinearSample` / percentile helpers do not apply to slide text; this rule only prevents accidental misuse of the wrong abstraction.

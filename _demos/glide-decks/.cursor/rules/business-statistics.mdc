@@ -1,0 +1,14 @@
+---
+description: Use shared math helpers for ordered downsampling and linear-interpolation percentiles
+alwaysApply: true
+---
+
+# Business statistics conventions
+
+1. When implementing **downsampling** or any feature that needs a **subset of a series in existing order**, use **`uniformLinearSample`** from [`src/math/uniformLinearSample.ts`](src/math/uniformLinearSample.ts). Do not reimplement ad-hoc stride or random sampling unless there is a documented product exception.
+
+2. When implementing **median, quartiles, or arbitrary percentiles**, use **`percentileLinear`**, **`medianLinear`**, or **`percentileFromValues`** from [`src/math/percentileLinear.ts`](src/math/percentileLinear.ts). These use **linear interpolation** on sorted values; **0th percentile = minimum** and **100th percentile = maximum** when those endpoints are requested.
+
+3. Prefer **extending** [`src/math`](src/math/index.ts) with JSDoc and (when available) tests over duplicating statistical definitions in components or fixtures.
+
+4. [`src/data/hris.ts`](src/data/hris.ts) job-family aggregates use **`medianLinear`** on sorted base salaries for consistency with these rules.

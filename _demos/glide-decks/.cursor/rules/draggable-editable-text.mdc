@@ -1,0 +1,20 @@
+---
+description: Draggable elements with editable text — double-click to edit, drag threshold
+alwaysApply: true
+---
+
+# Draggable + editable text
+
+1. **Anti-pattern:** Starting a **drag** immediately on `pointerdown` on the same surface used for **text** interaction. That blocks **double-click** (used for edit) and makes partial selection awkward.
+
+2. **Convention:**
+   - **Double-click** enters **inline edit** (single-line field or controlled `contentEditable`), not single-click.
+   - **Drag** starts only after the pointer moves beyond a **small threshold** (about 3–5px) from the `pointerdown` location; until then, release cancels without moving.
+   - **Commit** inline edits on **blur**; **Escape** cancels and restores the pre-edit value. **Enter** commits when the control is explicitly **single-line** (e.g. a one-line field). For **paragraph-mode** slide text boxes (`paragraph_editing: multi_paragraph`), **Enter** inserts a new paragraph—do **not** treat Enter as commit; users finish editing by blurring the field or pressing Escape to cancel.
+   - While the inline editor is focused, **do not** start drag on the same control (ignore `pointerdown` on the editor or `stopPropagation`).
+
+3. If the control is **editable but not yet draggable** (e.g. axis labels before offset exists), still use **double-click** for edit so behavior stays consistent when drag is added later.
+
+4. Shared UI may use a small hook (e.g. `usePointerDragThreshold`) once two or more call sites exist; until then, inline handlers in the feature are fine.
+
+5. **Chart design modal** reference: chart title bar and interactive axis labels in [`ChartBindingPreview.tsx`](src/components/dataModel/ChartBindingPreview.tsx) / [`ChartDesignAppearanceModal.tsx`](src/components/chartDesign/ChartDesignAppearanceModal.tsx).

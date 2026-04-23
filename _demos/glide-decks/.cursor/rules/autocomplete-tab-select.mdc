@@ -1,0 +1,16 @@
+---
+description: Excel-style Tab commits the active suggestion when a typeahead is open
+alwaysApply: true
+---
+
+# Autocomplete Tab selection (Excel-style)
+
+1. **Product convention:** While a suggestion / typeahead UI is **open** and the user is editing the text that drives it, **`Tab` commits the active choice**—the visually **highlighted** list row, or the **first** option when the UI implies a single active choice. Tab should **not** move focus to the next DOM focusable control in that situation (mirror Microsoft Office / Excel: Tab completes the suggestion).
+
+2. **`Shift+Tab`:** Do **not** repurpose Shift+Tab for “accept.” Leave **Shift+Tab** as **native focus to the previous field**, which usually closes the popup. Only change Shift+Tab behavior with an explicit product decision.
+
+3. **Custom editors (e.g. textarea + Popper + list):** When the suggestion layer is open, handle **`Tab`** (without Shift) like **`Enter`** for accepting the highlighted item: call `preventDefault()` on the event so focus stays in the editor. If there is **nothing to complete** (e.g. empty filtered list), do **not** prevent default—allow normal Tab focus movement.
+
+4. **MUI `Autocomplete`:** Chain the input’s key handler from `renderInput` `params` first (for `TextField`, merge into **`inputProps.onKeyDown`** so `useAutocomplete`’s handler runs—do not put this on `InputProps` unless that is where your composed input forwards `getInputProps()`). Track **`open`** (`open` / `onOpen` / `onClose`) and **`onHighlightChange`** to know the highlighted option; if needed, fall back to the **first filtered option** (same filter as `filterOptions`). On **`Tab`** (no Shift) while open, if there is a commit target, **`preventDefault()`** and apply the same selection as a click/Enter (`onChange` with that option, consistent `inputValue` / parent callbacks), then close the list as appropriate.
+
+5. **New UI:** Any new combobox, `Autocomplete`, or inline suggestion flow should follow this contract; avoid ad-hoc Tab behavior that only matches the browser default.

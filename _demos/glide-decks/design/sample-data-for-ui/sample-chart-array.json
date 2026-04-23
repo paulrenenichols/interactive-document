@@ -1,0 +1,29 @@
+[
+    {
+        "id": "a1000000-0000-4000-8000-000000000001",
+        "name":"Total Comp Spend",
+        "chart_type":"vertical stacked bar",
+        "live_instance_count":1
+    },
+    {
+        "id": "a1000000-0000-4000-8000-000000000002",
+        "name":"Salary Variance vs. Market",
+        "chart_type":"vertical clustered bar",
+        "live_instance_count":2
+    },
+    {
+        "id": "a1000000-0000-4000-8000-000000000003",
+        "name":"Comp Demographics Bubble",
+        "chart_type":"bubble",
+        "live_instance_count":1
+    },
+    {
+        "id": "a1000000-0000-4000-8000-000000000004",
+        "name":"Total Pay Variance vs. Market",
+        "chart_type":"vertical clustered bar",
+        "live_instance_count":0
+    }
+]
+
+
+

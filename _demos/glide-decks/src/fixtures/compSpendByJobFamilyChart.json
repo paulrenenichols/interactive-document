@@ -1,0 +1,86 @@
+[
+  {
+    "jobFamily": "Engineering",
+    "headcount": 283,
+    "sumTargetTotalPay": 59965800,
+    "medianBaseSalary": 141000
+  },
+  {
+    "jobFamily": "Administrative",
+    "headcount": 14,
+    "sumTargetTotalPay": 11231900,
+    "medianBaseSalary": 361500
+  },
+  {
+    "jobFamily": "User Experience",
+    "headcount": 47,
+    "sumTargetTotalPay": 9933350,
+    "medianBaseSalary": 139000
+  },
+  {
+    "jobFamily": "Product Mgmt",
+    "headcount": 38,
+    "sumTargetTotalPay": 9239000,
+    "medianBaseSalary": 161000
+  },
+  {
+    "jobFamily": "Client Care",
+    "headcount": 121,
+    "sumTargetTotalPay": 8685482,
+    "medianBaseSalary": 52000
+  },
+  {
+    "jobFamily": "Marketing",
+    "headcount": 45,
+    "sumTargetTotalPay": 8264350,
+    "medianBaseSalary": 140000
+  },
+  {
+    "jobFamily": "Content",
+    "headcount": 28,
+    "sumTargetTotalPay": 5904300,
+    "medianBaseSalary": 140000
+  },
+  {
+    "jobFamily": "HR",
+    "headcount": 36,
+    "sumTargetTotalPay": 5767300,
+    "medianBaseSalary": 121000
+  },
+  {
+    "jobFamily": "Business Development",
+    "headcount": 24,
+    "sumTargetTotalPay": 5194000,
+    "medianBaseSalary": 165500
+  },
+  {
+    "jobFamily": "Creative",
+    "headcount": 24,
+    "sumTargetTotalPay": 4696750,
+    "medianBaseSalary": 145000
+  },
+  {
+    "jobFamily": "Planning & Analytics",
+    "headcount": 22,
+    "sumTargetTotalPay": 4447300,
+    "medianBaseSalary": 140000
+  },
+  {
+    "jobFamily": "Studio",
+    "headcount": 34,
+    "sumTargetTotalPay": 3834000,
+    "medianBaseSalary": 78500
+  },
+  {
+    "jobFamily": "Communications",
+    "headcount": 11,
+    "sumTargetTotalPay": 2860000,
+    "medianBaseSalary": 143000
+  },
+  {
+    "jobFamily": "Finance",
+    "headcount": 15,
+    "sumTargetTotalPay": 2448300,
+    "medianBaseSalary": 102000
+  }
+]

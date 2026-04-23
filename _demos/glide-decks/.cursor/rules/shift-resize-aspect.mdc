@@ -1,0 +1,16 @@
+---
+description: Shift + drag resize locks aspect ratio from drag start; sample shiftKey on pointermove.
+alwaysApply: true
+---
+
+# Shift + resize (aspect from drag start)
+
+1. **Modifier:** While resizing with a handle, **Shift** means: keep **width ÷ height** equal to the box’s ratio **at `pointerdown`** (start of the gesture), not a historical template ratio. Users may skew the box first, then Shift+resize to re-lock to *that* state’s aspect.
+
+2. **Sampling:** Read **`moveEvent.shiftKey`** on each **`pointermove`** (and rely on final commit from last move), not only `pointerdown`, so Shift can be toggled mid-drag.
+
+3. **Code paths:** Prefer shared helpers in [`src/slideDeck/slideTextBoxResizeEmu.ts`](src/slideDeck/slideTextBoxResizeEmu.ts) (`aspectResizeRectWithoutSlideClamp`, `applyResizeHandleDeltaEmuWithAspect`) and [`src/chart/chartAppearanceLayout.ts`](src/chart/chartAppearanceLayout.ts) (`resizeFrameFromHandleAspectFromStart`) instead of duplicating aspect math.
+
+4. **Slide chart placements** ([`SlideChartSelectionOverlay`](src/components/slideDeck/authoring/SlideChartSelectionOverlay.tsx)): corner resize already uses proportional math from drag start; **do not** add a second Shift mode unless product explicitly wants free (non-proportional) chart frames on the slide.
+
+5. **Docs:** See [`design/shift-resize-aspect.md`](design/shift-resize-aspect.md) and slide-deck-spec §7.2.2.
